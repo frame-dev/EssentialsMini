@@ -32,8 +32,14 @@ public class RegisterManager {
      */
     public RegisterManager(Main plugin) {
         this.plugin = plugin;
+
+        // Register Commands
         registerCommands();
+
+        // Register Listeners
         registerListeners();
+
+        // Register TabCompleters
         registerTabCompleters();
     }
 

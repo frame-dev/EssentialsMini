@@ -369,8 +369,11 @@ public class Main extends JavaPlugin {
 
         Bukkit.getConsoleSender().sendMessage(getPrefix() + "§aEnabled!");
 
-        //Checking for Update and when enabled Download the Latest Version automatically
+        // Checking for Update and when enabled Download the Latest Version automatically
         checkUpdate(getConfig().getBoolean("AutoDownload"));
+        if(new UpdateChecker().isPreRelease()) {
+            Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cYour Version is a Pre-Release. §6§lThere can be Errors!");
+        }
 
         infoCfg.set("PluginName", this.getDescription().getName());
         infoCfg.set("PluginVersion", this.getVariables().getVersion());

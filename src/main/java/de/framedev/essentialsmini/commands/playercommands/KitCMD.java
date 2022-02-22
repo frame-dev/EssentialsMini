@@ -4,6 +4,9 @@ import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.CommandBase;
 import de.framedev.essentialsmini.managers.KitManager;
 import de.framedev.essentialsmini.utils.Cooldown;
+import de.framedev.essentialsmini.utils.ReplaceCharConfig;
+import de.framedev.essentialsmini.utils.TextUtils;
+import de.framedev.essentialsmini.utils.Variables;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -72,7 +75,10 @@ public class KitCMD extends CommandBase {
                                     if (eco) {
                                         if (kit.getCooldown(name) == 0) {
                                             if (!plugin.getVaultManager().getEconomy().has(p, kit.getCost(name))) {
-                                                p.sendMessage(plugin.getPrefix() + "§cNot enought Money!");
+                                                String notEnough = plugin.getCustomMessagesConfig().getString(Variables.MONEYMESSAGE + ".MSG.NotEnough");
+                                                notEnough = new TextUtils().replaceAndToParagraph(notEnough);
+                                                notEnough = ReplaceCharConfig.replaceObjectWithData(notEnough, "%Money%", plugin.getVaultManager().getEco().getBalance((Player) sender) + plugin.getCurrencySymbol());
+                                                p.sendMessage(plugin.getPrefix() + notEnough);
                                                 return true;
                                             }
                                             plugin.getVaultManager().getEconomy().withdrawPlayer(p, kit.getCost(name));
@@ -92,7 +98,10 @@ public class KitCMD extends CommandBase {
                                                     }
                                             }
                                             if (!plugin.getVaultManager().getEconomy().has(p, kit.getCost(name))) {
-                                                p.sendMessage(plugin.getPrefix() + "§cNot enought Money!");
+                                                String notEnough = plugin.getCustomMessagesConfig().getString(Variables.MONEYMESSAGE + ".MSG.NotEnough");
+                                                notEnough = new TextUtils().replaceAndToParagraph(notEnough);
+                                                notEnough = ReplaceCharConfig.replaceObjectWithData(notEnough, "%Money%", plugin.getVaultManager().getEco().getBalance((Player) sender) + plugin.getCurrencySymbol());
+                                                p.sendMessage(plugin.getPrefix() + notEnough);
                                                 return true;
                                             }
                                             plugin.getVaultManager().getEconomy().withdrawPlayer(p, kit.getCost(name));

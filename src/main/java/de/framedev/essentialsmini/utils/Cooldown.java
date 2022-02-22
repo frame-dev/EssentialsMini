@@ -1,5 +1,10 @@
 package de.framedev.essentialsmini.utils;
 
+/**
+ * Cooldown Class
+ * This Class is for Creating a new Cooldown examples can be found in {@link de.framedev.essentialsmini.commands.playercommands.KitCMD}
+ * @author FrameDev
+ */
 public class Cooldown {
 
 	private final int seconds;

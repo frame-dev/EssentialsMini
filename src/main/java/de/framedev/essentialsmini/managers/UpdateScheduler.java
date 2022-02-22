@@ -13,6 +13,9 @@ import de.framedev.essentialsmini.main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
+/**
+ * This Class is for Updating the Locations or the PlayerManager and Backups
+ */
 public class UpdateScheduler implements Runnable {
 
     public boolean started = true;
