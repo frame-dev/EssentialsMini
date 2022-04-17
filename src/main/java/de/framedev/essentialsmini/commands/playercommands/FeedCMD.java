@@ -13,7 +13,6 @@ import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.CommandBase;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -26,7 +25,7 @@ public class FeedCMD extends CommandBase {
     private final Main plugin;
 
     public FeedCMD(Main plugin) {
-        super(plugin,"feed");
+        super(plugin, "feed");
         this.plugin = plugin;
     }
 
@@ -38,6 +37,7 @@ public class FeedCMD extends CommandBase {
                     Player player = (Player) sender;
                     player.setFoodLevel(20);
                     String feedSet = plugin.getCustomMessagesConfig().getString("FeedSet");
+                    if (feedSet == null) return true;
                     if (feedSet.contains("&"))
                         feedSet = feedSet.replace('&', '§');
                     player.sendMessage(plugin.getPrefix() + feedSet);
@@ -54,11 +54,16 @@ public class FeedCMD extends CommandBase {
                         player.setFoodLevel(20);
                         if (!Main.getSilent().contains(sender.getName())) {
                             String feedSet = plugin.getCustomMessagesConfig().getString("FeedSet");
+                            if (feedSet == null) {
+                                player.sendMessage(plugin.getPrefix() + "§aYou Saturation has been filled!");
+                                return;
+                            }
                             if (feedSet.contains("&"))
                                 feedSet = feedSet.replace('&', '§');
                             player.sendMessage(plugin.getPrefix() + feedSet);
                         }
                         String feedOther = plugin.getCustomMessagesConfig().getString("FeedOtherSet");
+                        if (feedOther == null) return;
                         if (feedOther.contains("&"))
                             feedOther = feedOther.replace('&', '§');
                         if (feedOther.contains("%Player%"))
@@ -71,11 +76,13 @@ public class FeedCMD extends CommandBase {
                         player.setFoodLevel(20);
                         if (!Main.getSilent().contains(sender.getName())) {
                             String feedSet = plugin.getCustomMessagesConfig().getString("FeedSet");
+                            if (feedSet == null) return true;
                             if (feedSet.contains("&"))
                                 feedSet = feedSet.replace('&', '§');
                             player.sendMessage(plugin.getPrefix() + feedSet);
                         }
                         String feedOther = plugin.getCustomMessagesConfig().getString("FeedOtherSet");
+                        if (feedOther == null) return true;
                         if (feedOther.contains("&"))
                             feedOther = feedOther.replace('&', '§');
                         if (feedOther.contains("%Player%"))

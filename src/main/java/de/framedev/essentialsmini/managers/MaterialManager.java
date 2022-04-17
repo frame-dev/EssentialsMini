@@ -80,7 +80,7 @@ public class MaterialManager {
     public Material getMaterial(@NonNull String name) {
         for (Material material : getMaterials()) {
             if (material != null) {
-                if (material.name().equalsIgnoreCase(name)) {
+                if (material.name().toUpperCase().equalsIgnoreCase(name.toUpperCase())) {
                     return material;
                 }
             }
@@ -137,7 +137,8 @@ public class MaterialManager {
         if (file.exists()) {
             try {
                 FileReader fileReader = new FileReader(file);
-                Type type = new TypeToken<ArrayList<Material>>(){}.getType();
+                Type type = new TypeToken<ArrayList<Material>>() {
+                }.getType();
                 return new Gson().fromJson(fileReader, type);
             } catch (IOException e) {
                 e.printStackTrace();
