@@ -36,7 +36,7 @@ public class FeedCMD extends CommandBase {
                 if (sender.hasPermission("essentialsmini.feed")) {
                     Player player = (Player) sender;
                     player.setFoodLevel(20);
-                    String feedSet = plugin.getCustomMessagesConfig().getString("FeedSet");
+                    String feedSet = plugin.getLanguageConfig(player).getString("FeedSet");
                     if (feedSet == null) return true;
                     if (feedSet.contains("&"))
                         feedSet = feedSet.replace('&', '§');
@@ -53,7 +53,7 @@ public class FeedCMD extends CommandBase {
                     Bukkit.getOnlinePlayers().forEach(player -> {
                         player.setFoodLevel(20);
                         if (!Main.getSilent().contains(sender.getName())) {
-                            String feedSet = plugin.getCustomMessagesConfig().getString("FeedSet");
+                            String feedSet = plugin.getLanguageConfig(player).getString("FeedSet");
                             if (feedSet == null) {
                                 player.sendMessage(plugin.getPrefix() + "§aYou Saturation has been filled!");
                                 return;
@@ -62,7 +62,7 @@ public class FeedCMD extends CommandBase {
                                 feedSet = feedSet.replace('&', '§');
                             player.sendMessage(plugin.getPrefix() + feedSet);
                         }
-                        String feedOther = plugin.getCustomMessagesConfig().getString("FeedOtherSet");
+                        String feedOther = plugin.getLanguageConfig(sender).getString("FeedOtherSet");
                         if (feedOther == null) return;
                         if (feedOther.contains("&"))
                             feedOther = feedOther.replace('&', '§');
@@ -75,13 +75,13 @@ public class FeedCMD extends CommandBase {
                     if (player != null) {
                         player.setFoodLevel(20);
                         if (!Main.getSilent().contains(sender.getName())) {
-                            String feedSet = plugin.getCustomMessagesConfig().getString("FeedSet");
+                            String feedSet = plugin.getLanguageConfig(player).getString("FeedSet");
                             if (feedSet == null) return true;
                             if (feedSet.contains("&"))
                                 feedSet = feedSet.replace('&', '§');
                             player.sendMessage(plugin.getPrefix() + feedSet);
                         }
-                        String feedOther = plugin.getCustomMessagesConfig().getString("FeedOtherSet");
+                        String feedOther = plugin.getLanguageConfig(sender).getString("FeedOtherSet");
                         if (feedOther == null) return true;
                         if (feedOther.contains("&"))
                             feedOther = feedOther.replace('&', '§');

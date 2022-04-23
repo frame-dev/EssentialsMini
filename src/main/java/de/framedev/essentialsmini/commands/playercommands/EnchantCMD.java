@@ -52,14 +52,14 @@ public class EnchantCMD extends CommandBase {
                             meta.addEnchant(Enchantments.getByName(args[0]), Integer.parseInt(args[1]), true);
                             player.getInventory().getItemInMainHand().setItemMeta(meta);
                         } else {
-                            String message = plugin.getCustomMessagesConfig().getString("EnchantNotExist");
+                            String message = plugin.getLanguageConfig(player).getString("EnchantNotExist");
                             if (message != null) {
                                 message = new TextUtils().replaceAndToParagraph(message);
                             }
                             sender.sendMessage(plugin.getPrefix() + message);
                         }
                     } else {
-                        String noItemInHand = plugin.getCustomMessagesConfig().getString("NoItemFoundInHand");
+                        String noItemInHand = plugin.getLanguageConfig(player).getString("NoItemFoundInHand");
                         noItemInHand = ReplaceCharConfig.replaceParagraph(noItemInHand);
                         player.sendMessage(plugin.getPrefix() + noItemInHand);
                     }
@@ -86,14 +86,14 @@ public class EnchantCMD extends CommandBase {
                             meta.addEnchant(Enchantments.getByName(args[0]), Integer.parseInt(args[1]), true);
                             target.getInventory().getItemInMainHand().setItemMeta(meta);
                         } else {
-                            String message = plugin.getCustomMessagesConfig().getString("EnchantNotExist");
+                            String message = plugin.getLanguageConfig(sender).getString("EnchantNotExist");
                             if (message != null) {
                                 message = new TextUtils().replaceAndToParagraph(message);
                             }
                             sender.sendMessage(plugin.getPrefix() + message);
                         }
                     } else {
-                        String message = plugin.getCustomMessagesConfig().getString("NoItemFoundInHand");
+                        String message = plugin.getLanguageConfig(sender).getString("NoItemFoundInHand");
                         if (message != null) {
                             message = new TextUtils().replaceAndToParagraph(message);
                         }

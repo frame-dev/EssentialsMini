@@ -70,7 +70,7 @@ public class MuteCMD extends CommandBase implements Listener {
                     selfUnMute = ReplaceCharConfig.replaceParagraph(selfUnMute);
                     if (player.isOnline())
                         ((Player) player).sendMessage(plugin.getPrefix() + selfUnMute);
-                    String otherUnMute = plugin.getCustomMessagesConfig().getString("Mute.Other.Deactivate");
+                    String otherUnMute = plugin.getLanguageConfig(sender).getString("Mute.Other.Deactivate");
                     otherUnMute = ReplaceCharConfig.replaceParagraph(otherUnMute);
                     otherUnMute = ReplaceCharConfig.replaceObjectWithData(otherUnMute, "%Player%", player.getName());
                     sender.sendMessage(plugin.getPrefix() + otherUnMute);
@@ -80,7 +80,7 @@ public class MuteCMD extends CommandBase implements Listener {
                     selfMute = ReplaceCharConfig.replaceParagraph(selfMute);
                     if (player.isOnline())
                         ((Player) player).sendMessage(plugin.getPrefix() + selfMute);
-                    String otherMute = plugin.getCustomMessagesConfig().getString("Mute.Other.Activate");
+                    String otherMute = plugin.getLanguageConfig(sender).getString("Mute.Other.Activate");
                     otherMute = ReplaceCharConfig.replaceParagraph(otherMute);
                     otherMute = ReplaceCharConfig.replaceObjectWithData(otherMute, "%Player%", player.getName());
                     sender.sendMessage(plugin.getPrefix() + otherMute);
@@ -109,7 +109,7 @@ public class MuteCMD extends CommandBase implements Listener {
                         selfMute = ReplaceCharConfig.replaceParagraph(selfMute);
                         if (player.isOnline())
                             ((Player) player).sendMessage(plugin.getPrefix() + selfMute);
-                        String otherMute = plugin.getCustomMessagesConfig().getString("Mute.Other.Activate");
+                        String otherMute = plugin.getLanguageConfig(sender).getString("Mute.Other.Activate");
                         otherMute = ReplaceCharConfig.replaceParagraph(otherMute);
                         otherMute = ReplaceCharConfig.replaceObjectWithData(otherMute, "%Player%", player.getName());
                         sender.sendMessage(plugin.getPrefix() + otherMute);
@@ -125,7 +125,7 @@ public class MuteCMD extends CommandBase implements Listener {
                         selfMute = ReplaceCharConfig.replaceParagraph(selfMute);
                         if (player.isOnline())
                             ((Player) player).sendMessage(plugin.getPrefix() + selfMute);
-                        String otherMute = plugin.getCustomMessagesConfig().getString("Mute.Other.Activate");
+                        String otherMute = plugin.getLanguageConfig(sender).getString("Mute.Other.Activate");
                         otherMute = ReplaceCharConfig.replaceParagraph(otherMute);
                         otherMute = ReplaceCharConfig.replaceObjectWithData(otherMute, "%Player%", player.getName());
                         sender.sendMessage(plugin.getPrefix() + otherMute);
@@ -147,7 +147,7 @@ public class MuteCMD extends CommandBase implements Listener {
                         selfMute = ReplaceCharConfig.replaceParagraph(selfMute);
                         if (player.isOnline())
                             ((Player) player).sendMessage(plugin.getPrefix() + selfMute);
-                        String otherMute = plugin.getCustomMessagesConfig().getString("Mute.Other.Activate");
+                        String otherMute = plugin.getLanguageConfig(sender).getString("Mute.Other.Activate");
                         otherMute = ReplaceCharConfig.replaceParagraph(otherMute);
                         otherMute = ReplaceCharConfig.replaceObjectWithData(otherMute, "%Player%", player.getName());
                         sender.sendMessage(plugin.getPrefix() + otherMute);
@@ -163,7 +163,7 @@ public class MuteCMD extends CommandBase implements Listener {
                         selfMute = ReplaceCharConfig.replaceParagraph(selfMute);
                         if (player.isOnline())
                             ((Player) player).sendMessage(plugin.getPrefix() + selfMute);
-                        String otherMute = plugin.getCustomMessagesConfig().getString("Mute.Other.Activate");
+                        String otherMute = plugin.getLanguageConfig(sender).getString("Mute.Other.Activate");
                         otherMute = ReplaceCharConfig.replaceParagraph(otherMute);
                         otherMute = ReplaceCharConfig.replaceObjectWithData(otherMute, "%Player%", player.getName());
                         sender.sendMessage(plugin.getPrefix() + otherMute);
@@ -187,7 +187,7 @@ public class MuteCMD extends CommandBase implements Listener {
                     selfUnMute = ReplaceCharConfig.replaceParagraph(selfUnMute);
                     if (player.isOnline())
                         ((Player) player).sendMessage(plugin.getPrefix() + selfUnMute);
-                    String otherUnMute = plugin.getCustomMessagesConfig().getString("Mute.Other.Deactivate");
+                    String otherUnMute = plugin.getLanguageConfig(sender).getString("Mute.Other.Deactivate");
                     otherUnMute = ReplaceCharConfig.replaceParagraph(otherUnMute);
                     otherUnMute = ReplaceCharConfig.replaceObjectWithData(otherUnMute, "%Player%", player.getName());
                     sender.sendMessage(plugin.getPrefix() + otherUnMute);
@@ -203,7 +203,7 @@ public class MuteCMD extends CommandBase implements Listener {
                         selfUnMute = ReplaceCharConfig.replaceParagraph(selfUnMute);
                         if (player.isOnline())
                             ((Player) player).sendMessage(plugin.getPrefix() + selfUnMute);
-                        String otherUnMute = plugin.getCustomMessagesConfig().getString("Mute.Other.Deactivate");
+                        String otherUnMute = plugin.getLanguageConfig(sender).getString("Mute.Other.Deactivate");
                         otherUnMute = ReplaceCharConfig.replaceParagraph(otherUnMute);
                         otherUnMute = ReplaceCharConfig.replaceObjectWithData(otherUnMute, "%Player%", player.getName());
                         sender.sendMessage(plugin.getPrefix() + otherUnMute);

@@ -115,7 +115,7 @@ public class BackpackCMD extends CommandListenerBase {
                                 }
                                 player.openInventory(inventory);
                             } else {
-                                String message = plugin.getCustomMessagesConfig().getString("NoBackPackFound");
+                                String message = plugin.getLanguageConfig(player).getString("NoBackPackFound");
                                 if (message != null) {
                                     message = new TextUtils().replaceAndToParagraph(message);
                                 }

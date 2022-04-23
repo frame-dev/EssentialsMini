@@ -22,6 +22,8 @@ import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -116,6 +118,8 @@ public class Main extends JavaPlugin {
 
         createCustomMessagesConfig();
         Config.saveDefaultConfigValues("messages");
+        Config.saveDefaultConfigValues("messages_de-DE");
+        Config.saveDefaultConfigValues("messages_en-EN");
         try {
             reloadCustomConfig();
         } catch (UnsupportedEncodingException e) {
@@ -140,6 +144,15 @@ public class Main extends JavaPlugin {
         Config.saveDefaultConfigValues("settings");
         this.settingsFile = new File(getDataFolder(), "settings.yml");
         this.settingsCfg = YamlConfiguration.loadConfiguration(settingsFile);
+        if (!new File("plugins/EssentialsMini/messages_de-DE.yml").exists() && !new File("plugins/EssentialsMini/messages_en-EN.yml").exists()) {
+            new UpdateChecker().download("https://framedev.ch/sites/downloads/essentialsminidata/Config_Examples.zip", "plugins/EssentialsMini", "Config_Examples.zip");
+            try {
+                new UnzipUtility().unzip("plugins/EssentialsMini/Config_Examples.zip", "plugins/EssentialsMini");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            new File("plugins/EssentialsMini/Config_Examples.zip").delete();
+        }
         try {
             this.settingsCfg.save(settingsFile);
         } catch (IOException e) {
@@ -371,7 +384,7 @@ public class Main extends JavaPlugin {
 
         // Checking for Update and when enabled Download the Latest Version automatically
         checkUpdate(getConfig().getBoolean("AutoDownload"));
-        if(new UpdateChecker().isPreRelease()) {
+        if (new UpdateChecker().isPreRelease()) {
             Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cYour Version is a Pre-Release. §6§lThere can be Errors!");
         }
 
@@ -427,7 +440,7 @@ public class Main extends JavaPlugin {
             }
         }.runTaskLater(this, 60);
         Config.saveDefaultConfigValues("messages_en-EN.yml");
-        Config.saveDefaultConfigValues("messages_example_de-DE.yml");
+        Config.saveDefaultConfigValues("messages_de-DE.yml");
     }
 
     @Override
@@ -473,6 +486,25 @@ public class Main extends JavaPlugin {
         if (thread != null && thread.isAlive())
             thread.getThreadGroup().destroy();
         Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cDisabled! Bye");
+    }
+
+    public FileConfiguration getLanguageConfig(CommandSender player) {
+        if(player instanceof Player) {
+            String playerLocale = ((Player) player).getLocale();
+            if (playerLocale.contains("en")) {
+                File file = new File(getDataFolder(), "messages_en-EN.yml");
+                return YamlConfiguration.loadConfiguration(file);
+            } else if (playerLocale.contains("de")) {
+                return YamlConfiguration.loadConfiguration(new File(getDataFolder(), "messages_de-DE.yml"));
+            } else if (playerLocale.contains("fr")) {
+                return YamlConfiguration.loadConfiguration(new File(getDataFolder(), "messages_fr-FR.yml"));
+            }
+            File file = new File(getDataFolder(), "messages_en-EN.yml");
+            return YamlConfiguration.loadConfiguration(file);
+        } else {
+            File file = new File(getDataFolder(), "messages_en-EN.yml");
+            return YamlConfiguration.loadConfiguration(file);
+        }
     }
 
     public boolean isOnlyEssentialsFeatures() {
@@ -673,10 +705,10 @@ public class Main extends JavaPlugin {
     }
 
     public void createCustomMessagesConfig() {
-        customConfigFile = new File(Main.getInstance().getDataFolder(), "messages.yml");
+        customConfigFile = new File(Main.getInstance().getDataFolder(), "messages_en-EN.yml");
         if (!customConfigFile.exists()) {
             customConfigFile.getParentFile().mkdirs();
-            Main.getInstance().saveResource("messages.yml", false);
+            Main.getInstance().saveResource("messages_en-EN.yml", false);
         }
 
         customConfig = new YamlConfiguration();
@@ -705,7 +737,7 @@ public class Main extends JavaPlugin {
 
     public void saveCustomMessagesConfig() {
         try {
-            customConfig.save(customConfigFile = new File(Main.getInstance().getDataFolder(), "messages.yml"));
+            customConfig.save(customConfigFile = new File(Main.getInstance().getDataFolder(), "messages_en-EN.yml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -723,7 +755,7 @@ public class Main extends JavaPlugin {
         if (customConfig == null) ;
         customConfig = YamlConfiguration.loadConfiguration(customConfigFile);
 
-        Reader defConfigStream = new InputStreamReader(Objects.requireNonNull(Main.getInstance().getResource("messages.yml")), StandardCharsets.UTF_8);
+        Reader defConfigStream = new InputStreamReader(Objects.requireNonNull(Main.getInstance().getResource("messages_en-EN.yml")), StandardCharsets.UTF_8);
         if (defConfigStream != null) {
             YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
             customConfig.setDefaults(defConfig);

@@ -39,7 +39,7 @@ public class ClearChatCMD extends CommandBase {
         for (int i = 0; i <= 500; i++) {
             Bukkit.broadcastMessage(" ");
         }
-        String message = plugin.getCustomMessagesConfig().getString("ChatClear");
+        String message = plugin.getLanguageConfig(sender).getString("ChatClear");
         if (message != null) {
             message = new TextUtils().replaceAndToParagraph(message);
             message = new TextUtils().replaceObject(message, "%Player%", sender.getName());

@@ -48,12 +48,12 @@ public class RepairCMD extends CommandBase {
                                     if (damageable.hasDamage()) {
                                         damageable.setDamage(0);
                                         item.setItemMeta((ItemMeta) damageable);
-                                        String repair = plugin.getCustomMessagesConfig().getString("Repair.Success");
+                                        String repair = plugin.getLanguageConfig(player).getString("Repair.Success");
                                         repair = ReplaceCharConfig.replaceParagraph(repair);
                                         repair = ReplaceCharConfig.replaceObjectWithData(repair, "%Item%", item.getType().name());
                                         player.sendMessage(plugin.getPrefix() + repair);
                                     } else {
-                                        String repair = plugin.getCustomMessagesConfig().getString("Repair.Failed");
+                                        String repair = plugin.getLanguageConfig(player).getString("Repair.Failed");
                                         repair = ReplaceCharConfig.replaceParagraph(repair);
                                         repair = ReplaceCharConfig.replaceObjectWithData(repair, "%Item%", item.getType().name());
                                         player.sendMessage(plugin.getPrefix() + repair);
@@ -61,7 +61,7 @@ public class RepairCMD extends CommandBase {
                                 }
                             }
                         } else {
-                            String repair = plugin.getCustomMessagesConfig().getString("Repair.AirRepair");
+                            String repair = plugin.getLanguageConfig(player).getString("Repair.AirRepair");
                             repair = ReplaceCharConfig.replaceParagraph(repair);
                             sender.sendMessage(plugin.getPrefix() + repair);
                         }
@@ -84,39 +84,39 @@ public class RepairCMD extends CommandBase {
                                         damageable.setDamage(0);
                                         item.setItemMeta((ItemMeta) damageable);
                                         if (!Main.getSilent().contains(sender.getName())) {
-                                            String repair = plugin.getCustomMessagesConfig().getString("Repair.Success");
+                                            String repair = plugin.getLanguageConfig(player).getString("Repair.Success");
                                             repair = ReplaceCharConfig.replaceParagraph(repair);
                                             repair = ReplaceCharConfig.replaceObjectWithData(repair, "%Item%", item.getType().name());
                                             player.sendMessage(plugin.getPrefix() + repair);
                                         }
-                                        String repairOther = plugin.getCustomMessagesConfig().getString("Repair.OtherSuccess");
+                                        String repairOther = plugin.getLanguageConfig(player).getString("Repair.OtherSuccess");
                                         repairOther = ReplaceCharConfig.replaceParagraph(repairOther);
                                         repairOther = ReplaceCharConfig.replaceObjectWithData(repairOther, "%Item%", item.getType().name());
                                         repairOther = ReplaceCharConfig.replaceObjectWithData(repairOther, "%Player%", player.getName());
                                         sender.sendMessage(plugin.getPrefix() + repairOther);
                                     } else {
-                                        String repair = plugin.getCustomMessagesConfig().getString("Repair.OtherFailed");
+                                        String repair = plugin.getLanguageConfig(player).getString("Repair.OtherFailed");
                                         repair = ReplaceCharConfig.replaceParagraph(repair);
                                         repair = ReplaceCharConfig.replaceObjectWithData(repair, "%Item%", item.getType().name());
                                         repair = ReplaceCharConfig.replaceObjectWithData(repair, "%Player%", player.getName());
                                         sender.sendMessage(plugin.getPrefix() + repair);
                                     }
                                 } else {
-                                    String notAble = plugin.getCustomMessagesConfig().getString("Repair.Irreparable");
+                                    String notAble = plugin.getLanguageConfig(player).getString("Repair.Irreparable");
                                     notAble = ReplaceCharConfig.replaceParagraph(notAble);
                                     notAble = ReplaceCharConfig.replaceObjectWithData(notAble, "%Item%", item.getType().name());
                                     notAble = ReplaceCharConfig.replaceObjectWithData(notAble, "%Player%", player.getName());
                                     sender.sendMessage(plugin.getPrefix() + notAble);
                                 }
                             } else {
-                                String notAble = plugin.getCustomMessagesConfig().getString("Repair.Irreparable");
+                                String notAble = plugin.getLanguageConfig(player).getString("Repair.Irreparable");
                                 notAble = ReplaceCharConfig.replaceParagraph(notAble);
                                 notAble = ReplaceCharConfig.replaceObjectWithData(notAble, "%Item%", item.getType().name());
                                 notAble = ReplaceCharConfig.replaceObjectWithData(notAble, "%Player%", player.getName());
                                 sender.sendMessage(plugin.getPrefix() + notAble);
                             }
                         } else {
-                            String repair = plugin.getCustomMessagesConfig().getString("Repair.AirRepair");
+                            String repair = plugin.getLanguageConfig(player).getString("Repair.AirRepair");
                             repair = ReplaceCharConfig.replaceParagraph(repair);
                             sender.sendMessage(plugin.getPrefix() + repair);
                         }

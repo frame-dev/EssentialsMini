@@ -43,7 +43,7 @@ public class VanishCMD extends CommandListenerBase {
                                 o.showPlayer(this.plugin, player);
                             });
                             hided.remove(player.getName());
-                            String message = plugin.getCustomMessagesConfig().getString("VanishOff.Single");
+                            String message = plugin.getLanguageConfig(player).getString("VanishOff.Single");
                             if (message.contains("&"))
                                 message = new TextUtils().replaceAndToParagraph(message);
                             player.sendMessage(plugin.getPrefix() + message);
@@ -63,7 +63,7 @@ public class VanishCMD extends CommandListenerBase {
                                 }
                             });
                             hided.add(player.getName());
-                            String message = plugin.getCustomMessagesConfig().getString("VanishOn.Single");
+                            String message = plugin.getLanguageConfig(player).getString("VanishOn.Single");
                             if (message.contains("&"))
                                 message = new TextUtils().replaceAndToParagraph(message);
                             player.sendMessage(plugin.getPrefix() + message);
@@ -88,10 +88,10 @@ public class VanishCMD extends CommandListenerBase {
                                 o.showPlayer(this.plugin, target);
                             });
                             hided.remove(target.getName());
-                            String message = plugin.getCustomMessagesConfig().getString("VanishOff.Single");
+                            String message = plugin.getLanguageConfig(sender).getString("VanishOff.Single");
                             if (message.contains("&"))
                                 message = new TextUtils().replaceAndToParagraph(message);
-                            String playerMessage = plugin.getCustomConfig().getString("VanishOff.Multi");
+                            String playerMessage = plugin.getLanguageConfig(sender).getString("VanishOff.Multi");
                             if (playerMessage.contains("%Player%"))
                                 playerMessage = playerMessage.replace("%Player%", target.getName());
                             if (playerMessage.contains("&")) playerMessage = playerMessage.replace('&', '§');
@@ -107,10 +107,10 @@ public class VanishCMD extends CommandListenerBase {
                                 }
                             });
                             hided.add(target.getName());
-                            String message = plugin.getCustomMessagesConfig().getString("VanishOn.Single");
+                            String message = plugin.getLanguageConfig(sender).getString("VanishOn.Single");
                             if (message.contains("&"))
                                 message = new TextUtils().replaceAndToParagraph(message);
-                            String playerMessage = plugin.getCustomConfig().getString("VanishOn.Multi");
+                            String playerMessage = plugin.getLanguageConfig(sender).getString("VanishOn.Multi");
                             if (playerMessage.contains("%Player%"))
                                 playerMessage = playerMessage.replace("%Player%", target.getName());
                             if (playerMessage.contains("&")) playerMessage = playerMessage.replace('&', '§');

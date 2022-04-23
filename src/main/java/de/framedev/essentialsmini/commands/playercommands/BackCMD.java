@@ -46,7 +46,7 @@ public class BackCMD extends CommandListenerBase {
 
                         /*  Player Teleports to the Death Location */
                         player.teleport(deaths.get(player));
-                        String message = plugin.getCustomMessagesConfig().getString("DeathTeleport");
+                        String message = plugin.getLanguageConfig(player).getString("DeathTeleport");
                         if(message != null) {
                             message = new TextUtils().replaceAndToParagraph(message);
                         }
@@ -54,7 +54,7 @@ public class BackCMD extends CommandListenerBase {
                         /* Death Point remove */
                         deaths.remove(player);
                     } else {
-                        String message = plugin.getCustomMessagesConfig().getString("NoDeathLocationFound");
+                        String message = plugin.getLanguageConfig(player).getString("NoDeathLocationFound");
                         if(message != null) {
                             message = new TextUtils().replaceAndToParagraph(message);
                         }
@@ -73,7 +73,7 @@ public class BackCMD extends CommandListenerBase {
         if(plugin.getConfig().getBoolean("Back")) {
             Player player = event.getEntity();
             deaths.put(player, player.getLocation());
-            String message = plugin.getCustomMessagesConfig().getString("DeathCommandUsage");
+            String message = plugin.getLanguageConfig(player).getString("DeathCommandUsage");
             if(message != null) {
                 message = new TextUtils().replaceAndToParagraph(message);
             }

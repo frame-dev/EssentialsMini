@@ -51,9 +51,6 @@ public class UpdateChecker {
                 e.printStackTrace();
             }
         }
-        new File("plugins/update/" + name).getParentFile().mkdirs();
-        if (!file.renameTo(new File("plugins/update/" + name)))
-            System.err.println("File cannot be renamed!");
     }
 
     public boolean hasUpdate() {

@@ -39,7 +39,7 @@ public class HealCMD extends CommandBase {
                     player.setHealth(20);
                     player.setFireTicks(0);
                     player.setFoodLevel(20);
-                    String heal = plugin.getCustomMessagesConfig().getString("Heal.Self");
+                    String heal = plugin.getLanguageConfig(player).getString("Heal.Self");
                     if(heal == null) return true;
                     if(heal.contains("&"))
                         heal = heal.replace('&','§');
@@ -62,13 +62,13 @@ public class HealCMD extends CommandBase {
                             player.setFireTicks(0);
                             player.setFoodLevel(20);
                             if (!Main.getSilent().contains(sender.getName())) {
-                                String heal = plugin.getCustomMessagesConfig().getString("Heal.Self");
+                                String heal = plugin.getLanguageConfig(player).getString("Heal.Self");
                                 if(heal == null) return true;
                                 if (heal.contains("&"))
                                     heal = heal.replace('&', '§');
                                 player.sendMessage(plugin.getPrefix() + heal);
                             }
-                            String healOther = plugin.getCustomMessagesConfig().getString("Heal.Other");
+                            String healOther = plugin.getLanguageConfig(player).getString("Heal.Other");
                             if(healOther == null) return true;
                             if(healOther.contains("&"))
                                 healOther = healOther.replace('&', '§');
@@ -89,13 +89,13 @@ public class HealCMD extends CommandBase {
                         player.setFireTicks(0);
                         player.setFoodLevel(20);
                         if (!Main.getSilent().contains(sender.getName())) {
-                            String heal = plugin.getCustomMessagesConfig().getString("Heal.Self");
+                            String heal = plugin.getLanguageConfig(player).getString("Heal.Self");
                             if(heal == null) return true;
                             if (heal.contains("&"))
                                 heal = heal.replace('&', '§');
                             player.sendMessage(plugin.getPrefix() + heal);
                         }
-                        String healOther = plugin.getCustomMessagesConfig().getString("Heal.Other");
+                        String healOther = plugin.getLanguageConfig(player).getString("Heal.Other");
                         if(healOther == null) return true;
                         if(healOther.contains("&"))
                             healOther = healOther.replace('&', '§');

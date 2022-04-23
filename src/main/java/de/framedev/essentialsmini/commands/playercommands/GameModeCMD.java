@@ -37,7 +37,7 @@ public class GameModeCMD extends CommandBase {
                 if (sender.hasPermission("essentialsmini.gamemode")) {
                     if (sender instanceof Player) {
                         Player player = (Player) sender;
-                        String gameModeChanged = plugin.getCustomMessagesConfig().getString("GameModeChanged");
+                        String gameModeChanged = plugin.getLanguageConfig(player).getString("GameModeChanged");
                         try {
                             switch (Integer.parseInt(args[0])) {
                                 case 0:
@@ -143,8 +143,8 @@ public class GameModeCMD extends CommandBase {
                 if (sender.hasPermission("essentialsmini.gamemode.others")) {
                     Player target = Bukkit.getPlayer(args[1]);
                     if (target != null) {
-                        String gameModeChanged = plugin.getCustomMessagesConfig().getString("GameModeChanged");
-                        String gameModeOtherChanged = plugin.getCustomMessagesConfig().getString("GameModeOtherChanged");
+                        String gameModeChanged = plugin.getLanguageConfig(target).getString("GameModeChanged");
+                        String gameModeOtherChanged = plugin.getLanguageConfig(sender).getString("GameModeOtherChanged");
                         try {
                             switch (Integer.parseInt(args[0])) {
                                 case 0:

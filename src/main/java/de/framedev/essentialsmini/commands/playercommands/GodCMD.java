@@ -42,13 +42,13 @@ public class GodCMD implements CommandExecutor {
             }
             if (player.isInvulnerable()) {
                 player.setInvulnerable(false);
-                String godSelfOff = plugin.getCustomMessagesConfig().getString("God.Self.Deactivated");
+                String godSelfOff = plugin.getLanguageConfig(player).getString("God.Self.Deactivated");
                 if(godSelfOff.contains("&"))
                     godSelfOff = godSelfOff.replace('&', '§');
                 player.sendMessage(plugin.getPrefix() + godSelfOff);
             } else {
                 player.setInvulnerable(true);
-                String godSelfOn = plugin.getCustomMessagesConfig().getString("God.Self.Activated");
+                String godSelfOn = plugin.getLanguageConfig(player).getString("God.Self.Activated");
                 if(godSelfOn.contains("&"))
                     godSelfOn = godSelfOn.replace('&', '§');
                 player.sendMessage(plugin.getPrefix() + godSelfOn);
@@ -64,12 +64,12 @@ public class GodCMD implements CommandExecutor {
                 if (player.isInvulnerable()) {
                     player.setInvulnerable(false);
                     if (!Main.getSilent().contains(sender.getName())) {
-                        String godSelfOff = plugin.getCustomMessagesConfig().getString("God.Self.Deactivated");
+                        String godSelfOff = plugin.getLanguageConfig(player).getString("God.Self.Deactivated");
                         if(godSelfOff.contains("&"))
                             godSelfOff = godSelfOff.replace('&', '§');
                         player.sendMessage(plugin.getPrefix() + godSelfOff);
                     }
-                    String godOtherOff = plugin.getCustomMessagesConfig().getString("God.Other.Deactivated");
+                    String godOtherOff = plugin.getLanguageConfig(sender).getString("God.Other.Deactivated");
                     if(godOtherOff.contains("%Player%"))
                         godOtherOff = godOtherOff.replace("%Player%", player.getName());
                     if(godOtherOff.contains("&"))
@@ -78,12 +78,12 @@ public class GodCMD implements CommandExecutor {
                 } else {
                     player.setInvulnerable(true);
                     if (!Main.getSilent().contains(sender.getName())) {
-                        String godSelfOn = plugin.getCustomMessagesConfig().getString("God.Self.Activated");
+                        String godSelfOn = plugin.getLanguageConfig(player).getString("God.Self.Activated");
                         if(godSelfOn.contains("&"))
                             godSelfOn = godSelfOn.replace('&', '§');
                         player.sendMessage(plugin.getPrefix() + godSelfOn);
                     }
-                    String godOtherOff = plugin.getCustomMessagesConfig().getString("God.Other.Activated");
+                    String godOtherOff = plugin.getLanguageConfig(sender).getString("God.Other.Activated");
                     if(godOtherOff.contains("%Player%"))
                         godOtherOff = godOtherOff.replace("%Player%", player.getName());
                     if(godOtherOff.contains("&"))

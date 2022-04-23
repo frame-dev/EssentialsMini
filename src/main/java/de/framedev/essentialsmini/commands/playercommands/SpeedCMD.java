@@ -34,7 +34,7 @@ public class SpeedCMD extends CommandBase {
                 if (sender.hasPermission(plugin.getPermissionName() + "speed")) {
                     ((Player) sender).setWalkSpeed(Integer.parseInt(args[0]) / 10F);
                     int walkSpeed = Integer.parseInt(args[0]);
-                    String message = plugin.getCustomMessagesConfig().getString("WalkSpeed");
+                    String message = plugin.getLanguageConfig(sender).getString("WalkSpeed");
                     message = new TextUtils().replaceAndToParagraph(message);
                     message = new TextUtils().replaceObject(message, "%WalkSpeed%", String.valueOf(walkSpeed));
                     sender.sendMessage(plugin.getPrefix() + message);

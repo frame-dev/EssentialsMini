@@ -37,7 +37,7 @@ public class DayNightCMD extends CommandBase {
                     Player player = (Player) sender;
                     if (player.hasPermission("essentialsmini.day")) {
                         player.getWorld().setTime(1000);
-                        String message = plugin.getCustomMessagesConfig().getString("Day");
+                        String message = plugin.getLanguageConfig(player).getString("Day");
                         if (message != null) {
                             message = new TextUtils().replaceAndToParagraph(message);
                         }
@@ -56,7 +56,7 @@ public class DayNightCMD extends CommandBase {
                 if (args.length == 0) {
                     Player player = (Player) sender;
                     if (player.hasPermission("essentialsmini.night")) {
-                        String message = plugin.getCustomMessagesConfig().getString("Night");
+                        String message = plugin.getLanguageConfig(player).getString("Night");
                         if (message != null) {
                             message = new TextUtils().replaceAndToParagraph(message);
                         }
@@ -105,7 +105,7 @@ public class DayNightCMD extends CommandBase {
             if (command.getName().equalsIgnoreCase("day")) {
                 for (World world : Bukkit.getWorlds())
                     world.setTime(1000);
-                String message = plugin.getCustomMessagesConfig().getString("Day");
+                String message = plugin.getLanguageConfig(sender).getString("Day");
                 if (message != null) {
                     message = new TextUtils().replaceAndToParagraph(message);
                 }
@@ -113,7 +113,7 @@ public class DayNightCMD extends CommandBase {
                 return true;
             }
             if (command.getName().equalsIgnoreCase("night")) {
-                String message = plugin.getCustomMessagesConfig().getString("Night");
+                String message = plugin.getLanguageConfig(sender).getString("Night");
                 if (message != null) {
                     message = new TextUtils().replaceAndToParagraph(message);
                 }

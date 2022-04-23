@@ -32,14 +32,14 @@ public class FlyCMD extends CommandBase {
                     if (!player.getAllowFlight()) {
                         player.setAllowFlight(true);
                         player.setFlying(true);
-                        String flySelfOn = plugin.getCustomMessagesConfig().getString("FlySelfOn");
+                        String flySelfOn = plugin.getLanguageConfig(player).getString("FlySelfOn");
                         if (flySelfOn.contains("&"))
                             flySelfOn = flySelfOn.replace('&', '§');
                         player.sendMessage(plugin.getPrefix() + flySelfOn);
                     } else {
                         player.setAllowFlight(false);
                         player.setFlying(false);
-                        String flySelfOff = plugin.getCustomMessagesConfig().getString("FlySelfOff");
+                        String flySelfOff = plugin.getLanguageConfig(player).getString("FlySelfOff");
                         if (flySelfOff.contains("&"))
                             flySelfOff = flySelfOff.replace('&', '§');
                         player.sendMessage(plugin.getPrefix() + flySelfOff);
@@ -58,12 +58,12 @@ public class FlyCMD extends CommandBase {
                         target.setAllowFlight(true);
                         target.setFlying(true);
                         if (!Main.getSilent().contains(sender.getName())) {
-                            String flySelfOn = plugin.getCustomMessagesConfig().getString("FlySelfOn");
+                            String flySelfOn = plugin.getLanguageConfig(target).getString("FlySelfOn");
                             if (flySelfOn.contains("&"))
                                 flySelfOn = flySelfOn.replace('&', '§');
                             target.sendMessage(plugin.getPrefix() + flySelfOn);
                         }
-                        String flyOtherOn = plugin.getCustomMessagesConfig().getString("FlyOtherOn");
+                        String flyOtherOn = plugin.getLanguageConfig(sender).getString("FlyOtherOn");
                         if (flyOtherOn.contains("&"))
                             flyOtherOn = flyOtherOn.replace('&', '§');
                         if (flyOtherOn.contains("%Player%"))
@@ -73,13 +73,13 @@ public class FlyCMD extends CommandBase {
                         target.setAllowFlight(false);
                         target.setFlying(false);
                         if (!Main.getSilent().contains(sender.getName())) {
-                            String flySelfOff = plugin.getCustomMessagesConfig().getString("FlySelfOff");
+                            String flySelfOff = plugin.getLanguageConfig(target).getString("FlySelfOff");
                             if (flySelfOff.contains("&"))
                                 flySelfOff = flySelfOff.replace('&', '§');
                             target.sendMessage(plugin.getPrefix() + flySelfOff);
                             target.sendMessage(plugin.getPrefix() + "§cDu kannst nun nicht mehr Fliegen!");
                         }
-                        String flyOtherOff = plugin.getCustomMessagesConfig().getString("FlyOtherOff");
+                        String flyOtherOff = plugin.getLanguageConfig(sender).getString("FlyOtherOff");
                         if (flyOtherOff.contains("&"))
                             flyOtherOff = flyOtherOff.replace('&', '§');
                         if (flyOtherOff.contains("%Player%"))

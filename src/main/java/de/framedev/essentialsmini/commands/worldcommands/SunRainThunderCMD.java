@@ -33,7 +33,7 @@ public class SunRainThunderCMD implements CommandExecutor {
         if(sender instanceof Player) {
             Player player = (Player) sender;
             if (command.getName().equalsIgnoreCase("sun")) {
-                String message = plugin.getCustomMessagesConfig().getString("WeatherSun");
+                String message = plugin.getLanguageConfig(player).getString("WeatherSun");
                 if(message.contains("&"))
                     message = message.replace('&','§');
                 if(message.contains("%World%")) {
@@ -54,7 +54,7 @@ public class SunRainThunderCMD implements CommandExecutor {
             }
             if (command.getName().equalsIgnoreCase("rain")) {
                 if(player.hasPermission(plugin.getPermissionName() + "rain")) {
-                    String message = plugin.getCustomMessagesConfig().getString("WeatherRain");
+                    String message = plugin.getLanguageConfig(player).getString("WeatherRain");
                     if(message.contains("%World%"))
                         message = message.replace("%World%",player.getWorld().getName());
                     if(message.contains("&"))
@@ -73,7 +73,7 @@ public class SunRainThunderCMD implements CommandExecutor {
             }
             if (command.getName().equalsIgnoreCase("thunder")) {
                 if(player.hasPermission(plugin.getPermissionName() + "thunder")) {
-                    String message = plugin.getCustomMessagesConfig().getString("WeatherThunder");
+                    String message = plugin.getLanguageConfig(player).getString("WeatherThunder");
                     if(message.contains("%World%"))
                         message = message.replace("%World%",player.getWorld().getName());
                     if(message.contains("&"))

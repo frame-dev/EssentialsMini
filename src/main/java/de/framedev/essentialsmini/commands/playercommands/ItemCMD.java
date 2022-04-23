@@ -46,7 +46,7 @@ public class ItemCMD extends CommandBase {
                         String name = args[0];
                         if (new MaterialManager().existsMaterial(Material.getMaterial(name.toUpperCase()))) {
                             player.getInventory().addItem(new ItemStack(new MaterialManager().getMaterial(name.toUpperCase())));
-                            String message = plugin.getCustomMessagesConfig().getString("Item.Get");
+                            String message = plugin.getLanguageConfig(player).getString("Item.Get");
                             message = ReplaceCharConfig.replaceParagraph(message);
                             message = ReplaceCharConfig.replaceObjectWithData(message, "%Item%", name);
                             message = ReplaceCharConfig.replaceObjectWithData(message, "%Amount%", "" + 1);
@@ -71,7 +71,7 @@ public class ItemCMD extends CommandBase {
                                     int amount = Integer.parseInt(args[1]);
                                     player.getInventory().addItem(new ItemStack(new MaterialManager().getMaterial(name.toUpperCase()), amount));
                                     if (!Main.getSilent().contains(sender.getName())) {
-                                        String message = plugin.getCustomMessagesConfig().getString("Item.Get");
+                                        String message = plugin.getLanguageConfig(player).getString("Item.Get");
                                         message = ReplaceCharConfig.replaceParagraph(message);
                                         message = ReplaceCharConfig.replaceObjectWithData(message, "%Item%", name);
                                         message = ReplaceCharConfig.replaceObjectWithData(message, "%Amount%", "" + amount);
@@ -94,7 +94,7 @@ public class ItemCMD extends CommandBase {
                             Player player1 = Bukkit.getPlayer(args[1]);
                             if (player1 != null) {
                                 player1.getInventory().addItem(new ItemStack(new MaterialManager().getMaterial(name.toUpperCase())));
-                                String message = plugin.getCustomMessagesConfig().getString("Item.Other");
+                                String message = plugin.getLanguageConfig(sender).getString("Item.Other");
                                 message = ReplaceCharConfig.replaceParagraph(message);
                                 message = ReplaceCharConfig.replaceObjectWithData(message, "%Item%", name);
                                 message = ReplaceCharConfig.replaceObjectWithData(message, "%Player%", player1.getName());
@@ -118,7 +118,7 @@ public class ItemCMD extends CommandBase {
                         Player player1 = Bukkit.getPlayer(args[2]);
                         if (player1 != null) {
                             player1.getInventory().addItem(new ItemStack(new MaterialManager().getMaterial(name.toUpperCase()), amount));
-                            String message = plugin.getCustomMessagesConfig().getString("Item.Other");
+                            String message = plugin.getLanguageConfig(sender).getString("Item.Other");
                             message = ReplaceCharConfig.replaceParagraph(message);
                             message = ReplaceCharConfig.replaceObjectWithData(message, "%Item%", name);
                             message = ReplaceCharConfig.replaceObjectWithData(message, "%Player%", player1.getName());

@@ -40,10 +40,10 @@ public class FlySpeedCMD extends CommandBase {
             }
             float flyspeed = Float.parseFloat(args[0]) / 10F;
             player.setFlySpeed(flyspeed);
-            String flySpeed = plugin.getCustomMessagesConfig().getString("ChangeFlySpeed");
-            flySpeed = new TextUtils().replaceObject("flySpeed", "%flyspeed%", String.valueOf(flyspeed * 10F));
-            flySpeed = new TextUtils().replaceAndToParagraph(flySpeed);
-            player.sendMessage(flySpeed);
+            String flySpeedMessage = plugin.getLanguageConfig(player).getString("ChangeFlySpeed");
+            flySpeedMessage = new TextUtils().replaceObject("flySpeed", "%flyspeed%", String.valueOf(flyspeed * 10F));
+            flySpeedMessage = new TextUtils().replaceAndToParagraph(flySpeedMessage);
+            player.sendMessage(flySpeedMessage);
             return true;
         } else if (args.length == 2) {
             if (!sender.hasPermission(plugin.getPermissionName() + "flyspeed.others")) {
@@ -57,11 +57,11 @@ public class FlySpeedCMD extends CommandBase {
                 return true;
             }
             player.setFlySpeed(flyspeed);
-            String flySpeed = plugin.getCustomMessagesConfig().getString("ChangeFlySpeed");
+            String flySpeed = plugin.getLanguageConfig(player).getString("ChangeFlySpeed");
             flySpeed = new TextUtils().replaceObject("flySpeed", "%flyspeed%", String.valueOf(flyspeed * 10F));
             flySpeed = new TextUtils().replaceAndToParagraph(flySpeed);
             player.sendMessage(flySpeed);
-            String other = plugin.getCustomMessagesConfig().getString("ChangeFlySpeedOther");
+            String other = plugin.getLanguageConfig(sender).getString("ChangeFlySpeedOther");
             other = new TextUtils().replaceAndToParagraph(other);
             other = new TextUtils().replaceObject(other, "%player%", player.getName());
             other = new TextUtils().replaceObject(other, "%flyspeed%", String.valueOf(flyspeed * 10F));

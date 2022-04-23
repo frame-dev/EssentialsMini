@@ -44,12 +44,12 @@ public class MessageCMD extends CommandBase {
                 if (player.hasPermission(plugin.getPermissionName() + "msgtoggle")) {
                     if (msgToggle.contains(player)) {
                         msgToggle.remove(player);
-                        String msgToggleMessage = plugin.getCustomMessagesConfig().getString("MsgToggle.Deactivated");
+                        String msgToggleMessage = plugin.getLanguageConfig(player).getString("MsgToggle.Deactivated");
                         msgToggleMessage = new TextUtils().replaceAndToParagraph(msgToggleMessage);
                         player.sendMessage(plugin.getPrefix() + msgToggleMessage);
                         return true;
                     } else {
-                        String msgToggleMessage = plugin.getCustomMessagesConfig().getString("MsgToggle.Activated");
+                        String msgToggleMessage = plugin.getLanguageConfig(player).getString("MsgToggle.Activated");
                         msgToggleMessage = new TextUtils().replaceAndToParagraph(msgToggleMessage);
                         player.sendMessage(plugin.getPrefix() + msgToggleMessage);
                         msgToggle.add(player);
@@ -77,7 +77,7 @@ public class MessageCMD extends CommandBase {
                                 for (Player opPlayer : Bukkit.getOnlinePlayers()) {
                                     if (opPlayer.hasPermission("essentialsmini.spy")) {
                                         if (spy.contains(opPlayer)) {
-                                            String spy = plugin.getCustomMessagesConfig().getString("SpyMessage");
+                                            String spy = plugin.getLanguageConfig(player).getString("SpyMessage");
                                             spy = ReplaceCharConfig.replaceParagraph(spy);
                                             spy = ReplaceCharConfig.replaceObjectWithData(spy, "%Player%", player.getName());
                                             spy = ReplaceCharConfig.replaceObjectWithData(spy, "%Target%", target.getName());
@@ -99,7 +99,7 @@ public class MessageCMD extends CommandBase {
                                 for (Player opPlayer : Bukkit.getOnlinePlayers()) {
                                     if (opPlayer.hasPermission("essentialsmini.spy")) {
                                         if (spy.contains(opPlayer)) {
-                                            String spy = plugin.getCustomMessagesConfig().getString("SpyMessage");
+                                            String spy = plugin.getLanguageConfig(player).getString("SpyMessage");
                                             spy = ReplaceCharConfig.replaceParagraph(spy);
                                             spy = ReplaceCharConfig.replaceObjectWithData(spy, "%Player%", player.getName());
                                             spy = ReplaceCharConfig.replaceObjectWithData(spy, "%Target%", target.getName());
@@ -115,7 +115,7 @@ public class MessageCMD extends CommandBase {
                             }
                         } else {
                             if (target != null) {
-                                String msgToggleMessage = plugin.getCustomMessagesConfig().getString("MsgToggle.Message");
+                                String msgToggleMessage = plugin.getLanguageConfig(player).getString("MsgToggle.Message");
                                 msgToggleMessage = new TextUtils().replaceAndToParagraph(msgToggleMessage);
                                 player.sendMessage(plugin.getPrefix() + msgToggleMessage);
                             }
@@ -157,7 +157,7 @@ public class MessageCMD extends CommandBase {
                                     for (Player opPlayer : Bukkit.getOnlinePlayers()) {
                                         if (opPlayer.hasPermission("essentialsmini.spy")) {
                                             if (spy.contains(opPlayer)) {
-                                                String spy = plugin.getCustomMessagesConfig().getString("SpyMessage");
+                                                String spy = plugin.getLanguageConfig(player).getString("SpyMessage");
                                                 spy = ReplaceCharConfig.replaceParagraph(spy);
                                                 spy = ReplaceCharConfig.replaceObjectWithData(spy, "%Player%", player.getName());
                                                 spy = ReplaceCharConfig.replaceObjectWithData(spy, "%Target%", target.getName());
@@ -191,12 +191,12 @@ public class MessageCMD extends CommandBase {
                 Player player = (Player) sender;
                 if (player.hasPermission("essentialsmini.spy")) {
                     if (!spy.contains(player)) {
-                        String spyMessage = plugin.getCustomMessagesConfig().getString("Spy.Activate");
+                        String spyMessage = plugin.getLanguageConfig(player).getString("Spy.Activate");
                         spyMessage = new TextUtils().replaceAndToParagraph(spyMessage);
                         player.sendMessage(plugin.getPrefix() + spyMessage);
                         spy.add(player);
                     } else {
-                        String spyMessage = plugin.getCustomMessagesConfig().getString("Spy.Deactivate");
+                        String spyMessage = plugin.getLanguageConfig(player).getString("Spy.Deactivate");
                         spyMessage = ReplaceCharConfig.replaceParagraph(spyMessage);
                         player.sendMessage(plugin.getPrefix() + spyMessage);
                         spy.remove(player);
