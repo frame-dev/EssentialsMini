@@ -10,7 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -39,8 +38,8 @@ public class BackendManager {
         OFFLINE("offline"),
         SLEEPTIMES("sleepTimes"),
         CREATEDATE("createDate"),
-        LASTLOGIN("lastLogin"),
-        LASTLOGOUT("lastLogout");
+        LAST_LOGIN("lastLogin"),
+        LAST_LOGOUT("lastLogout");
 
         private final String name;
 

@@ -26,7 +26,7 @@ public class KitManager {
 
     private static File customConfigFile;
     private static FileConfiguration customConfig;
-    public Inventory kitname = Bukkit.createInventory(null, 36);
+    public Inventory kitName = Bukkit.createInventory(null, 36);
 
     public static FileConfiguration getCustomConfig() {
         return customConfig;
@@ -58,12 +58,12 @@ public class KitManager {
                 if (s.contains(",")) {
                     String[] x = s.split(",");
                     ItemStack item = new ItemStack(Material.getMaterial(x[0].toUpperCase()), Integer.parseInt(x[1]));
-                    this.kitname.addItem(item);
+                    this.kitName.addItem(item);
                 } else {
-                    this.kitname.addItem(new ItemStack(Material.getMaterial(s.toUpperCase())));
+                    this.kitName.addItem(new ItemStack(Material.getMaterial(s.toUpperCase())));
                 }
             }
-            for (ItemStack items : this.kitname.getContents()) {
+            for (ItemStack items : this.kitName.getContents()) {
                 if (items != null) {
                     if (items.getType() == Material.LEATHER_BOOTS || items.getType() == Material.CHAINMAIL_BOOTS
                             || items.getType() == Material.IRON_BOOTS || items.getType() == Material.GOLDEN_BOOTS || items.getType() == Material.DIAMOND_BOOTS) {
@@ -164,20 +164,20 @@ public class KitManager {
                 if (s.contains(",")) {
                     String[] x = s.split(",");
                     ItemStack item = new ItemStack(Material.getMaterial(x[0].toUpperCase()), Integer.parseInt(x[1]));
-                    this.kitname.addItem(item);
+                    this.kitName.addItem(item);
                 } else {
-                    this.kitname.addItem(new ItemStack(Material.getMaterial(s.toUpperCase())));
+                    this.kitName.addItem(new ItemStack(Material.getMaterial(s.toUpperCase())));
                 }
             }
         } catch (Exception ex) {
             Bukkit.getConsoleSender().sendMessage("§cError while Creating Kit §f" + ex.getMessage());
         }
-        return this.kitname;
+        return this.kitName;
     }
 
 
     private void clearKitInventory() {
-        this.kitname.clear();
+        this.kitName.clear();
     }
 
     public List<ItemStack> loadKit(String name) {
@@ -198,7 +198,7 @@ public class KitManager {
     }
 
     private String toPrettyJson() {
-        return new GsonBuilder().setPrettyPrinting().create().toJson(kitname, Inventory.class);
+        return new GsonBuilder().setPrettyPrinting().create().toJson(kitName, Inventory.class);
     }
 
     public void saveKit(String name) {
@@ -236,7 +236,7 @@ public class KitManager {
     @Override
     public String toString() {
         return "KitManager{" +
-                "kitname=" + kitname +
+                "kitname=" + kitName +
                 '}';
     }
 }

@@ -154,18 +154,21 @@ public class TeleportCMD implements CommandExecutor, Listener {
                         tpDelay = new TextUtils().replaceAndToParagraph(tpDelay);
                         tpDelay = new TextUtils().replaceObject(tpDelay, "%Time%", delay + "");
                         tpRequest.get(player).sendMessage(plugin.getPrefix() + tpDelay);
+                        Player target = tpRequest.get(player);
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                if (queue.contains(tpRequest.get(player))) {
-                                    tpRequest.get(player).teleport(player);
-                                    queue.remove(tpRequest.get(player));
+                                if (queue.contains(target)) {
+                                    target.teleport(player);
+                                    queue.remove(target);
                                 }
                             }
                         }.runTaskLater(plugin, 20 * delay);
+                        tpRequest.remove(player);
                     } else {
                         if (player.getWorld().getName().equalsIgnoreCase(tpRequest.get(player).getWorld().getName())) {
                             tpRequest.get(player).teleport(player);
+                            tpRequest.remove(player);
                         } else {
                             player.sendMessage(plugin.getPrefix() + "§aThe Player §6" + tpRequest.get(player).getName() + " §cis not in the same World!");
                             tpRequest.remove(player);
@@ -299,9 +302,11 @@ public class TeleportCMD implements CommandExecutor, Listener {
                                 if (queue.contains(player[0])) {
                                     player[0].teleport(target.getLocation());
                                     queue.remove(player[0]);
+                                    tpHereRequest.remove(player[0]);
                                 }
                             }
                         }.runTaskLater(plugin, 20 * 3);
+                        tpHereRequest.remove(target);
                     } else {
                         if (tpHereRequest.get(player[0]).getWorld().getName().equalsIgnoreCase(player[0].getWorld().getName())) {
                             player[0].teleport(tpHereRequest.get(player[0]).getLocation());

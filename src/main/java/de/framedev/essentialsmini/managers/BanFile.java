@@ -22,23 +22,23 @@ public class BanFile {
         }
     }
 
-    public static boolean isBanned(String playername) {
-        return cfg.getBoolean("Ban." + playername + ".isBanned");
+    public static boolean isBanned(String playerName) {
+        return cfg.getBoolean("Ban." + playerName + ".isBanned");
     }
 
-    public static String getBannedReason(String playername) {
-        if (cfg.getBoolean("Ban." + playername + ".isBanned")) {
-            return cfg.getString("Ban." + playername + ".reason");
+    public static String getBannedReason(String playerName) {
+        if (cfg.getBoolean("Ban." + playerName + ".isBanned")) {
+            return cfg.getString("Ban." + playerName + ".reason");
         }
         return "";
     }
 
-    public static void banPlayer(String playername, String reason) {
-        if (cfg.getBoolean("Ban." + playername + ".isBanned")) {
-            Bukkit.getConsoleSender().sendMessage(playername + " ist schon gebannt!");
+    public static void banPlayer(String playerName, String reason) {
+        if (cfg.getBoolean("Ban." + playerName + ".isBanned")) {
+            Bukkit.getConsoleSender().sendMessage(playerName + " ist schon gebannt!");
         } else {
-            cfg.set("Ban." + playername + ".isBanned", true);
-            cfg.set("Ban." + playername + ".reason", reason);
+            cfg.set("Ban." + playerName + ".isBanned", true);
+            cfg.set("Ban." + playerName + ".reason", reason);
             saveCFG();
             if (!file.exists()) {
                 try {
@@ -50,11 +50,11 @@ public class BanFile {
         }
     }
 
-    public static void unBanPlayer(String playername) {
-        if (!cfg.getBoolean("Ban." + playername + ".isBanned")) {
-            Bukkit.getConsoleSender().sendMessage("Ban." + playername + " ist nicht gebannt!");
+    public static void unBanPlayer(String playerName) {
+        if (!cfg.getBoolean("Ban." + playerName + ".isBanned")) {
+            Bukkit.getConsoleSender().sendMessage("Ban." + playerName + " ist nicht gebannt!");
         } else {
-            cfg.set("Ban." + playername + ".isBanned", false);
+            cfg.set("Ban." + playerName + ".isBanned", false);
             saveCFG();
         }
     }

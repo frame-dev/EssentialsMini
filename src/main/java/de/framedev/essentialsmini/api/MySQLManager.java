@@ -28,6 +28,10 @@ public class MySQLManager {
 
     protected String tableName = "essentialsmini_eco";
 
+    public MySQLManager() {
+        Bukkit.getConsoleSender().sendMessage(Main.getInstance().getPrefix() + "§aMySQL for Vault Enabled!");
+    }
+
     protected boolean isOnlineMode() {
         return Bukkit.getServer().getOnlineMode();
     }
@@ -490,6 +494,11 @@ public class MySQLManager {
         return banks;
     }
 
+    /**
+     * Delete bank
+     * @param bankName the Bank name for delete
+     * @return return if success or not
+     */
     public boolean removeBank(String bankName) {
         if (SQL.isTableExists(tableName)) {
             if (getBanks().contains(bankName)) {

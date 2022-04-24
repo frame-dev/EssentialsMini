@@ -293,9 +293,9 @@ public class PlayerManagerMongoDB {
             for (BackendManager.DATA data : BackendManager.DATA.values()) {
                 try {
                     String cap = data.getName().substring(0, 1).toUpperCase() + data.getName().substring(1);
-                    if (data == BackendManager.DATA.LASTLOGOUT) {
+                    if (data == BackendManager.DATA.LAST_LOGOUT) {
                         document.put(data.getName(), this.getClass().getMethod("get" + cap).invoke(this).toString());
-                    } else if (data == BackendManager.DATA.LASTLOGIN) {
+                    } else if (data == BackendManager.DATA.LAST_LOGIN) {
                         document.put(data.getName(), this.getClass().getMethod("get" + cap).invoke(this).toString());
                     } else if (data == BackendManager.DATA.OFFLINE) {
                         document.put(data.getName(), this.getClass().getMethod("is" + cap).invoke(this));

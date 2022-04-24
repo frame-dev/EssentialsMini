@@ -21,10 +21,7 @@ import net.md_5.bungee.api.chat.hover.content.Text;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -405,7 +402,7 @@ public class Main extends JavaPlugin {
             e.printStackTrace();
         }
 
-        if (!configVersion.equalsIgnoreCase("1.0.1")) {
+        if (!configVersion.equalsIgnoreCase("1.0.2")) {
             configUpdater();
         }
     }
@@ -439,8 +436,8 @@ public class Main extends JavaPlugin {
                 Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cConfig Replaced! Please edit your Config Sections!");
             }
         }.runTaskLater(this, 60);
-        Config.saveDefaultConfigValues("messages_en-EN.yml");
-        Config.saveDefaultConfigValues("messages_de-DE.yml");
+        Config.saveDefaultConfigValues("messages_en-EN");
+        Config.saveDefaultConfigValues("messages_de-DE");
     }
 
     @Override
@@ -489,7 +486,7 @@ public class Main extends JavaPlugin {
     }
 
     public FileConfiguration getLanguageConfig(CommandSender player) {
-        if(player instanceof Player) {
+        if (player instanceof Player) {
             String playerLocale = ((Player) player).getLocale();
             if (playerLocale.contains("en")) {
                 File file = new File(getDataFolder(), "messages_en-EN.yml");
@@ -958,6 +955,7 @@ public class Main extends JavaPlugin {
 
     protected void writePermissions() {
         File file = new File(getDataFolder(), "permissions.txt");
+        File commandsFile = new File(getDataFolder(), "commands.txt");
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             for (Permission permission : getDescription().getPermissions()) {
@@ -965,6 +963,12 @@ public class Main extends JavaPlugin {
             }
             writer.flush();
             writer.close();
+            BufferedWriter writerCommands = new BufferedWriter(new FileWriter(commandsFile));
+            for (String command : getCommands().keySet()) {
+                writerCommands.append("/" + command + "\n");
+            }
+            writerCommands.flush();
+            writerCommands.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

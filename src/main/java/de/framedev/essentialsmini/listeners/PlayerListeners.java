@@ -384,7 +384,7 @@ public class PlayerListeners implements Listener {
             }
             if (Bukkit.getPluginManager().getPlugin("MDBConnection") != null) {
                 if (Main.cfgMongoDB.getBoolean("MongoDB.LocalHost") || Main.cfgMongoDB.getBoolean("MongoDB.Boolean")) {
-                    plugin.getBackendManager().updateUser(event.getPlayer(), DATA.LASTLOGOUT.getName(), System.currentTimeMillis() + "", collection);
+                    plugin.getBackendManager().updateUser(event.getPlayer(), DATA.LAST_LOGOUT.getName(), System.currentTimeMillis() + "", collection);
                     plugin.getBackendManager().updateUser(event.getPlayer(), "offline", true, collection);
                 }
             }

@@ -41,7 +41,7 @@ public class VaultAPI extends AbstractEconomy {
 
     @Override
     public int fractionalDigits() {
-        return -1;
+        return 2;
     }
 
     @Override
