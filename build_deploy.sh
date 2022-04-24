@@ -1,4 +1,4 @@
 mvn clean package
 mvn deploy
-cd target
-mv EssentialsMini-* ../EssentialsMini.jar
+rm EssentialsMini.jar
+mv target/EssentialsMini-* EssentialsMini.jar

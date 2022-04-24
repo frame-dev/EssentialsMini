@@ -104,7 +104,7 @@ public class PlayerListeners implements Listener {
                     if (event.getPlayer().hasPermission("essentialsmini.ignorejoin")) {
                         event.setJoinMessage(null);
                     } else {
-                        String joinMessage = plugin.getConfig().getString("JoinMessage");
+                        String joinMessage = plugin.getLanguageConfig(event.getPlayer()).getString("JoinMessage");
                         if (joinMessage == null) return;
                         if (joinMessage.contains("&"))
                             joinMessage = joinMessage.replace('&', '§');
@@ -113,7 +113,7 @@ public class PlayerListeners implements Listener {
                         event.setJoinMessage(joinMessage);
                     }
                 } else {
-                    String joinMessage = plugin.getConfig().getString("JoinMessage");
+                    String joinMessage = plugin.getLanguageConfig(event.getPlayer()).getString("JoinMessage");
                     if (joinMessage == null) return;
                     if (joinMessage.contains("&"))
                         joinMessage = joinMessage.replace('&', '§');
@@ -279,7 +279,7 @@ public class PlayerListeners implements Listener {
                     if (event.getPlayer().hasPermission("essentialsmini.ignoreleave")) {
                         event.setQuitMessage(null);
                     } else {
-                        String joinMessage = plugin.getConfig().getString("LeaveMessage");
+                        String joinMessage = plugin.getLanguageConfig(event.getPlayer()).getString("LeaveMessage");
                         if (joinMessage == null) return;
                         if (joinMessage.contains("&"))
                             joinMessage = joinMessage.replace('&', '§');
@@ -288,7 +288,7 @@ public class PlayerListeners implements Listener {
                         event.setQuitMessage(joinMessage);
                     }
                 } else {
-                    String joinMessage = plugin.getConfig().getString("LeaveMessage");
+                    String joinMessage = plugin.getLanguageConfig(event.getPlayer()).getString("LeaveMessage");
                     if (joinMessage == null) return;
                     if (joinMessage.contains("&"))
                         joinMessage = joinMessage.replace('&', '§');
