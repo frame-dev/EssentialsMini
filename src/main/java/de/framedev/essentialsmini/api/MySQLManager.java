@@ -27,9 +27,13 @@ import java.util.List;
 public class MySQLManager {
 
     protected String tableName = "essentialsmini_eco";
+    private static boolean runOnce;
 
     public MySQLManager() {
-        Bukkit.getConsoleSender().sendMessage(Main.getInstance().getPrefix() + "§aMySQL for Vault Enabled!");
+        if(!runOnce) {
+            Bukkit.getConsoleSender().sendMessage(Main.getInstance().getPrefix() + "§aMySQL for Vault Enabled!");
+            runOnce = true;
+        }
     }
 
     protected boolean isOnlineMode() {

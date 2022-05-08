@@ -36,6 +36,7 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 
 public class Main extends JavaPlugin {
@@ -113,6 +114,7 @@ public class Main extends JavaPlugin {
         this.infoFile = new File(getDataFolder(), "info.yml");
         this.infoCfg = YamlConfiguration.loadConfiguration(infoFile);
 
+        // Create Messages Files
         createCustomMessagesConfig();
         Config.saveDefaultConfigValues("messages");
         Config.saveDefaultConfigValues("messages_de-DE");
@@ -158,6 +160,7 @@ public class Main extends JavaPlugin {
 
         this.configVersion = getConfig().getString("Config-Version");
 
+        // API Init
         new EssentialsMiniAPI();
         getLogger().info("API Loaded");
 
@@ -185,9 +188,9 @@ public class Main extends JavaPlugin {
         /* TPS Command Timer */
         this.spigotTimer = new LagCMD.SpigotTimer();
 
-
         this.keyGenerator = new KeyGenerator();
 
+        // Create kits.yml File
         new KitManager().createCustomConfig();
 
         /* JsonConfig */
@@ -221,6 +224,7 @@ public class Main extends JavaPlugin {
                 for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
                     getBackendManager().createUserMoney(player, "essentialsmini_data");
                 }
+                Bukkit.getConsoleSender().sendMessage(getPrefix() + "§aMongoDB Enabled!");
             }
         }
         /* MongoDB Finish */
@@ -402,14 +406,14 @@ public class Main extends JavaPlugin {
             e.printStackTrace();
         }
 
-        if (!configVersion.equalsIgnoreCase("1.0.2")) {
+        if (!configVersion.equalsIgnoreCase("1.0.1")) {
             configUpdater();
         }
     }
 
     public void configUpdater() {
         try {
-            FileUtils.moveFile(new File(getDataFolder(), "config.yml"), new File(getDataFolder(), "config_old.yml"));
+            FileUtils.moveFile(new File(getDataFolder(), "config.yml"), new File(getDataFolder(), "config_old.yml"), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -485,6 +489,13 @@ public class Main extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cDisabled! Bye");
     }
 
+    /**
+     * Return Language Config from Players selected Game Language
+     * Current Language English, German, France
+     *
+     * @param player selected Player to check the Language Player
+     * @return return the Messages File from the selected Language
+     */
     public FileConfiguration getLanguageConfig(CommandSender player) {
         if (player instanceof Player) {
             String playerLocale = ((Player) player).getLocale();
@@ -575,7 +586,7 @@ public class Main extends JavaPlugin {
         return infoCfg;
     }
 
-    public void matchConfig(FileConfiguration config, File file) {
+    protected void matchConfig(FileConfiguration config, File file) {
         try {
             InputStream is = getResource(file.getName());
             if (is != null) {
@@ -593,7 +604,7 @@ public class Main extends JavaPlugin {
         }
     }
 
-    public ArrayList<String> getJson() {
+    protected ArrayList<String> getJson() {
         File file = new File(getDataFolder(), "players.json");
         String[] players = null;
         try {
@@ -669,6 +680,11 @@ public class Main extends JavaPlugin {
         return players;
     }
 
+    /**
+     * Return the Thread where the Schedulers are running
+     *
+     * @return return the Thread
+     */
     public Thread getThread() {
         return thread;
     }
@@ -937,6 +953,10 @@ public class Main extends JavaPlugin {
         return getConfig().getString("Currency.Multi");
     }
 
+    /**
+     * Return the Config version
+     * @return return the Config Version
+     */
     public String getConfigVersion() {
         return configVersion;
     }

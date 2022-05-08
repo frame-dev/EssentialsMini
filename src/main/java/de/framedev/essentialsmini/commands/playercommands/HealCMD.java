@@ -39,10 +39,12 @@ public class HealCMD extends CommandBase {
                     player.setHealth(20);
                     player.setFireTicks(0);
                     player.setFoodLevel(20);
+
+                    // Heal messages from the selected Language Message File
                     String heal = plugin.getLanguageConfig(player).getString("Heal.Self");
-                    if(heal == null) return true;
-                    if(heal.contains("&"))
-                        heal = heal.replace('&','§');
+                    if (heal == null) return true;
+                    if (heal.contains("&"))
+                        heal = heal.replace('&', '§');
                     player.sendMessage(plugin.getPrefix() + heal);
                     return true;
                 } else {
@@ -63,16 +65,16 @@ public class HealCMD extends CommandBase {
                             player.setFoodLevel(20);
                             if (!Main.getSilent().contains(sender.getName())) {
                                 String heal = plugin.getLanguageConfig(player).getString("Heal.Self");
-                                if(heal == null) return true;
+                                if (heal == null) return true;
                                 if (heal.contains("&"))
                                     heal = heal.replace('&', '§');
                                 player.sendMessage(plugin.getPrefix() + heal);
                             }
                             String healOther = plugin.getLanguageConfig(player).getString("Heal.Other");
-                            if(healOther == null) return true;
-                            if(healOther.contains("&"))
+                            if (healOther == null) return true;
+                            if (healOther.contains("&"))
                                 healOther = healOther.replace('&', '§');
-                            if(healOther.contains("%Player%"))
+                            if (healOther.contains("%Player%"))
                                 healOther = healOther.replace("%Player%", player.getName());
                             sender.sendMessage(plugin.getPrefix() + healOther);
                         }
@@ -90,16 +92,16 @@ public class HealCMD extends CommandBase {
                         player.setFoodLevel(20);
                         if (!Main.getSilent().contains(sender.getName())) {
                             String heal = plugin.getLanguageConfig(player).getString("Heal.Self");
-                            if(heal == null) return true;
+                            if (heal == null) return true;
                             if (heal.contains("&"))
                                 heal = heal.replace('&', '§');
                             player.sendMessage(plugin.getPrefix() + heal);
                         }
                         String healOther = plugin.getLanguageConfig(player).getString("Heal.Other");
-                        if(healOther == null) return true;
-                        if(healOther.contains("&"))
+                        if (healOther == null) return true;
+                        if (healOther.contains("&"))
                             healOther = healOther.replace('&', '§');
-                        if(healOther.contains("%Player%"))
+                        if (healOther.contains("%Player%"))
                             healOther = healOther.replace("%Player%", player.getName());
                         sender.sendMessage(plugin.getPrefix() + healOther);
                     } else {
