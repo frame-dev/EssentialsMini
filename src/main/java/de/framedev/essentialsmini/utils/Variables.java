@@ -35,7 +35,7 @@ public class Variables {
     public static final String MONEYMESSAGE = "Money";
     public static final String WARPMESSAGE = "Warp";
     public static final String EXPERIENCE = "Experience";
-    public static final String ADMINBROADCAST = "AdminCommandBroadCast";
+    public static final String ADMIN_BROADCAST = "AdminCommandBroadCast";
     public static final String BANK = "Bank";
 
     private final ArrayList<OfflinePlayer> players = new ArrayList<>();

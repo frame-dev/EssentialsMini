@@ -41,6 +41,7 @@ import java.util.*;
 
 public class Main extends JavaPlugin {
 
+    private Utilities utilities;
     private static ArrayList<String> silent;
     private Thread thread;
 
@@ -109,6 +110,10 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         // Singleton initializing
         instance = this;
+
+        this.utilities = new Utilities();
+
+        utilities.setDev(true);
 
         // Info FileConfiguration
         this.infoFile = new File(getDataFolder(), "info.yml");
@@ -408,6 +413,10 @@ public class Main extends JavaPlugin {
 
         if (!configVersion.equalsIgnoreCase("1.0.1")) {
             configUpdater();
+        }
+
+        if(utilities.isDev()) {
+            Bukkit.getConsoleSender().sendMessage(getPrefix() + "§c§lYou running a Dev Build, Errors can be happening!");
         }
     }
 
