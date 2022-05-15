@@ -67,7 +67,7 @@ public class UpdateChecker {
         return false;
     }
 
-    public boolean isPreRelease() {
+    public boolean isOldVersionPreRelease() {
         try {
             URLConnection conn = new URL("https://framedev.ch/sites/downloads/essentialsminiversion.txt").openConnection();
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));

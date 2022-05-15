@@ -47,8 +47,8 @@ public class RegisterManager {
      * Register all TabCompleters
      */
     private void registerTabCompleters() {
-        for(Map.Entry<String, TabCompleter> completer : plugin.getTabCompleters().entrySet()) {
-            if(plugin.getCommand(completer.getKey()) == null) continue;
+        for (Map.Entry<String, TabCompleter> completer : plugin.getTabCompleters().entrySet()) {
+            if (plugin.getCommand(completer.getKey()) == null) continue;
             Objects.requireNonNull(plugin.getCommand(completer.getKey())).setTabCompleter(completer.getValue());
         }
     }

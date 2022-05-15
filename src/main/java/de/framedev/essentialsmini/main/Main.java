@@ -113,6 +113,7 @@ public class Main extends JavaPlugin {
 
         this.utilities = new Utilities();
 
+        // Set Dev Build
         utilities.setDev(true);
 
         // Info FileConfiguration
@@ -390,7 +391,7 @@ public class Main extends JavaPlugin {
 
         // Checking for Update and when enabled Download the Latest Version automatically
         checkUpdate(getConfig().getBoolean("AutoDownload"));
-        if (new UpdateChecker().isPreRelease()) {
+        if (new UpdateChecker().isOldVersionPreRelease()) {
             Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cYour Version is a Pre-Release. §6§lThere can be Errors!");
         }
 

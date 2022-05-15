@@ -195,7 +195,7 @@ public class VaultAPI extends AbstractEconomy {
             if (Main.getInstance().getBackendManager().exists(Bukkit.getOfflinePlayer(playerName), "money", "essentialsmini_data"))
                 Main.getInstance().getBackendManager().updateUser(Bukkit.getOfflinePlayer(playerName), "money", balance, "essentialsmini_data");
         } else {
-            new FileManager().setMoney(Bukkit.getOfflinePlayer(playerName), balance);
+            new FileManager().addMoney(Bukkit.getOfflinePlayer(playerName), amount);
         }
         return new EconomyResponse(amount, 0.0D, EconomyResponse.ResponseType.SUCCESS, "");
     }

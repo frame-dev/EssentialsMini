@@ -17,16 +17,16 @@ public class SaveLists {
     JsonHandler jsonHandler = new JsonHandler("SaveList");
 
     public void saveVanishList() {
-        if(!VanishCMD.hided.isEmpty()) {
+        if (!VanishCMD.hided.isEmpty()) {
             jsonHandler.set("Vanished", VanishCMD.hided);
             jsonHandler.saveConfig();
         }
     }
 
     public void setVanished() {
-        if(jsonHandler.contains("Vanished")) {
+        if (jsonHandler.contains("Vanished")) {
             VanishCMD.hided = jsonHandler.getStringList("Vanished");
-            jsonHandler.set("Vanished","");
+            jsonHandler.set("Vanished", "");
             jsonHandler.saveConfig();
         }
     }

@@ -40,12 +40,12 @@ public class BankAPI {
     }
 
     public boolean createBankAccount(String player, String bankName) {
-        return cfg.contains("banks." + player + "." + bankName);
+        return cfg.contains("Banks." + player + "." + bankName);
     }
 
     public double getBankBalance(String player, String bankName) {
         if (hasBankAccount(player))
-            return cfg.getDouble("banks." + player + "." + bankName + ".balance");
+            return cfg.getDouble("Banks." + player + "." + bankName + ".balance");
         return 0d;
     }
 
@@ -68,17 +68,17 @@ public class BankAPI {
     public boolean setBankBalance(String player, String bankName, double money) {
         if (!hasBankAccount(player))
             return false;
-        cfg.set("banks." + player + "." + bankName + ".balance", money);
+        cfg.set("Banks." + player + "." + bankName + ".balance", money);
         save();
         return true;
     }
 
     public boolean hasBankAccount(String player) {
-        return cfg.contains("banks." + player) && cfg.get("banks." + player) != null;
+        return cfg.contains("Banks." + player) && cfg.get("banks." + player) != null;
     }
 
     public String getBankName(String player) {
         if (!hasBankAccount(player)) return null;
-        return cfg.getString("banks." + player);
+        return cfg.getString("Banks." + player);
     }
 }
