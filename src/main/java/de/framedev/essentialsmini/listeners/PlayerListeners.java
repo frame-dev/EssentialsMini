@@ -142,7 +142,7 @@ public class PlayerListeners implements Listener {
 
             }
         }.runTaskLater(plugin, 20);
-        if (plugin.getConfig().getBoolean("PlayerEvents")) {
+        /*if (plugin.getConfig().getBoolean("PlayerEvents")) {
             if (isEnabled() && !onlyEssentialsFeatures) {
                 if (!isJsonFormat()) {
                     new PlayerManager(event.getPlayer().getUniqueId()).setLastLogin(System.currentTimeMillis());
@@ -197,7 +197,7 @@ public class PlayerListeners implements Listener {
 
                 plugin.removeOfflinePlayer(event.getPlayer());
             }
-        }
+        }*/
         if (plugin.getVaultManager() != null && plugin.getVaultManager().getEco() != null) {
             if (plugin.isMongoDB()) {
                 if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
@@ -218,7 +218,7 @@ public class PlayerListeners implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        if (plugin.getConfig().getBoolean("PlayerEvents")) {
+        /*if (plugin.getConfig().getBoolean("PlayerEvents")) {
             if (isEnabled() && !onlyEssentialsFeatures) {
                 plugin.addOfflinePlayer(event.getPlayer());
                 plugin.savePlayers();
@@ -272,7 +272,7 @@ public class PlayerListeners implements Listener {
                     }
                 }
             }
-        }
+        }*/
         if (!VanishCMD.hided.contains(event.getPlayer().getName())) {
             if (plugin.getConfig().getBoolean("LeaveBoolean")) {
                 if (plugin.getConfig().getBoolean("IgnoreJoinLeave")) {
@@ -300,7 +300,7 @@ public class PlayerListeners implements Listener {
         } else {
             event.setQuitMessage(null);
         }
-        if (plugin.getConfig().getBoolean("PlayerEvents")) {
+        /*if (plugin.getConfig().getBoolean("PlayerEvents")) {
             if (isEnabled() && !onlyEssentialsFeatures) {
                 if (Bukkit.getPluginManager().getPlugin("MDBConnection") != null) {
                     if (Main.cfgMongoDB.getBoolean("MongoDB.LocalHost") || Main.cfgMongoDB.getBoolean("MongoDB.Boolean")) {
@@ -310,12 +310,12 @@ public class PlayerListeners implements Listener {
                     }
                 }
             }
-        }
+        }*/
     }
 
     @EventHandler
     public void onPlayerCrafted(InventoryCloseEvent event) {
-        if (plugin.getConfig().getBoolean("PlayerEvents")) {
+        /*if (plugin.getConfig().getBoolean("PlayerEvents")) {
             if (event.getInventory().getType() == InventoryType.CRAFTING) {
                 if (isJsonFormat()) {
                     if (plugin.getCfgLossHashMap().containsKey((Player) event.getPlayer())) {
@@ -325,14 +325,14 @@ public class PlayerListeners implements Listener {
                     new PlayerManager(event.getPlayer().getUniqueId()).addCrafted();
                 }
             }
-        }
+        }*/
     }
 
     @EventHandler
     public void onPlayerKick(PlayerKickEvent event) {
         plugin.addOfflinePlayer(event.getPlayer());
         plugin.savePlayers();
-        if (isEnabled() && !onlyEssentialsFeatures) {
+        /*if (isEnabled() && !onlyEssentialsFeatures) {
             if (!isJsonFormat()) {
                 new PlayerManager(event.getPlayer().getUniqueId()).setLastLogout(System.currentTimeMillis());
                 if (plugin.isMysql() || plugin.isSQL()) {
@@ -388,12 +388,12 @@ public class PlayerListeners implements Listener {
                     plugin.getBackendManager().updateUser(event.getPlayer(), "offline", true, collection);
                 }
             }
-        }
+        }*/
     }
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent event) {
-        if (plugin.getConfig().getBoolean("PlayerEvents")) {
+        /*if (plugin.getConfig().getBoolean("PlayerEvents")) {
             if (event.getDamager() instanceof Player) {
                 if (isEnabled() && !onlyEssentialsFeatures) {
                     Player damager = (Player) event.getDamager();
@@ -413,7 +413,7 @@ public class PlayerListeners implements Listener {
                     }
                 }
             }
-        }
+        }*/
     }
 
     @EventHandler
@@ -424,7 +424,7 @@ public class PlayerListeners implements Listener {
             }
             Bukkit.getPluginManager().callEvent(new PlayerKillEntityEvent(event.getEntity().getKiller(), event.getEntity(), event.getDrops(), event.getDroppedExp()));
         }
-        if (plugin.getConfig().getBoolean("PlayerEvents")) {
+        /*if (plugin.getConfig().getBoolean("PlayerEvents")) {
             LivingEntity livingEntity = event.getEntity();
             if (isEnabled() && !onlyEssentialsFeatures) {
                 if (livingEntity.getKiller() != null) {
@@ -459,7 +459,7 @@ public class PlayerListeners implements Listener {
                     }
                 }
             }
-        }
+        }*/
     }
 
     /**
@@ -479,7 +479,7 @@ public class PlayerListeners implements Listener {
         if (KillCMD.suicid) {
             event.setDeathMessage(null);
             KillCMD.suicid = false;
-        } else {
+        }/* else {
             if (event.getEntity().getKiller() != null) {
                 if (event.getEntity().getKiller() != null) {
                     if (isEnabled() && !onlyEssentialsFeatures) {
@@ -500,7 +500,7 @@ public class PlayerListeners implements Listener {
                     }
                 }
             }
-        }
+        }*/
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -512,7 +512,7 @@ public class PlayerListeners implements Listener {
 
     @EventHandler
     public void onPlayerDeathByEntity(EntityDeathEvent event) {
-        if (plugin.getConfig().getBoolean("PlayerEvents")) {
+        /*if (plugin.getConfig().getBoolean("PlayerEvents")) {
             if (event.getEntity() instanceof Player) {
                 Player player = (Player) event.getEntity();
                 if (isEnabled() && !onlyEssentialsFeatures) {
@@ -532,12 +532,12 @@ public class PlayerListeners implements Listener {
                     }
                 }
             }
-        }
+        }*/
     }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        if (plugin.getConfig().getBoolean("PlayerEvents")) {
+        /*if (plugin.getConfig().getBoolean("PlayerEvents")) {
             if (isEnabled() && !onlyEssentialsFeatures) {
                 if (isJsonFormat()) {
                     if (plugin.getCfgLossHashMap().containsKey(event.getPlayer())) {
@@ -561,12 +561,12 @@ public class PlayerListeners implements Listener {
                     }
                 }
             }
-        }
+        }*/
     }
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-        if (plugin.getConfig().getBoolean("PlayerEvents")) {
+        /*if (plugin.getConfig().getBoolean("PlayerEvents")) {
             if (isEnabled() && !onlyEssentialsFeatures) {
                 if (isJsonFormat()) {
                     if (plugin.getCfgLossHashMap().containsKey(event.getPlayer())) {
@@ -590,12 +590,12 @@ public class PlayerListeners implements Listener {
                     }
                 }
             }
-        }
+        }*/
     }
 
     @EventHandler
     public void onCommandUsed(PlayerCommandPreprocessEvent event) {
-        if (plugin.getConfig().getBoolean("PlayerEvents")) {
+        /*if (plugin.getConfig().getBoolean("PlayerEvents")) {
             if (isEnabled() && !onlyEssentialsFeatures) {
                 if (isJsonFormat()) {
                     if (plugin.getCfgLossHashMap().containsKey(event.getPlayer())) {
@@ -612,6 +612,6 @@ public class PlayerListeners implements Listener {
                     }
                 }
             }
-        }
+        }*/
     }
 }
