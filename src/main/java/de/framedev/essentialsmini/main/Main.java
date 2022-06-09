@@ -9,6 +9,7 @@ import de.framedev.essentialsmini.commands.playercommands.SaveInventoryCMD;
 import de.framedev.essentialsmini.commands.playercommands.VanishCMD;
 import de.framedev.essentialsmini.commands.servercommands.LagCMD;
 import de.framedev.essentialsmini.database.MongoManager;
+import de.framedev.essentialsmini.database.MySQL;
 import de.framedev.essentialsmini.database.SQL;
 import de.framedev.essentialsmini.database.SQLite;
 import de.framedev.essentialsmini.managers.*;
@@ -315,6 +316,9 @@ public class Main extends JavaPlugin {
         if(sql) {
             new SQLite(getConfig().getString("SQLite.Path"), getConfig().getString("SQLite.FileName"));
         }
+
+        if(mysql)
+            new MySQL();
 
         if (getConfig().getBoolean("Economy.Activate")) {
             if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
