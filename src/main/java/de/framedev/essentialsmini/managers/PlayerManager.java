@@ -1,8 +1,8 @@
 package de.framedev.essentialsmini.managers;
 
 import com.google.gson.Gson;
+import de.framedev.essentialsmini.database.SQL;
 import de.framedev.essentialsmini.main.Main;
-import de.framedev.mysqlapi.api.SQL;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;

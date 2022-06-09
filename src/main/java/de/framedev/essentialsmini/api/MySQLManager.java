@@ -2,15 +2,14 @@ package de.framedev.essentialsmini.api;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import de.framedev.essentialsmini.database.MySQL;
+import de.framedev.essentialsmini.database.SQL;
+import de.framedev.essentialsmini.database.SQLite;
 import de.framedev.essentialsmini.main.Main;
-import de.framedev.mysqlapi.api.MySQL;
-import de.framedev.mysqlapi.api.SQLite;
-import de.framedev.mysqlapi.api.SQL;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.lang.reflect.Type;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;

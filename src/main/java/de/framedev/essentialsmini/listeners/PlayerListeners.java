@@ -9,7 +9,6 @@ package de.framedev.essentialsmini.listeners;
  * This Class was created at 18.08.2020 22:47
  */
 
-import com.google.gson.GsonBuilder;
 import de.framedev.essentialsmini.api.events.PlayerInventoryClearEvent;
 import de.framedev.essentialsmini.api.events.PlayerKillEntityEvent;
 import de.framedev.essentialsmini.api.events.PlayerKillPlayerEvent;
@@ -18,12 +17,7 @@ import de.framedev.essentialsmini.commands.playercommands.SpawnCMD;
 import de.framedev.essentialsmini.commands.playercommands.VanishCMD;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.LocationsManager;
-import de.framedev.essentialsmini.managers.PlayerManager;
-import de.framedev.essentialsmini.managers.PlayerManagerCfgLoss;
-import de.framedev.essentialsmini.managers.PlayerManagerMongoDB;
-import de.framedev.mysqlapi.api.SQL;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -35,12 +29,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 import static de.framedev.essentialsmini.managers.BackendManager.DATA;
 import static org.bukkit.Bukkit.getServer;

@@ -81,7 +81,7 @@ Money:
     Set: '&aYour money has been set to &b[Money]!'
   MoneyBalance:
     Other:
-      MSG: "&b[Target]&a's balance is &b[Target]"
+      MSG: "&b[Target]&a's balance is &b[Money]"
   MoneySet:
     Other:
       MSG: "&b[Target]&a's balance has been set to &b[Money]&a!"

@@ -1,9 +1,8 @@
 package de.framedev.essentialsmini.utils;
 
+import de.framedev.essentialsmini.database.MongoManager;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.BackendManager;
-import de.framedev.mongodbconnections.main.MongoManager;
-import org.bukkit.Bukkit;
 
 import java.util.logging.Level;
 
@@ -20,30 +19,30 @@ public class MongoDBUtils {
 
     private boolean mongoDb = false;
     private MongoManager mongoManager;
-    private de.framedev.essentialsmini.managers.BackendManager backendManager;
+    private BackendManager backendManager;
 
     public MongoDBUtils() {
+
+        Main plugin = Main.getInstance();
         /* MongoDB */
-        if (Bukkit.getPluginManager().getPlugin("MDBConnection") != null) {
-            if (Main.cfgMongoDB.getBoolean("MongoDB.LocalHost") || Main.cfgMongoDB.getBoolean("MongoDB.Boolean")) {
-                this.mongoDb = true;
-            }
+        if (plugin.getConfig().getBoolean("MongoDB.Boolean") || plugin.getConfig().getBoolean("MongoDB.LocalHost")) {
+            this.mongoDb = true;
         }
-        if (Bukkit.getPluginManager().getPlugin("MDBConnection") != null) {
-            if (Main.cfgMongoDB.getBoolean("MongoDB.LocalHost")) {
+        if (plugin.getConfig().getBoolean("MongoDB.Boolean") || plugin.getConfig().getBoolean("MongoDB.LocalHost")) {
+            if (plugin.getConfig().getBoolean("MongoDB.LocalHost")) {
                 this.mongoManager = new MongoManager();
                 this.mongoManager.connectLocalHost();
                 Main.getInstance().getLogger().log(Level.INFO, "MongoDB Enabled");
             }
-            if (Main.cfgMongoDB.getBoolean("MongoDB.Boolean")) {
+            if (plugin.getConfig().getBoolean("MongoDB.Boolean")) {
                 this.mongoManager = new MongoManager();
                 this.mongoManager.connect();
                 Main.getInstance().getLogger().log(Level.INFO, "MongoDB Enabled");
             }
-            if (Main.cfgMongoDB.getBoolean("MongoDB.LocalHost")) {
+            if (plugin.getConfig().getBoolean("MongoDB.LocalHost")) {
                 this.backendManager = new BackendManager(Main.getInstance());
             }
-            if (Main.cfgMongoDB.getBoolean("MongoDB.Boolean")) {
+            if (plugin.getConfig().getBoolean("MongoDB.Boolean")) {
                 this.backendManager = new BackendManager(Main.getInstance());
             }
         }

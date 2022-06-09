@@ -62,7 +62,7 @@ public class EssentialsMiniAPI {
 
     public boolean hasPlayerKey(OfflinePlayer player) {
         if (plugin.isMongoDB()) {
-            if (Main.cfgMongoDB.getBoolean("MongoDB.LocalHost") || Main.cfgMongoDB.getBoolean("MongoDB.Boolean")) {
+            if (plugin.getConfig().getBoolean("MongoDB.Boolean") || plugin.getConfig().getBoolean("MongoDB.LocalHost")) {
                 return plugin.getBackendManager().exists(player, "key", "essentialsmini_data");
             }
         }

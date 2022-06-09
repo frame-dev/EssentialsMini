@@ -8,11 +8,11 @@ import de.framedev.essentialsmini.commands.playercommands.EnchantCMD;
 import de.framedev.essentialsmini.commands.playercommands.SaveInventoryCMD;
 import de.framedev.essentialsmini.commands.playercommands.VanishCMD;
 import de.framedev.essentialsmini.commands.servercommands.LagCMD;
+import de.framedev.essentialsmini.database.MongoManager;
+import de.framedev.essentialsmini.database.SQL;
+import de.framedev.essentialsmini.database.SQLite;
 import de.framedev.essentialsmini.managers.*;
-import de.framedev.essentialsmini.managers.VaultManager;
 import de.framedev.essentialsmini.utils.*;
-import de.framedev.mongodbconnections.main.MongoManager;
-import de.framedev.mysqlapi.api.SQL;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -21,7 +21,9 @@ import net.md_5.bungee.api.chat.hover.content.Text;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.*;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -41,6 +43,8 @@ import java.util.*;
 
 public class Main extends JavaPlugin {
 
+    private MongoManager mongoManager;
+    private BackendManager backendManager;
     private Utilities utilities;
     private static ArrayList<String> silent;
     private Thread thread;
@@ -82,10 +86,6 @@ public class Main extends JavaPlugin {
 
     // RegisterManager
     private RegisterManager registerManager;
-
-    /* FileM CfgM MongoDBConnection Plugin */
-    public static File fileMongoDB = new File("plugins/MDBConnection/config.yml");
-    public static FileConfiguration cfgMongoDB = YamlConfiguration.loadConfiguration(fileMongoDB);
 
     private Map<String, Object> limitedHomes;
 
@@ -309,8 +309,12 @@ public class Main extends JavaPlugin {
         kit.saveKit("Stone");*/
         //EssentialsMiniAPI.getInstance().printAllHomesFromPlayers();
 
-        this.mysql = getConfig().getBoolean("MySQL");
-        this.sql = getConfig().getBoolean("SQLite");
+        this.mysql = getConfig().getBoolean("MySQL.Use");
+        this.sql = getConfig().getBoolean("SQLite.Use");
+
+        if(sql) {
+            new SQLite(getConfig().getString("SQLite.Path"), getConfig().getString("SQLite.FileName"));
+        }
 
         if (getConfig().getBoolean("Economy.Activate")) {
             if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
@@ -835,7 +839,7 @@ public class Main extends JavaPlugin {
             br.close();
         } catch (IOException e) {
             e.printStackTrace();
-            Bukkit.getConsoleSender().sendMessage(getPrefix() + "Failed to check for updates on framedev.ch");
+            //Bukkit.getConsoleSender().sendMessage(getPrefix() + "Failed to check for updates on framedev.ch");
             Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cPlease write an Email to framedev@framedev.stream with the Error");
         }
         return false;

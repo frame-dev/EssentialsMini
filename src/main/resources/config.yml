@@ -59,8 +59,29 @@ MoneySign:
   Sell: '&a[§6Sell§a]'
   Free: '&a[§6Free§a]'
 
-MySQL: false
-SQLite: false
+#MySQL Connection!
+MySQL:
+  Host: ' '
+  User: ' '
+  Password: ' '
+  Database: ' '
+  Port: 3306
+  Use: false
+
+#Default Path plugins/EssentialsMini
+SQLite:
+  Path: 'plugins/EssentialsMini'
+  FileName: 'database'
+  Use: false
+
+MongoDB:
+  Host: ' '
+  Port: 27017
+  Database: ' '
+  User: ' '
+  Password: ' '
+  Boolean: false
+  LocalHost: false
 
 PlayerInfoSave: false
 OnlineMode: true

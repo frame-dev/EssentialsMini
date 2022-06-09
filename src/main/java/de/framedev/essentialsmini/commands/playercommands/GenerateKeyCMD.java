@@ -32,7 +32,7 @@ public class GenerateKeyCMD implements CommandExecutor, TabCompleter {
                     OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
                     String key = new KeyGenerator().generateKeyAndSave(player);
                     if (Bukkit.getPluginManager().getPlugin("MDBConnection") != null) {
-                        if (Main.cfgMongoDB.getBoolean("MongoDB.LocalHost") || Main.cfgMongoDB.getBoolean("MongoDB.Boolean")) {
+                        if (plugin.getConfig().getBoolean("MongoDB.Boolean") || plugin.getConfig().getBoolean("MongoDB.LocalHost")) {
                             plugin.getBackendManager().updateUser(player, "key", key, collection);
                             sender.sendMessage(plugin.getPrefix() + "§6" + player.getName() + " §ahat nun einen Key!");
                         }
@@ -47,7 +47,7 @@ public class GenerateKeyCMD implements CommandExecutor, TabCompleter {
                 if(sender.hasPermission(plugin.getPermissionName() + "key")) {
                     OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
                     if (Bukkit.getPluginManager().getPlugin("MDBConnection") != null) {
-                        if (Main.cfgMongoDB.getBoolean("MongoDB.LocalHost") || Main.cfgMongoDB.getBoolean("MongoDB.Boolean")) {
+                        if (plugin.getConfig().getBoolean("MongoDB.Boolean") || plugin.getConfig().getBoolean("MongoDB.LocalHost")) {
                             if (plugin.getBackendManager().exists(player, "key", collection)) {
                                 new KeyGenerator().removeBetaKey(player);
                                 plugin.getBackendManager().updateUser(player, "key", null, collection);
@@ -66,7 +66,7 @@ public class GenerateKeyCMD implements CommandExecutor, TabCompleter {
                 if (sender.hasPermission(plugin.getPermissionName() + "key")) {
                     OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
                     if (Bukkit.getPluginManager().getPlugin("MDBConnection") != null) {
-                        if (Main.cfgMongoDB.getBoolean("MongoDB.LocalHost") || Main.cfgMongoDB.getBoolean("MongoDB.Boolean")) {
+                        if (plugin.getConfig().getBoolean("MongoDB.Boolean") || plugin.getConfig().getBoolean("MongoDB.LocalHost")) {
                             if (plugin.getBackendManager().exists(player, "key", collection)) {
                                 sender.sendMessage(plugin.getPrefix() + "§6" + player.getName() + " §ahat einen Key!");
                             } else {

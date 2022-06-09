@@ -81,7 +81,7 @@ Money:
     Set: '&aDein Geld wurde auf &b[Money] &agesetzt!'
   MoneyBalance:
     Other:
-      MSG: '&aDas Geld von &b[Target] &abetr�gt &b[Money]'
+      MSG: '&aDas Geld von &b[Target] &abeträgt &b[Money]'
   MoneySet:
     Other:
       MSG: '&aDas Geld von &b[Target] &awurde auf &b[Money] &agesetzt!'
