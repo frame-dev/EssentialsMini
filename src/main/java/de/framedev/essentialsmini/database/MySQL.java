@@ -78,7 +78,7 @@ public class MySQL {
                 con.createStatement().executeUpdate("SET GLOBAL max_connections=1200;");
                 return con;
             } catch (SQLException ex) {
-
+                ex.printStackTrace();
             }
         } else {
             close();
@@ -88,7 +88,7 @@ public class MySQL {
                 con.createStatement().executeUpdate("SET GLOBAL max_connections=1200;");
                 return con;
             } catch (SQLException ex) {
-
+                ex.printStackTrace();
             }
         }
         return con;

@@ -3,6 +3,7 @@ de.framedev.essentialsmini.api.events
 de.framedev.essentialsmini.commands.playercommands
 de.framedev.essentialsmini.commands.servercommands
 de.framedev.essentialsmini.commands.worldcommands
+de.framedev.essentialsmini.database
 de.framedev.essentialsmini.listeners
 de.framedev.essentialsmini.main
 de.framedev.essentialsmini.managers

@@ -42,6 +42,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
 
+/**
+ * License is <a href="file:../../../../../../LICENSE.md">LICENSE</a>
+ * @author FrameDev
+ */
 public class Main extends JavaPlugin {
 
     private MongoManager mongoManager;

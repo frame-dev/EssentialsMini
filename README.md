@@ -2,10 +2,18 @@
 #### [Website and Download](https://framedev.ch/sites/downloads/essentialsmini)
 ___
 # Index
+- [Build in features](#build-in-features)
 - [Build by your own](#build-by-your-own)
 - [Future Features](#future-features)
 - [Changes](#changes)
 - [Download Pre-Release](#pre-releases)
+
+#### Build in features
+
+MySQL <br>
+SQLite <br>
+MongoDB <br>
+All Data for the connection is in the config.yml
 
 ### Build by your own:
 Require Maven / Java
@@ -24,6 +32,7 @@ then in the Directory target should be a file called EssentialsMini-(version).ja
 - [x] More TabCompleter
 - [x] **NullPointerFixes** [in Progress]
 - [x] PlayerData Features
+- [x] MySQL / SQLite / MongoDB
 
 <br><br><br><br>
 
@@ -32,10 +41,11 @@ then in the Directory target should be a file called EssentialsMini-(version).ja
 - [1.2.6.1](https://github.com/frame-dev/EssentialsMini/commit/9cfc6a71501a28fb9f4620fab8090d0d0b05e073) TempBan Bug Fixes / PermaBan Bug Fixes / MuteCMD Bug Fixes
 - [1.2.6.2](https://github.com/frame-dev/EssentialsMini/commit/eccef677ab34dbaf1affe5ef106462518788c54d) 1.17 Pre-Release
 - [1.2.7.4](https://github.com/frame-dev/EssentialsMini/commit/3da5492f858ffc1dad68aa22efb6bfc2c90934d9) Bug Fixes / Commands Bug Fixes
+- [1.3.6]() Not set
 <br><br><br>
   
 ### Pre-Releases
 
 `No Releases Yet`
 <br><br><br><br><br>
-<div style="text-align:center"><img src="https://framedev.ch/logo.jpg" /></div>
+<div style="text-align:center" alt="not found"><img src="https://framedev.ch/logo.jpg" /></div>
