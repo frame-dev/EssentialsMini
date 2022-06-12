@@ -4,9 +4,7 @@ import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.CommandBase;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.*;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
@@ -74,7 +72,7 @@ public class KillCMD extends CommandBase {
                     }
                 }
             } else {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
             }
         }
         if (command.getName().equalsIgnoreCase("suicid")) {
@@ -89,7 +87,7 @@ public class KillCMD extends CommandBase {
                         sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
                     }
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             } else if(args.length == 1) {
                 if(sender.hasPermission(plugin.getPermissionName() + "suicid.others")) {
@@ -104,7 +102,7 @@ public class KillCMD extends CommandBase {
                     player.getWorld().getPlayers().forEach(players -> players.sendMessage("§6" + player.getName() + " §ahat Suicid begangen!"));
                     sender.sendMessage(plugin.getPrefix() + "§6" + player.getName() + " §ahat Suicid begangen!");
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             }
         }

@@ -49,13 +49,13 @@ public class BankCMD extends CommandBase {
                     sender.sendMessage(plugin.getPrefix() + "§a" + stringBuilder.toString());
                     sender.sendMessage(plugin.getPrefix() + "§6<<<===>>>");
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             }
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("info")) {
                 if (!sender.hasPermission(plugin.getPermissionName() + "bank.info")) {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     return true;
                 }
                 String name = args[1];
@@ -94,7 +94,7 @@ public class BankCMD extends CommandBase {
                             player.sendMessage(plugin.getPrefix() + error);
                         }
                     } else {
-                        player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                        player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     }
                 }
             }
@@ -120,7 +120,7 @@ public class BankCMD extends CommandBase {
                             player.sendMessage(plugin.getPrefix() + bankNotFound);
                         }
                     } else {
-                        player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                        player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     }
                 }
             }
@@ -153,7 +153,7 @@ public class BankCMD extends CommandBase {
                             player.sendMessage(plugin.getPrefix() + bankNotFound);
                         }
                     } else {
-                        player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                        player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     }
                 }
             }
@@ -178,7 +178,7 @@ public class BankCMD extends CommandBase {
                             }
                         }
                     } else {
-                        player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                        player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     }
                 }
             }
@@ -213,7 +213,7 @@ public class BankCMD extends CommandBase {
                             player.sendMessage(plugin.getPrefix() + bankNotFound);
                         }
                     } else {
-                        player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                        player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     }
                 }
             } else if (args[0].equalsIgnoreCase("withdraw")) {
@@ -245,7 +245,7 @@ public class BankCMD extends CommandBase {
                             player.sendMessage(plugin.getPrefix() + bankNotFound);
                         }
                     } else {
-                        player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                        player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     }
                 }
             } else if (args[0].equalsIgnoreCase("addmember")) {
@@ -271,7 +271,7 @@ public class BankCMD extends CommandBase {
                             player.sendMessage(plugin.getPrefix() + bankNotFound);
                         }
                     } else {
-                        player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                        player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     }
                 }
             } else if (args[0].equalsIgnoreCase("removemember")) {
@@ -297,7 +297,7 @@ public class BankCMD extends CommandBase {
                             player.sendMessage(plugin.getPrefix() + bankNotFound);
                         }
                     } else {
-                        player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                        player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     }
                 }
             }

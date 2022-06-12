@@ -35,7 +35,7 @@ public class SpawnCMD implements CommandExecutor {
                     sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
                 }
             } else {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
             }
         }
         if (command.getName().equalsIgnoreCase("spawn")) {
@@ -51,7 +51,7 @@ public class SpawnCMD implements CommandExecutor {
                     sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
                 }
             } else {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
             }
         }
         return false;

@@ -35,7 +35,7 @@ public class FlySpeedCMD extends CommandBase {
             }
             Player player = (Player) sender;
             if (!player.hasPermission(plugin.getPermissionName() + "flyspeed")) {
-                player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 return true;
             }
             float flyspeed = Float.parseFloat(args[0]) / 10F;
@@ -47,7 +47,7 @@ public class FlySpeedCMD extends CommandBase {
             return true;
         } else if (args.length == 2) {
             if (!sender.hasPermission(plugin.getPermissionName() + "flyspeed.others")) {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 return true;
             }
             float flyspeed = Float.parseFloat(args[0]) / 10F;

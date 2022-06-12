@@ -130,7 +130,7 @@ public class KitCMD extends CommandBase {
                             p.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("§6/kits <kitname>"));
                         }
                     } else {
-                        p.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                        p.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     }
                 } else {
                     p.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("§6/kits <kitname>"));
@@ -157,7 +157,7 @@ public class KitCMD extends CommandBase {
                         p.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("§6/createkit <KitName>"));
                     }
                 } else {
-                    p.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    p.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             }
         } else {

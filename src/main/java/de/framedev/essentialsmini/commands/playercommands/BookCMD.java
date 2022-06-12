@@ -34,7 +34,7 @@ public class BookCMD extends CommandBase {
         }
         Player player = (Player) sender;
         if (!player.hasPermission("essentialsmini.book")) {
-            player.sendMessage(getPlugin().getPrefix() + getPlugin().getNOPERMS());
+            player.sendMessage(getPlugin().getPrefix() + getPlugin().getNoPerms());
             return true;
         }
 

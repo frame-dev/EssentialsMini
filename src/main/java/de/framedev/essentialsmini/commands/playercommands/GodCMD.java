@@ -37,7 +37,7 @@ public class GodCMD implements CommandExecutor {
             }
             Player player = (Player) sender;
             if (!player.hasPermission(new Permission(plugin.getPermissionName() + "god", PermissionDefault.OP))) {
-                player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 return true;
             }
             if (player.isInvulnerable()) {
@@ -58,7 +58,7 @@ public class GodCMD implements CommandExecutor {
             Player player = Bukkit.getPlayer(args[0]);
             if (player != null) {
                 if (!sender.hasPermission(new Permission(plugin.getPermissionName() + "god.others", PermissionDefault.OP))) {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     return true;
                 }
                 if (player.isInvulnerable()) {

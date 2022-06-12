@@ -32,7 +32,7 @@ public class GlobalMuteCMD extends CommandBase {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("globalmute")) {
             if (!sender.hasPermission("essentialsmini.globalmute")) {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 return true;
             }
 

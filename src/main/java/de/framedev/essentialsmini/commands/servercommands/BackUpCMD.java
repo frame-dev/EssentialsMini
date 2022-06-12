@@ -43,7 +43,7 @@ public class BackUpCMD extends CommandBase {
                 }
                 sender.sendMessage(plugin.getPrefix() + "Backup Created!");
             } else {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
             }
         }
         return super.onCommand(sender, command, label, args);

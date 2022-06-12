@@ -52,7 +52,7 @@ public class MoneySignListeners extends ListenerBase implements CommandExecutor 
                 signName = signName.replace('&', '§');
                 e.setLine(0, signName);
             } else {
-                e.getPlayer().sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNOPERMS());
+                e.getPlayer().sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNoPerms());
             }
         }
     }
@@ -121,7 +121,7 @@ public class MoneySignListeners extends ListenerBase implements CommandExecutor 
                         text = text.replace('&', '§');
                         e.getPlayer().sendMessage(text + Main.getInstance().getCurrencySymbolMulti());
                     } else {
-                        e.getPlayer().sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNOPERMS());
+                        e.getPlayer().sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNoPerms());
                     }
                 }
                 String signNameFree = Main.getInstance().getConfig().getString("MoneySign.Free");
@@ -135,7 +135,7 @@ public class MoneySignListeners extends ListenerBase implements CommandExecutor 
                             e.getPlayer().getInventory().addItem(new ItemStack(name, amount));
                         }
                     } else {
-                        e.getPlayer().sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNOPERMS());
+                        e.getPlayer().sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNoPerms());
                     }
                 }
                 String signNameBuy = Main.getInstance().getConfig().getString("MoneySign.Buy");
@@ -160,7 +160,7 @@ public class MoneySignListeners extends ListenerBase implements CommandExecutor 
                             e.getPlayer().sendMessage(Main.getInstance().getPrefix() + "§aDu hast §6" + item.getAmount() + "x " + name.name() + " §afür §6" + money + Main.getInstance().getCurrencySymbolMulti() + " §agekauft.");
                         }
                     } else {
-                        e.getPlayer().sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNOPERMS());
+                        e.getPlayer().sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNoPerms());
                     }
                 }
                 String signNameSell = Main.getInstance().getConfig().getString("MoneySign.Sell");
@@ -185,7 +185,7 @@ public class MoneySignListeners extends ListenerBase implements CommandExecutor 
                             e.getPlayer().sendMessage(Main.getInstance().getPrefix() + "§cDu hast nicht genug §6" + name.name());
                         }
                     } else {
-                        e.getPlayer().sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNOPERMS());
+                        e.getPlayer().sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNoPerms());
                     }
                 } else if (s.getLine(0).equalsIgnoreCase("§6Buy")) {
                     if (e.getPlayer().hasPermission("essentialsmini.signs.use")) {
@@ -205,7 +205,7 @@ public class MoneySignListeners extends ListenerBase implements CommandExecutor 
                             }
                         }
                     } else {
-                        e.getPlayer().sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNOPERMS());
+                        e.getPlayer().sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNoPerms());
                     }
                 }
             }
@@ -231,7 +231,7 @@ public class MoneySignListeners extends ListenerBase implements CommandExecutor 
                     e.setLine(3, money + "" + Main.getInstance().getCurrencySymbolMulti());
                 }
             } else {
-                e.getPlayer().sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNOPERMS());
+                e.getPlayer().sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNoPerms());
             }
         }
     }
@@ -252,7 +252,7 @@ public class MoneySignListeners extends ListenerBase implements CommandExecutor 
                     e.setLine(2, amount + "");
                 }
             } else {
-                e.getPlayer().sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNOPERMS());
+                e.getPlayer().sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNoPerms());
             }
         }
     }
@@ -276,7 +276,7 @@ public class MoneySignListeners extends ListenerBase implements CommandExecutor 
                     e.setLine(3, money + "" + Main.getInstance().getCurrencySymbolMulti());
                 }
             } else {
-                e.getPlayer().sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNOPERMS());
+                e.getPlayer().sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNoPerms());
             }
         }
     }
@@ -392,7 +392,7 @@ public class MoneySignListeners extends ListenerBase implements CommandExecutor 
                     }
                 }
             } else {
-                sender.sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNOPERMS());
+                sender.sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNoPerms());
             }
         }
         return false;

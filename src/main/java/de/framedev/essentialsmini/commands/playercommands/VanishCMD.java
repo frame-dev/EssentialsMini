@@ -126,7 +126,7 @@ public class VanishCMD extends CommandListenerBase {
                     sender.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("/vanish §coder §6/vanish <PlayerName>"));
                 }
             } else {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
             }
         }
         return false;

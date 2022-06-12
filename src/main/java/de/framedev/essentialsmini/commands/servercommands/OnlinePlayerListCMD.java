@@ -43,7 +43,7 @@ public class OnlinePlayerListCMD implements CommandExecutor {
                 sender.sendMessage(Arrays.toString(players.toArray()));
                 players.clear();
             } else {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
             }
         }
         if (command.getName().equalsIgnoreCase("offline")) {
@@ -56,7 +56,7 @@ public class OnlinePlayerListCMD implements CommandExecutor {
                 sender.sendMessage(Arrays.toString(players.toArray()));
                 players.clear();
             } else {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
             }
         }
         return false;

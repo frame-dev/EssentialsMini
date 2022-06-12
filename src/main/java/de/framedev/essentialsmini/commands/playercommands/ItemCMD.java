@@ -55,7 +55,7 @@ public class ItemCMD extends CommandBase {
                             player.sendMessage(plugin.getPrefix() + "§cDieses Item existiert nicht! §6" + name);
                         }
                     } else {
-                        player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                        player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     }
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -81,7 +81,7 @@ public class ItemCMD extends CommandBase {
                                     player.sendMessage(plugin.getPrefix() + "§cDieses Item existiert nicht! §6" + name);
                                 }
                             } else {
-                                player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                                player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                             }
                         } else {
                             sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -107,7 +107,7 @@ public class ItemCMD extends CommandBase {
                             sender.sendMessage(plugin.getPrefix() + "§cDieses Item existiert nicht! §6" + name);
                         }
                     } else {
-                        sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                        sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     }
                 }
             } else if (args.length == 3) {
@@ -131,7 +131,7 @@ public class ItemCMD extends CommandBase {
                         sender.sendMessage(plugin.getPrefix() + "§cDieses Item existiert nicht! §6" + name);
                     }
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("/item <Item>"));

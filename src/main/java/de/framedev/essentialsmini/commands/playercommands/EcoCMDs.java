@@ -105,7 +105,7 @@ public class EcoCMDs extends CommandBase {
                         sender.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("§6/pay <Amount> <PlayerName>"));
                     }
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -124,7 +124,7 @@ public class EcoCMDs extends CommandBase {
                         sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
                     }
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
                 return true;
             } else if (args.length == 1) {
@@ -138,7 +138,7 @@ public class EcoCMDs extends CommandBase {
                     balance = new TextUtils().replaceObject(balance, "[Money]", plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().getBalance(player)) + plugin.getCurrencySymbol());
                     sender.sendMessage(plugin.getPrefix() + balance);
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
                 return true;
             } else {
@@ -166,7 +166,7 @@ public class EcoCMDs extends CommandBase {
                                     sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
                                 }
                             } else {
-                                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                             }
                         } else {
                             sender.sendMessage(plugin.getPrefix() + "§6" + args[0] + " §cisn't a Number!");
@@ -198,7 +198,7 @@ public class EcoCMDs extends CommandBase {
                                 sender.sendMessage(plugin.getPrefix() + "§6" + args[0] + " §cisn't a Number!");
                             }
                         } else {
-                            sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                            sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                         }
                     }
                 }
@@ -220,7 +220,7 @@ public class EcoCMDs extends CommandBase {
                                     sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
                                 }
                             } else {
-                                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                             }
                         } else {
                             sender.sendMessage(plugin.getPrefix() + "§6" + args[0] + " §cisn't a Number!");
@@ -252,7 +252,7 @@ public class EcoCMDs extends CommandBase {
                                 sender.sendMessage(plugin.getPrefix() + "§6" + args[0] + " §cisn't a Number!");
                             }
                         } else {
-                            sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                            sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                         }
                     }
                 }
@@ -275,7 +275,7 @@ public class EcoCMDs extends CommandBase {
                                     sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
                                 }
                             } else {
-                                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                             }
                         } else {
                             sender.sendMessage(plugin.getPrefix() + "§6" + args[0] + " §cisn't a Number!");
@@ -308,7 +308,7 @@ public class EcoCMDs extends CommandBase {
                                 sender.sendMessage(plugin.getPrefix() + "§6" + args[0] + " §cisn't a Number!");
                             }
                         } else {
-                            sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                            sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                         }
                     }
                 }

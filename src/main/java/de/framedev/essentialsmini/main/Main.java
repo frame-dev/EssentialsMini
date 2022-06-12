@@ -44,12 +44,11 @@ import java.util.*;
 
 /**
  * License is <a href="file:../../../../../../LICENSE.md">LICENSE</a>
+ *
  * @author FrameDev
  */
 public class Main extends JavaPlugin {
 
-    private MongoManager mongoManager;
-    private BackendManager backendManager;
     private Utilities utilities;
     private static ArrayList<String> silent;
     private Thread thread;
@@ -144,7 +143,8 @@ public class Main extends JavaPlugin {
                 "PlayerShop is that Players can create their own Shop \n" +
                 "PlayerEvents also named as PlayerData events \n" +
                 "Only 3 Limited Homes Group can be created. Please do not rename the Groups! \n" +
-                "TeleportDelay is the Time you have to wait befor you got Teleported");
+                "TeleportDelay is the Time you have to wait befor you got Teleported!\n" +
+                "MySQL, MongoDB and SQLite can now be added in the config.yml MySQLAPI Plugin is no longer required!");
         getConfig().options().copyHeader(true);
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
@@ -317,11 +317,11 @@ public class Main extends JavaPlugin {
         this.mysql = getConfig().getBoolean("MySQL.Use");
         this.sql = getConfig().getBoolean("SQLite.Use");
 
-        if(sql) {
+        if (sql) {
             new SQLite(getConfig().getString("SQLite.Path"), getConfig().getString("SQLite.FileName"));
         }
 
-        if(mysql)
+        if (mysql)
             new MySQL();
 
         if (getConfig().getBoolean("Economy.Activate")) {
@@ -428,8 +428,8 @@ public class Main extends JavaPlugin {
             configUpdater();
         }
 
-        if(utilities.isDev()) {
-            Bukkit.getConsoleSender().sendMessage(getPrefix() + "§c§lYou running a Dev Build, Errors can be happening!");
+        if (utilities.isDev()) {
+            Bukkit.getConsoleSender().sendMessage(getPrefix() + "§c§lYou running a Dev Build, §r§cErrors can be happening!");
         }
     }
 
@@ -451,7 +451,8 @@ public class Main extends JavaPlugin {
                         "PlayerShop is that Players can create their own Shop \n" +
                         "PlayerEvents also named as PlayerData events \n" +
                         "Only 3 Limited Homes Group can be created. Please do not rename the Groups! \n" +
-                        "TeleportDelay is the Time you have to wait befor you got Teleported!");
+                        "TeleportDelay is the Time you have to wait befor you got Teleported!\n" +
+                        "MySQL, MongoDB and SQLite can now be added in the config.yml MySQLAPI Plugin is no longer required!");
                 getConfig().options().copyHeader(true);
                 getConfig().options().copyDefaults(true);
                 saveDefaultConfig();
@@ -720,10 +721,12 @@ public class Main extends JavaPlugin {
     }
 
     public MongoManager getMongoManager() {
+        if (mongoDbUtils == null) return null;
         return mongoDbUtils.getMongoManager();
     }
 
     public BackendManager getBackendManager() {
+        if (mongoDbUtils == null) return null;
         return mongoDbUtils.getBackendManager();
     }
 
@@ -803,11 +806,11 @@ public class Main extends JavaPlugin {
      *
      * @return Return the Message for no Permissions
      */
-    public String getNOPERMS() {
-        String NOPERMS = getCustomMessagesConfig().getString("NoPermissions");
-        if (NOPERMS == null) return "";
-        NOPERMS = NOPERMS.replace('&', '§');
-        return NOPERMS;
+    public String getNoPerms() {
+        String permission = getCustomMessagesConfig().getString("NoPermissions");
+        if (permission == null) return "";
+        permission = permission.replace('&', '§');
+        return permission;
     }
 
     public boolean isHomeTP() {
@@ -977,6 +980,7 @@ public class Main extends JavaPlugin {
 
     /**
      * Return the Config version
+     *
      * @return return the Config Version
      */
     public String getConfigVersion() {

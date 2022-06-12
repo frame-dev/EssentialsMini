@@ -14,7 +14,6 @@ import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.CommandBase;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -37,7 +36,7 @@ public class SetHealthCMD extends CommandBase {
                     player.setHealthScale(health);
                     player.sendMessage(plugin.getPrefix() + "§aDeine Herzen wurden auf §6" + health + " §agesetzt!");
                 } else {
-                    player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -52,7 +51,7 @@ public class SetHealthCMD extends CommandBase {
                         player.sendMessage(plugin.getPrefix() + "§aDeine Herzen wurden auf §6" + health + " §agesetzt!");
                     sender.sendMessage(plugin.getPrefix() + "§aDie Herzen von §6" + player.getName() + " §awurden auf §6" + health + " §agesetzt!");
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getVariables().getPlayerNameNotOnline(args[1]));

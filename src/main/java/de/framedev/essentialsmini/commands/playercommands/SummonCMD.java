@@ -53,7 +53,7 @@ public class SummonCMD extends CommandBase {
                         sender.sendMessage(plugin.getPrefix() + "§cDieses Entity existiert nicht! §6" + type.name());
                     }
                 } else {
-                    player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -80,7 +80,7 @@ public class SummonCMD extends CommandBase {
                         sender.sendMessage(plugin.getPrefix() + "§cDieses Entity existiert nicht! §6" + type.name());
                     }
                 } else {
-                    player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());

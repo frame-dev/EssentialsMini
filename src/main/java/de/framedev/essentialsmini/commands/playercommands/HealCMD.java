@@ -48,7 +48,7 @@ public class HealCMD extends CommandBase {
                     player.sendMessage(plugin.getPrefix() + heal);
                     return true;
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     return true;
                 }
             } else {
@@ -80,7 +80,7 @@ public class HealCMD extends CommandBase {
                         }
                     }
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
                 return true;
             } else {
@@ -108,7 +108,7 @@ public class HealCMD extends CommandBase {
                         sender.sendMessage(plugin.getPrefix() + plugin.getVariables().getPlayerNameNotOnline(args[0]));
                     }
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
                 return true;
             }

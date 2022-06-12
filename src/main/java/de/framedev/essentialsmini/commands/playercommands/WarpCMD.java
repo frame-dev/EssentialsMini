@@ -75,7 +75,7 @@ public class WarpCMD extends CommandListenerBase {
                     sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
                 }
             } else {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
             }
         }
         if (command.getName().equalsIgnoreCase("warp")) {
@@ -143,7 +143,7 @@ public class WarpCMD extends CommandListenerBase {
                     sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
                 }
             } else {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
             }
         }
         if (command.getName().equalsIgnoreCase("warps")) {
@@ -184,7 +184,7 @@ public class WarpCMD extends CommandListenerBase {
                     }
                 }
             } else {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
             }
         }
         if (command.getName().equalsIgnoreCase("delwarp")) {
@@ -200,7 +200,7 @@ public class WarpCMD extends CommandListenerBase {
                     sender.sendMessage(plugin.getPrefix() + message);
                 }
             } else {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
             }
         }
         return false;

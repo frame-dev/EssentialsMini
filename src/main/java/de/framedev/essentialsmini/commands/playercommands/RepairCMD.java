@@ -66,7 +66,7 @@ public class RepairCMD extends CommandBase {
                             sender.sendMessage(plugin.getPrefix() + repair);
                         }
                     } else {
-                        player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                        player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     }
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -121,7 +121,7 @@ public class RepairCMD extends CommandBase {
                             sender.sendMessage(plugin.getPrefix() + repair);
                         }
                     } else {
-                        sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                        sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     }
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getVariables().getPlayerNameNotOnline(args[0]));

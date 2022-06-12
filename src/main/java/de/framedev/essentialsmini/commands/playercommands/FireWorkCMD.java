@@ -45,7 +45,7 @@ public class FireWorkCMD extends CommandBase {
 
         Player player = (Player) sender;
         if (!player.hasPermission(getPlugin().getPermissionName() + "firework")) {
-            player.sendMessage(getPlugin().getPrefix() + getPlugin().getNOPERMS());
+            player.sendMessage(getPlugin().getPrefix() + getPlugin().getNoPerms());
             return true;
         }
         if (args[0].equalsIgnoreCase("create")) {

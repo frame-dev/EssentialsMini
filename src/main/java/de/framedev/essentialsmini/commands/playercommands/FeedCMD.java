@@ -42,7 +42,7 @@ public class FeedCMD extends CommandBase {
                         feedSet = feedSet.replace('&', '§');
                     player.sendMessage(plugin.getPrefix() + feedSet);
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -93,7 +93,7 @@ public class FeedCMD extends CommandBase {
                     }
                 }
             } else {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
             }
         } else {
             sender.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("/feed §cor §6/feed <PlayerName>"));

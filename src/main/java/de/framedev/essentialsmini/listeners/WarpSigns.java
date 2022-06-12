@@ -44,7 +44,7 @@ public class WarpSigns extends ListenerBase {
                 if (!success)
                     event.getPlayer().sendMessage(getPlugin().getPrefix() + "§cDieser Warp existiert nicht!");
             } else {
-                event.getPlayer().sendMessage(getPlugin().getPrefix() + getPlugin().getNOPERMS());
+                event.getPlayer().sendMessage(getPlugin().getPrefix() + getPlugin().getNoPerms());
             }
         }
     }
@@ -74,7 +74,7 @@ public class WarpSigns extends ListenerBase {
                             player.sendMessage(getPlugin().getPrefix() + message);
                         }
                     } else {
-                        event.getPlayer().sendMessage(getPlugin().getPrefix() + getPlugin().getNOPERMS());
+                        event.getPlayer().sendMessage(getPlugin().getPrefix() + getPlugin().getNoPerms());
                     }
                     event.setCancelled(true);
                 }

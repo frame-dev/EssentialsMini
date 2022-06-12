@@ -13,7 +13,6 @@ import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.CommandBase;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -59,7 +58,7 @@ public class RenameItemCMD extends CommandBase {
                     sender.sendMessage(plugin.getPrefix() + "§cAir kann nicht unbenannt werden!");
                 }
             } else {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
             }
         } else {
             sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());

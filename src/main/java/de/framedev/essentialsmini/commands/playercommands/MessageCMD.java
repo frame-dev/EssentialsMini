@@ -56,7 +56,7 @@ public class MessageCMD extends CommandBase {
                         return true;
                     }
                 } else {
-                    player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -124,7 +124,7 @@ public class MessageCMD extends CommandBase {
                         player.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("/msg <PlayerName> <Message>"));
                     }
                 } else {
-                    player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             } else if (sender instanceof BlockCommandSender) {
                 BlockCommandSender commandBlock = (BlockCommandSender) sender;
@@ -180,7 +180,7 @@ public class MessageCMD extends CommandBase {
                         player.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("/r <Message>"));
                     }
                 } else {
-                    player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -202,7 +202,7 @@ public class MessageCMD extends CommandBase {
                         spy.remove(player);
                     }
                 } else {
-                    player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());

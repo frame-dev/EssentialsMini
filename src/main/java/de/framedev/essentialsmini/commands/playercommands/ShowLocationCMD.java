@@ -70,7 +70,7 @@ public class ShowLocationCMD implements CommandExecutor, TabCompleter {
                         sender.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("/showlocation §coder §6/showlocation <Name>"));
                     }
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -125,7 +125,7 @@ public class ShowLocationCMD implements CommandExecutor, TabCompleter {
                     }
                 }
             } else {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
             }
         }
         return false;

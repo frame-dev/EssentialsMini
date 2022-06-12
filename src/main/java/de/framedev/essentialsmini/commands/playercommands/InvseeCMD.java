@@ -51,7 +51,7 @@ public class InvseeCMD extends CommandBase {
                         sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
                     }
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("/invsee <PlayerName>"));
@@ -67,7 +67,7 @@ public class InvseeCMD extends CommandBase {
                         sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
                     }
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             } else if (args.length == 1) {
                 if (sender instanceof Player) {
@@ -82,7 +82,7 @@ public class InvseeCMD extends CommandBase {
                             player.sendMessage(plugin.getPrefix() + plugin.getVariables().getPlayerNameNotOnline(args[0]));
                         }
                     } else {
-                        sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                        sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     }
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());

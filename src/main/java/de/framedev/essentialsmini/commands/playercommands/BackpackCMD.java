@@ -123,7 +123,7 @@ public class BackpackCMD extends CommandListenerBase {
                             }
                         }
                     } else {
-                        sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                        sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     }
                 }
                 if (args[0].equalsIgnoreCase("delete")) {
@@ -155,7 +155,7 @@ public class BackpackCMD extends CommandListenerBase {
                             }
                         }
                     } else {
-                        sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                        sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     }
                 }
             }

@@ -93,7 +93,7 @@ public class AFKCMD implements CommandExecutor {
                     return true;
                 }
             } else {
-                player.sendMessage(plugin.getPrefix() + " " + plugin.getNOPERMS());
+                player.sendMessage(plugin.getPrefix() + " " + plugin.getNoPerms());
                 return true;
             }
         }

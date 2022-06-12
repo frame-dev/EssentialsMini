@@ -133,7 +133,7 @@ public class PlayerDataCMD extends CommandBase {
                 sender.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("/playerdata <PlayerName>"));
             }
         } else {
-            sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+            sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
         }
         return false;
     }

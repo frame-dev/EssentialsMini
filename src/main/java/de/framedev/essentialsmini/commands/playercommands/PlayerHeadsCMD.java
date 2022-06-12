@@ -69,7 +69,7 @@ public class PlayerHeadsCMD extends CommandBase {
                     sender.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("/playerheads <SpielerName>"));
                 }
             } else {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
             }
         } else {
             sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());

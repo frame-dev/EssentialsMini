@@ -64,7 +64,7 @@ public class EnchantCMD extends CommandBase {
                         player.sendMessage(plugin.getPrefix() + noItemInHand);
                     }
                 } else {
-                    player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -104,7 +104,7 @@ public class EnchantCMD extends CommandBase {
                     sender.sendMessage(plugin.getPrefix() + message);
                 }
             } else {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
             }
         } else {
             if (sender.hasPermission(plugin.getPermissionName() + "enchant")) {

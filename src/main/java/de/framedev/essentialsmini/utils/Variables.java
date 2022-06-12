@@ -45,7 +45,7 @@ public class Variables {
         this.instance = Main.getInstance();
         this.prefix = instance.getPrefix();
         this.onlyPlayer = instance.getOnlyPlayer();
-        this.noPermission = instance.getNOPERMS();
+        this.noPermission = instance.getNoPerms();
         this.permissionBase = instance.getPermissionName();
         this.authors = instance.getDescription().getAuthors();
         this.version = instance.getDescription().getVersion();

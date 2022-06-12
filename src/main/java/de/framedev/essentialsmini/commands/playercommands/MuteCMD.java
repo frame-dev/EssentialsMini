@@ -59,7 +59,7 @@ public class MuteCMD extends CommandBase implements Listener {
         if (command.getName().equalsIgnoreCase("mute")) {
             if (args.length == 1) {
                 if (!sender.hasPermission(plugin.getPermissionName() + "mute")) {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     return true;
                 }
 
@@ -91,7 +91,7 @@ public class MuteCMD extends CommandBase implements Listener {
         if (command.getName().equalsIgnoreCase("tempmute")) {
             if (args.length == 5) {
                 if (!sender.hasPermission(plugin.getPermissionName() + "tempmute")) {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("type")) {
@@ -176,7 +176,7 @@ public class MuteCMD extends CommandBase implements Listener {
         if (command.getName().equalsIgnoreCase("removetempmute")) {
             if (args.length == 1) {
                 if (!sender.hasPermission(plugin.getPermissionName() + "tempmute")) {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     return true;
                 }
 
@@ -214,7 +214,7 @@ public class MuteCMD extends CommandBase implements Listener {
         }
         if (command.getName().equalsIgnoreCase("muteinfo")) {
             if (!sender.hasPermission(plugin.getPermissionName() + "muteinfo")) {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 return true;
             }
 

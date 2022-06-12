@@ -40,7 +40,7 @@ public class GenerateKeyCMD implements CommandExecutor, TabCompleter {
                         sender.sendMessage(plugin.getPrefix() + "§6" + player.getName() + " §ahat nun einen Key!");
                     }
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             }
             if(args[0].equalsIgnoreCase("remove")) {
@@ -59,7 +59,7 @@ public class GenerateKeyCMD implements CommandExecutor, TabCompleter {
                         sender.sendMessage(plugin.getPrefix() + "§cKey von §6" + player.getName() + " §cwurde entfernt!");
                     }
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             }
             if(args[0].equalsIgnoreCase("haskey")) {
@@ -81,7 +81,7 @@ public class GenerateKeyCMD implements CommandExecutor, TabCompleter {
                         }
                     }
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             }
         }

@@ -97,7 +97,7 @@ public class HomeCMD extends CommandListenerBase {
                             homeSet = homeSet.replace('&', '§');
                         sender.sendMessage(plugin.getPrefix() + homeSet);
                     } else {
-                        sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                        sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     }
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -126,7 +126,7 @@ public class HomeCMD extends CommandListenerBase {
                                 sender.spigot().sendMessage(baseComponent);
                             }
                         } else {
-                            sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                            sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                         }
 
                     } else {
@@ -471,7 +471,7 @@ public class HomeCMD extends CommandListenerBase {
                             homes.clear();
                         }
                     } else {
-                        sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                        sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     }
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -490,7 +490,7 @@ public class HomeCMD extends CommandListenerBase {
                             sender.sendMessage(plugin.getPrefix() + homeTeleport);
                             homes.clear();
                         } else {
-                            sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                            sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                         }
                     } catch (IllegalArgumentException ex) {
                         String homeExist = plugin.getLanguageConfig(sender).getString("HomeNotExist");
@@ -577,7 +577,7 @@ public class HomeCMD extends CommandListenerBase {
                         }
                     }
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             }
         } else {

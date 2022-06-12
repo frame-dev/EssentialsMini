@@ -49,7 +49,7 @@ public class SunRainThunderCMD implements CommandExecutor {
                     }.runTaskLater(plugin,60);
                     player.sendMessage(plugin.getPrefix() + message);
                 } else {
-                    player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             }
             if (command.getName().equalsIgnoreCase("rain")) {
@@ -68,7 +68,7 @@ public class SunRainThunderCMD implements CommandExecutor {
                     }.runTaskLater(plugin,60);
                     player.sendMessage(plugin.getPrefix() + message);
                 } else {
-                    player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             }
             if (command.getName().equalsIgnoreCase("thunder")) {
@@ -88,7 +88,7 @@ public class SunRainThunderCMD implements CommandExecutor {
                     }.runTaskLater(plugin,60);
                     player.sendMessage(plugin.getPrefix() + message);
                 } else {
-                    player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             }
         } else {
@@ -106,7 +106,7 @@ public class SunRainThunderCMD implements CommandExecutor {
                     }.runTaskLater(plugin,60);
                     sender.sendMessage(plugin.getPrefix() + message);
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             }
             if (command.getName().equalsIgnoreCase("rain")) {
@@ -126,7 +126,7 @@ public class SunRainThunderCMD implements CommandExecutor {
                     }.runTaskLater(plugin,60);
                     sender.sendMessage(plugin.getPrefix() + "Rain");
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             }
             if (command.getName().equalsIgnoreCase("thunder")) {
@@ -142,7 +142,7 @@ public class SunRainThunderCMD implements CommandExecutor {
                     }.runTaskLater(plugin,60);
                     sender.sendMessage(plugin.getPrefix() + "Thunder");
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             }
         }

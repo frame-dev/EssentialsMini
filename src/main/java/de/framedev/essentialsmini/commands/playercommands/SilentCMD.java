@@ -31,7 +31,7 @@ public class SilentCMD extends CommandBase {
                 sender.sendMessage(getPlugin().getPrefix() + "§cSilent wurde für dich Deaktiviert!");
             }
         } else {
-           sender.sendMessage(getPlugin().getPrefix() + getPlugin().getNOPERMS());
+           sender.sendMessage(getPlugin().getPrefix() + getPlugin().getNoPerms());
         }
         return super.onCommand(sender, command, label, args);
     }

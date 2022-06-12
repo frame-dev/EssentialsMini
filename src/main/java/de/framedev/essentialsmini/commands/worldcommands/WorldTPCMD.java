@@ -113,7 +113,7 @@ public class WorldTPCMD implements CommandExecutor, Listener, TabCompleter {
                     }
                 }
             } else {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
             }
         } else {
             sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());

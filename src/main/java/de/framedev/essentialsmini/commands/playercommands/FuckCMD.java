@@ -112,7 +112,7 @@ public class FuckCMD extends CommandBase {
                 }
             }
         } else {
-            sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+            sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
         }
         return false;
     }

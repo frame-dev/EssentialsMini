@@ -38,7 +38,7 @@ public class TrashInventory implements CommandExecutor, Listener {
             Player player = (Player) sender;
             player.openInventory(inventory);
         } else {
-            sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+            sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
         }
         return false;
     }

@@ -83,7 +83,7 @@ public class LagCMD extends CommandBase {
                 sender.sendMessage("§aWorldType = §6" + worldType + ", §aWorld Name = §6" + w.getName() + ", §aChunks Loaded = §6" + w.getLoadedChunks().length + ", §aEnities Loaded = §6" + tileEntities);
             }
         } else {
-            sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+            sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
         }
         return super.onCommand(sender, command, label, args);
     }

@@ -77,7 +77,7 @@ public class RestartCMD implements CommandExecutor {
                     }
                 }, 0, 20);
             } else {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
             }
         }
         return false;

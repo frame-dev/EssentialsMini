@@ -69,7 +69,7 @@ public class TeleportCMD implements CommandExecutor, Listener {
                         return true;
                     }
                 } else {
-                    player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -330,7 +330,7 @@ public class TeleportCMD implements CommandExecutor, Listener {
                 if (player.hasPermission("essentialsmini.tphereall")) {
                     Bukkit.getOnlinePlayers().forEach(players -> players.teleport(player.getLocation()));
                 } else {
-                    player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());

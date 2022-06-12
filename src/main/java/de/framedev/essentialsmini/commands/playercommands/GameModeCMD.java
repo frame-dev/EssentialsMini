@@ -137,7 +137,7 @@ public class GameModeCMD extends CommandBase {
                         sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
                     }
                 } else {
-                    sender.sendMessage(Main.getInstance().getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(Main.getInstance().getPrefix() + plugin.getNoPerms());
                 }
             } else if (args.length == 2) {
                 if (sender.hasPermission("essentialsmini.gamemode.others")) {
@@ -340,7 +340,7 @@ public class GameModeCMD extends CommandBase {
                         sender.sendMessage(plugin.getPrefix() + plugin.getVariables().getPlayerNameNotOnline(args[1]));
                     }
                 } else {
-                    sender.sendMessage(Main.getInstance().getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(Main.getInstance().getPrefix() + plugin.getNoPerms());
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("/gamemode <Gamemode (Name oder Zahl)> §coder §6/gamemode <Gamemode (Name oder Zahl)> <Spieler Name>"));

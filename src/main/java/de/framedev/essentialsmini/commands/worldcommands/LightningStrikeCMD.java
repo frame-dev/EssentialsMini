@@ -39,7 +39,7 @@ public class LightningStrikeCMD extends CommandBase implements CommandExecutor {
                     target.getWorld().strikeLightning(target.getLocation());
                     sender.sendMessage(plugin.getPrefix() + "§6Blitz! §a" + target.getName() + "§c!");
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getVariables().getPlayerNameNotOnline(args[0]));

@@ -71,7 +71,7 @@ public class SignItemCMD extends CommandBase {
                     sender.sendMessage(plugin.getPrefix() + "§aDas Item wurde personalisiert!");
                 }
             } else {
-                sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
             }
         } else {
             sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());

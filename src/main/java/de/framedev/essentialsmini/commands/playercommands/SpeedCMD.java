@@ -39,7 +39,7 @@ public class SpeedCMD extends CommandBase {
                     message = new TextUtils().replaceObject(message, "%WalkSpeed%", String.valueOf(walkSpeed));
                     sender.sendMessage(plugin.getPrefix() + message);
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             }
         }

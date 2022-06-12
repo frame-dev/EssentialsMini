@@ -32,7 +32,7 @@ public class WorkbenchCMD extends CommandBase {
                     ((Player) sender).openWorkbench(((Player) sender).getLocation(), true);
                     sender.sendMessage(getPrefix() + "§aWorkbench opend");
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("/workbench"));

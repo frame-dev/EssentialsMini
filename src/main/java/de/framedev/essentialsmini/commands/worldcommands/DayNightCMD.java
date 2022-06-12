@@ -44,7 +44,7 @@ public class DayNightCMD extends CommandBase {
                         player.sendMessage(plugin.getPrefix() + message);
                         return true;
                     } else {
-                        player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                        player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                         return true;
                     }
                 } else {
@@ -64,7 +64,7 @@ public class DayNightCMD extends CommandBase {
                         player.getWorld().setTime(13000);
                         return true;
                     } else {
-                        player.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                        player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                         return true;
                     }
                 } else {
@@ -90,7 +90,7 @@ public class DayNightCMD extends CommandBase {
                         }
                     }
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             }
             if (command.getName().equalsIgnoreCase("resetpltime")) {
@@ -98,7 +98,7 @@ public class DayNightCMD extends CommandBase {
                 if (player.hasPermission("essentialsmini.playertime")) {
                     player.resetPlayerTime();
                 } else {
-                    sender.sendMessage(plugin.getPrefix() + plugin.getNOPERMS());
+                    sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }
             }
         } else {
