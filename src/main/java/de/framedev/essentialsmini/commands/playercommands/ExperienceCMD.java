@@ -48,7 +48,7 @@ public class ExperienceCMD extends CommandBase {
                 }
                 Player player = Bukkit.getPlayer(args[2]);
                 if (player == null) {
-                    sender.sendMessage(getPlugin().getPrefix() + getPlugin().getVariables().getPlayerNameNotOnline(args[1]));
+                    sender.sendMessage(getPlugin().getPrefix() + getPlugin().getVariables().getPlayerNameNotOnline(args[2]));
                     return true;
                 }
                 String xpMessage = getPlugin().getCustomMessagesConfig().getString(Variables.EXPERIENCE + ".Self.XP");
@@ -71,7 +71,7 @@ public class ExperienceCMD extends CommandBase {
                 int amount = Integer.parseInt(args[1]);
                 Player player = Bukkit.getPlayer(args[2]);
                 if (player == null) {
-                    sender.sendMessage(getPlugin().getPrefix() + getPlugin().getVariables().getPlayerNameNotOnline(args[1]));
+                    sender.sendMessage(getPlugin().getPrefix() + getPlugin().getVariables().getPlayerNameNotOnline(args[2]));
                     return true;
                 }
                 int level = player.getLevel();
@@ -94,7 +94,7 @@ public class ExperienceCMD extends CommandBase {
                 int amount = Integer.parseInt(args[1]);
                 Player player = Bukkit.getPlayer(args[2]);
                 if (player == null) {
-                    sender.sendMessage(getPlugin().getPrefix() + getPlugin().getVariables().getPlayerNameNotOnline(args[1]));
+                    sender.sendMessage(getPlugin().getPrefix() + getPlugin().getVariables().getPlayerNameNotOnline(args[2]));
                     return true;
                 }
                 int level = player.getLevel();
@@ -113,6 +113,34 @@ public class ExperienceCMD extends CommandBase {
                 }
                 return true;
             }
+        } else if(args.length == 5) {
+            // xp send <Amount> <Player> <xp/level>
+            if(args[0].equalsIgnoreCase("send")) {
+                int amount = Integer.parseInt(args[1]);
+                Player player = (Player) sender;
+                Player target = Bukkit.getPlayer(args[2]);
+                if (target == null) {
+                    sender.sendMessage(getPlugin().getPrefix() + getPlugin().getVariables().getPlayerNameNotOnline(args[2]));
+                    return true;
+                }
+                int level = player.getLevel();
+                level += amount;
+                int xp = player.getTotalExperience();
+                xp += amount;
+                String xpMessage = getPlugin().getCustomMessagesConfig().getString(Variables.EXPERIENCE + ".Self.XP");
+                xpMessage = textUtils.replaceAndToParagraph(xpMessage);
+                xpMessage = textUtils.replaceObject(xpMessage, "%XP%", xp + "");
+                String levelMessage = getPlugin().getCustomMessagesConfig().getString(Variables.EXPERIENCE + ".Self.Level");
+                levelMessage = textUtils.replaceAndToParagraph(levelMessage);
+                levelMessage = textUtils.replaceObject(levelMessage, "%Level%", level + "");
+                if (args[3].equalsIgnoreCase("level")) {
+                    player.setLevel(level);
+                    player.sendMessage(getPlugin().getPrefix() + levelMessage);
+                } else if (args[3].equalsIgnoreCase("xp")) {
+                    player.giveExp(amount);
+                    player.sendMessage(getPlugin().getPrefix() + xpMessage);
+                }
+            }
         }
         return super.onCommand(sender, command, label, args);
     }
@@ -123,6 +151,7 @@ public class ExperienceCMD extends CommandBase {
         commands.add("set");
         commands.add("add");
         commands.add("remove");
+        commands.add("send");
         if (args.length == 1) {
             List<String> empty = new ArrayList<>();
             for (String s : commands) {

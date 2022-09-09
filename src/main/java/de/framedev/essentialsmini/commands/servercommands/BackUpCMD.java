@@ -63,6 +63,12 @@ public class BackUpCMD extends CommandBase {
                 e.printStackTrace();
             }
         }
+        File pluginDirectory = new File("plugins");
+        System.out.println(pluginDirectory.getAbsolutePath());
+        System.out.println(pluginDirectory.exists());
+        File file = new File("Backups/" + new SimpleDateFormat("HH:mm:ss|yyyy.MM.dd").format(new Date(System.currentTimeMillis())) + "/plugins");
+        copyDirectory(pluginDirectory, file);
+        files.add(new File(file.getParentFile().getName()));
         String sourceFile = "Backups/" + files.get(0).getName();
         FileOutputStream fos = new FileOutputStream(files.get(0).getName() + ".zip");
         ZipOutputStream zipOut = new ZipOutputStream(fos);
