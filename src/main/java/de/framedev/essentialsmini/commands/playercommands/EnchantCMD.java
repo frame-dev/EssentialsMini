@@ -11,6 +11,7 @@ package de.framedev.essentialsmini.commands.playercommands;
 
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.CommandBase;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import de.framedev.essentialsmini.utils.ReplaceCharConfig;
 import de.framedev.essentialsmini.utils.TextUtils;
 import org.bukkit.Bukkit;
@@ -65,6 +66,7 @@ public class EnchantCMD extends CommandBase {
                     }
                 } else {
                     player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                    new AdminBroadCast(this,"§cNo Permissions!", sender);
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -105,6 +107,7 @@ public class EnchantCMD extends CommandBase {
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                new AdminBroadCast(this,"§cNo Permissions!", sender);
             }
         } else {
             if (sender.hasPermission(plugin.getPermissionName() + "enchant")) {

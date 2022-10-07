@@ -12,6 +12,7 @@ package de.framedev.essentialsmini.commands.playercommands;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.CommandBase;
 import de.framedev.essentialsmini.managers.SkullBuilder;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
@@ -70,6 +71,7 @@ public class PlayerHeadsCMD extends CommandBase {
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                new AdminBroadCast("playerheads","§cNo Permissions!", sender);
             }
         } else {
             sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());

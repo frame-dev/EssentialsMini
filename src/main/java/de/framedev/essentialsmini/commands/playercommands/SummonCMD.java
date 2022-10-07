@@ -12,6 +12,7 @@ package de.framedev.essentialsmini.commands.playercommands;
 
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.CommandBase;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -49,6 +50,7 @@ public class SummonCMD extends CommandBase {
                         bl.setY(block.getLocation().getY() + 1.0D);
                         player.getWorld().spawnEntity(bl, type);
                         player.sendMessage(plugin.getPrefix() + "§6" + type.name() + " §awurde erfolgreich gespawnt!");
+                        new AdminBroadCast("spawnmob",plugin.getPrefix() + "§6" + type.name() + " §awurde erfolgreich gespawnt!", sender);
                     } else {
                         sender.sendMessage(plugin.getPrefix() + "§cDieses Entity existiert nicht! §6" + type.name());
                     }
@@ -73,6 +75,7 @@ public class SummonCMD extends CommandBase {
                                 player.getWorld().spawnEntity(bl, type);
                             }
                             player.sendMessage(plugin.getPrefix() + "§6" + type.name() + " §awurde erfolgreich gespawnt!");
+                            new AdminBroadCast("spawnmob",plugin.getPrefix() + "§6" + type.name() + " §awurde erfolgreich gespawnt!", sender);
                         } catch (NumberFormatException ignored) {
                             player.sendMessage(plugin.getPrefix() + "§6" + args[1] + "§c ist keine Nummer!");
                         }
@@ -81,6 +84,7 @@ public class SummonCMD extends CommandBase {
                     }
                 } else {
                     player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                    new AdminBroadCast("spawnmob","§cNo Permissions!", sender);
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());

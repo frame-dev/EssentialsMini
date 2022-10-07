@@ -3,6 +3,7 @@ package de.framedev.essentialsmini.commands.playercommands;
 import com.google.common.collect.Lists;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.CommandBase;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.FireworkEffect;
@@ -46,6 +47,7 @@ public class FireWorkCMD extends CommandBase {
         Player player = (Player) sender;
         if (!player.hasPermission(getPlugin().getPermissionName() + "firework")) {
             player.sendMessage(getPlugin().getPrefix() + getPlugin().getNoPerms());
+            new AdminBroadCast(this,"§cNo Permissions!", sender);
             return true;
         }
         if (args[0].equalsIgnoreCase("create")) {

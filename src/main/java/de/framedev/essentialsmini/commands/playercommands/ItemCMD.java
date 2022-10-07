@@ -12,6 +12,7 @@ package de.framedev.essentialsmini.commands.playercommands;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.CommandBase;
 import de.framedev.essentialsmini.managers.MaterialManager;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import de.framedev.essentialsmini.utils.ReplaceCharConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -56,6 +57,7 @@ public class ItemCMD extends CommandBase {
                         }
                     } else {
                         player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                        new AdminBroadCast("item","§cNo Permissions!", sender);
                     }
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -82,6 +84,7 @@ public class ItemCMD extends CommandBase {
                                 }
                             } else {
                                 player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                                new AdminBroadCast("item","§cNo Permissions!", sender);
                             }
                         } else {
                             sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -108,6 +111,7 @@ public class ItemCMD extends CommandBase {
                         }
                     } else {
                         sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                        new AdminBroadCast("item","§cNo Permissions!", sender);
                     }
                 }
             } else if (args.length == 3) {
@@ -132,6 +136,7 @@ public class ItemCMD extends CommandBase {
                     }
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                    new AdminBroadCast("item","§cNo Permissions!", sender);
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("/item <Item>"));

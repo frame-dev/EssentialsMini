@@ -2,6 +2,7 @@ package de.framedev.essentialsmini.commands.playercommands;
 
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.CommandBase;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import de.framedev.essentialsmini.utils.ReplaceCharConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -138,6 +139,7 @@ public class GameModeCMD extends CommandBase {
                     }
                 } else {
                     sender.sendMessage(Main.getInstance().getPrefix() + plugin.getNoPerms());
+                    new AdminBroadCast(this,"§cNo Permissions!", sender);
                 }
             } else if (args.length == 2) {
                 if (sender.hasPermission("essentialsmini.gamemode.others")) {
@@ -341,6 +343,7 @@ public class GameModeCMD extends CommandBase {
                     }
                 } else {
                     sender.sendMessage(Main.getInstance().getPrefix() + plugin.getNoPerms());
+                    new AdminBroadCast(this,"§cNo Permissions!", sender);
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("/gamemode <Gamemode (Name oder Zahl)> §coder §6/gamemode <Gamemode (Name oder Zahl)> <Spieler Name>"));

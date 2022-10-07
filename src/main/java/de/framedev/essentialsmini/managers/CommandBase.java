@@ -62,6 +62,7 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
     public CommandBase(Main plugin, @NonNull String cmdName) {
         this.plugin = plugin;
         this.cmdName = cmdName;
+        this.cmdNames = new String[]{cmdName};
         setup(this);
         setupTabCompleter(this);
     }
@@ -69,6 +70,7 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
     public CommandBase(Main plugin, @NonNull String cmdName, CommandExecutor executor) {
         this.plugin = plugin;
         this.cmdName = cmdName;
+        this.cmdNames = new String[]{cmdName};
         setup(executor);
         setupTabCompleter(this);
     }

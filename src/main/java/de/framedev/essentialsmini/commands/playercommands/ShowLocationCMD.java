@@ -11,6 +11,7 @@ package de.framedev.essentialsmini.commands.playercommands;
 
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.LocationsManager;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -126,6 +127,7 @@ public class ShowLocationCMD implements CommandExecutor, TabCompleter {
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                new AdminBroadCast("position","§cNo Permissions!", sender);
             }
         }
         return false;

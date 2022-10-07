@@ -3,6 +3,7 @@ package de.framedev.essentialsmini.commands.playercommands;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.BanMuteManager;
 import de.framedev.essentialsmini.managers.CommandBase;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import de.framedev.essentialsmini.utils.DateUnit;
 import de.framedev.essentialsmini.utils.ReplaceCharConfig;
 import org.bukkit.Bukkit;
@@ -60,6 +61,7 @@ public class MuteCMD extends CommandBase implements Listener {
             if (args.length == 1) {
                 if (!sender.hasPermission(plugin.getPermissionName() + "mute")) {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                    new AdminBroadCast("mute","§cNo Permissions!", sender);
                     return true;
                 }
 
@@ -92,6 +94,7 @@ public class MuteCMD extends CommandBase implements Listener {
             if (args.length == 5) {
                 if (!sender.hasPermission(plugin.getPermissionName() + "tempmute")) {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                    new AdminBroadCast("tempmute","§cNo Permissions!", sender);
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("type")) {
@@ -177,6 +180,7 @@ public class MuteCMD extends CommandBase implements Listener {
             if (args.length == 1) {
                 if (!sender.hasPermission(plugin.getPermissionName() + "tempmute")) {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                    new AdminBroadCast("removetempmute","§cNo Permissions!", sender);
                     return true;
                 }
 
@@ -215,6 +219,7 @@ public class MuteCMD extends CommandBase implements Listener {
         if (command.getName().equalsIgnoreCase("muteinfo")) {
             if (!sender.hasPermission(plugin.getPermissionName() + "muteinfo")) {
                 sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                new AdminBroadCast("muteinfo","§cNo Permissions!", sender);
                 return true;
             }
 

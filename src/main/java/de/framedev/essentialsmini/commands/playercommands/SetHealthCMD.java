@@ -12,6 +12,7 @@ package de.framedev.essentialsmini.commands.playercommands;
 
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.CommandBase;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -37,6 +38,7 @@ public class SetHealthCMD extends CommandBase {
                     player.sendMessage(plugin.getPrefix() + "§aDeine Herzen wurden auf §6" + health + " §agesetzt!");
                 } else {
                     player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                    new AdminBroadCast("sethealth","§cNo Permissions!", sender);
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -52,6 +54,7 @@ public class SetHealthCMD extends CommandBase {
                     sender.sendMessage(plugin.getPrefix() + "§aDie Herzen von §6" + player.getName() + " §awurden auf §6" + health + " §agesetzt!");
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                    new AdminBroadCast("sethealth","§cNo Permissions!", sender);
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getVariables().getPlayerNameNotOnline(args[1]));

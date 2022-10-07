@@ -2,8 +2,11 @@ package de.framedev.essentialsmini.commands.playercommands;
 
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.CommandBase;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
+import de.framedev.essentialsmini.utils.Variables;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 /**
  * This Plugin was Created by FrameDev
@@ -22,16 +25,21 @@ public class SilentCMD extends CommandBase {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(sender.hasPermission(getPlugin().getPermissionName() + "silent")) {
-            if(!Main.getSilent().contains(sender.getName())) {
+        if (sender.hasPermission(getPlugin().getPermissionName() + "silent")) {
+            if (!Main.getSilent().contains(sender.getName())) {
                 Main.getSilent().add(sender.getName());
                 sender.sendMessage(getPlugin().getPrefix() + "§aSilent wurde für dich Aktiviert!");
             } else {
                 Main.getSilent().remove(sender.getName());
                 sender.sendMessage(getPlugin().getPrefix() + "§cSilent wurde für dich Deaktiviert!");
             }
+            if (sender instanceof Player) {
+                if (getPlugin().getSettingsCfg().getBoolean(Variables.ADMIN_BROADCAST))
+                    new AdminBroadCast(this.getCmdNames()[0], "Silent has been Changed", sender);
+            }
         } else {
-           sender.sendMessage(getPlugin().getPrefix() + getPlugin().getNoPerms());
+            sender.sendMessage(getPlugin().getPrefix() + getPlugin().getNoPerms());
+            new AdminBroadCast("silent","§cNo Permissions!", sender);
         }
         return super.onCommand(sender, command, label, args);
     }

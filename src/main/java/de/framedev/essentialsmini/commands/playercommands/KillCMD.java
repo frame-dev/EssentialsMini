@@ -2,6 +2,7 @@ package de.framedev.essentialsmini.commands.playercommands;
 
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.CommandBase;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -73,6 +74,7 @@ public class KillCMD extends CommandBase {
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                new AdminBroadCast("killall","§cNo Permissions!", sender);
             }
         }
         if (command.getName().equalsIgnoreCase("suicid")) {
@@ -88,6 +90,7 @@ public class KillCMD extends CommandBase {
                     }
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                    new AdminBroadCast("suicid","§cNo Permissions!", sender);
                 }
             } else if(args.length == 1) {
                 if(sender.hasPermission(plugin.getPermissionName() + "suicid.others")) {
@@ -103,6 +106,7 @@ public class KillCMD extends CommandBase {
                     sender.sendMessage(plugin.getPrefix() + "§6" + player.getName() + " §ahat Suicid begangen!");
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                    new AdminBroadCast("suicid","§cNo Permissions!", sender);
                 }
             }
         }

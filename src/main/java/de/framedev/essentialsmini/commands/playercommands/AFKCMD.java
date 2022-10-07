@@ -2,6 +2,7 @@ package de.framedev.essentialsmini.commands.playercommands;
 
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.ListenerBase;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import de.framedev.essentialsmini.utils.ReplaceCharConfig;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -94,6 +95,7 @@ public class AFKCMD implements CommandExecutor {
                 }
             } else {
                 player.sendMessage(plugin.getPrefix() + " " + plugin.getNoPerms());
+                new AdminBroadCast("afk","§cNo Permissions!", sender);
                 return true;
             }
         }

@@ -2,6 +2,7 @@ package de.framedev.essentialsmini.commands.playercommands;
 
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.CommandBase;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import de.framedev.essentialsmini.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -36,6 +37,7 @@ public class FlySpeedCMD extends CommandBase {
             Player player = (Player) sender;
             if (!player.hasPermission(plugin.getPermissionName() + "flyspeed")) {
                 player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                new AdminBroadCast(this,"§cNo Permissions!", sender);
                 return true;
             }
             float flyspeed = Float.parseFloat(args[0]) / 10F;

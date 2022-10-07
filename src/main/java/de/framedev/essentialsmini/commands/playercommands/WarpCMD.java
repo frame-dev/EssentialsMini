@@ -5,6 +5,7 @@ import de.framedev.essentialsmini.managers.CommandListenerBase;
 import de.framedev.essentialsmini.managers.InventoryManager;
 import de.framedev.essentialsmini.managers.ItemBuilder;
 import de.framedev.essentialsmini.managers.LocationsManager;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import de.framedev.essentialsmini.utils.TextUtils;
 import de.framedev.essentialsmini.utils.Variables;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -76,6 +77,7 @@ public class WarpCMD extends CommandListenerBase {
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                new AdminBroadCast("setwarp","§cNo Permissions!", sender);
             }
         }
         if (command.getName().equalsIgnoreCase("warp")) {
