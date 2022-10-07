@@ -3,6 +3,7 @@ package de.framedev.essentialsmini.commands.playercommands;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.BanMuteManager;
 import de.framedev.essentialsmini.managers.CommandBase;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import de.framedev.essentialsmini.utils.DateUnit;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
@@ -53,6 +54,7 @@ public class TempBanCMD extends CommandBase {
                         if (target.isOnline())
                             ((Player) target).kickPlayer("§bBan while §c" + reason.getReason() + "§b for §a" + value + " " + unit.getOutput() + "!");
                         sender.sendMessage("§6" + target.getName() + " §ahas been banned while §6" + reason.getReason() + " §afor §6" + value + " " + unit.getOutput() + "!");
+                        new AdminBroadCast("tempban","§6" + target.getName() + " §ahas been banned while §6" + reason.getReason() + " §afor §6" + value + " " + unit.getOutput() + "!", sender);
                         return true;
                     } else if (args[0].equalsIgnoreCase("own")) {
                         OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
@@ -71,6 +73,7 @@ public class TempBanCMD extends CommandBase {
                         if (target.isOnline())
                             ((Player) target).kickPlayer("§bBan while §c" + reason + "§b for §a" + value + " " + unit.getOutput() + "!");
                         sender.sendMessage("§6" + target.getName() + " §ahas been banned while §6" + reason + " §afor §6" + value + " " + unit.getOutput() + "!");
+                        new AdminBroadCast("tempban","§6" + target.getName() + " §ahas been banned while §6" + reason + " §afor §6" + value + " " + unit.getOutput() + "!", sender);
                         return true;
                     }
                 } else {
@@ -89,6 +92,7 @@ public class TempBanCMD extends CommandBase {
                     Bukkit.getServer().getBanList(BanList.Type.NAME).pardon(target.getName());
                 }
                 sender.sendMessage("§6" + target.getName() + " §ahas been unbanned!");
+                new AdminBroadCast("tempban","§6" + target.getName() + " §ahas been unbanned!", sender);
             }
         }
         return super.onCommand(sender, cmd, label, args);

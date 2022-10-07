@@ -6,6 +6,7 @@ package de.framedev.essentialsmini.commands.playercommands;
 
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.LocationsManager;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -36,6 +37,7 @@ public class SpawnCMD implements CommandExecutor {
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                new AdminBroadCast("setspawn","§cNo Permissions!", sender);
             }
         }
         if (command.getName().equalsIgnoreCase("spawn")) {

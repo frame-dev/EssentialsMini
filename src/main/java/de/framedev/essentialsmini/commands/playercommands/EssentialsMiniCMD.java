@@ -2,6 +2,7 @@ package de.framedev.essentialsmini.commands.playercommands;
 
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.CommandBase;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -148,6 +149,12 @@ public class EssentialsMiniCMD extends CommandBase {
                         plugin.saveConfig();
                         sender.sendMessage(plugin.getPrefix() + "§6OnlyEssentialsFeatures §awurde auf §6" + isSet + " §agesetzt!");
                         sender.sendMessage(plugin.getPrefix() + "§6Wenn du fertig bis Reloade bitte einmal den Server!");
+                    }
+                    if(args[0].equalsIgnoreCase("adminbroadcast")) {
+                        for(AdminBroadCast broadCast : AdminBroadCast.getAdminBroadCasts()) {
+                            sender.sendMessage(broadCast.toString());
+                        }
+                        sender.sendMessage("§aAll BroadCasts");
                     }
                 }
             }

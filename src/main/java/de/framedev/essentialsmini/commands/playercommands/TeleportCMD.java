@@ -5,6 +5,7 @@
 package de.framedev.essentialsmini.commands.playercommands;
 
 import de.framedev.essentialsmini.main.Main;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import de.framedev.essentialsmini.utils.TextUtils;
 import de.framedev.essentialsmini.utils.Variables;
 import lombok.NonNull;
@@ -70,6 +71,7 @@ public class TeleportCMD implements CommandExecutor, Listener {
                     }
                 } else {
                     player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                    new AdminBroadCast("tptoggle","§cNo Permissions!", sender);
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -331,6 +333,7 @@ public class TeleportCMD implements CommandExecutor, Listener {
                     Bukkit.getOnlinePlayers().forEach(players -> players.teleport(player.getLocation()));
                 } else {
                     player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                    new AdminBroadCast("tphereall","§cNo Permissions!", sender);
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());

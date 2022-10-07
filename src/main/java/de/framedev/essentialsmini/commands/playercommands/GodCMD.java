@@ -11,6 +11,7 @@ package de.framedev.essentialsmini.commands.playercommands;
  */
 
 import de.framedev.essentialsmini.main.Main;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -38,6 +39,7 @@ public class GodCMD implements CommandExecutor {
             Player player = (Player) sender;
             if (!player.hasPermission(new Permission(plugin.getPermissionName() + "god", PermissionDefault.OP))) {
                 player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                new AdminBroadCast("godmode","§cNo Permissions!", sender);
                 return true;
             }
             if (player.isInvulnerable()) {

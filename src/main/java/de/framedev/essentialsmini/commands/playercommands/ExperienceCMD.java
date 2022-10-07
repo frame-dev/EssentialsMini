@@ -2,6 +2,7 @@ package de.framedev.essentialsmini.commands.playercommands;
 
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.CommandBase;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import de.framedev.essentialsmini.utils.TextUtils;
 import de.framedev.essentialsmini.utils.Variables;
 import org.bukkit.Bukkit;
@@ -37,6 +38,7 @@ public class ExperienceCMD extends CommandBase {
         if (args.length == 4) {
             if (!sender.hasPermission(getPlugin().getPermissionName() + "xp")) {
                 sender.sendMessage(getPlugin().getPrefix() + getPlugin().getNoPerms());
+                new AdminBroadCast(this,"§cNo Permissions!", sender);
                 return true;
             }
             if (args[0].equalsIgnoreCase("set")) {

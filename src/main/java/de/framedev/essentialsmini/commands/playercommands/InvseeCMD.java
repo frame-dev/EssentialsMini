@@ -2,6 +2,7 @@ package de.framedev.essentialsmini.commands.playercommands;
 
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.CommandBase;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -52,6 +53,7 @@ public class InvseeCMD extends CommandBase {
                     }
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                    new AdminBroadCast(this,"§cNo Permissions!", sender);
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("/invsee <PlayerName>"));
@@ -68,6 +70,7 @@ public class InvseeCMD extends CommandBase {
                     }
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                    new AdminBroadCast(this, 1,"§cNo Permissions!", sender);
                 }
             } else if (args.length == 1) {
                 if (sender instanceof Player) {
@@ -83,6 +86,7 @@ public class InvseeCMD extends CommandBase {
                         }
                     } else {
                         sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                        new AdminBroadCast(this, 1,"§cNo Permissions!", sender);
                     }
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());

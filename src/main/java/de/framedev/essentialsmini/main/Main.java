@@ -22,6 +22,7 @@ import net.md_5.bungee.api.chat.hover.content.Text;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Server;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -536,6 +537,14 @@ public class Main extends JavaPlugin {
             File file = new File(getDataFolder(), "messages_en-EN.yml");
             return YamlConfiguration.loadConfiguration(file);
         }
+    }
+
+    public Language getLanguage(Player player) {
+        String playerLocale = player.getLocale();
+        if (playerLocale.contains("en")) return Language.EN;
+        if (playerLocale.contains("de")) return Language.DE;
+        if (playerLocale.contains("fr")) return Language.FR;
+        return Language.EN;
     }
 
     public boolean isOnlyEssentialsFeatures() {

@@ -11,6 +11,7 @@ package de.framedev.essentialsmini.commands.playercommands;
 
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.CommandBase;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import de.framedev.essentialsmini.utils.ReplaceCharConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -67,6 +68,7 @@ public class RepairCMD extends CommandBase {
                         }
                     } else {
                         player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                        new AdminBroadCast("repair","§cNo Permissions!", sender);
                     }
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -122,6 +124,7 @@ public class RepairCMD extends CommandBase {
                         }
                     } else {
                         sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
+                        new AdminBroadCast("repair","§cNo Permissions!", sender);
                     }
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getVariables().getPlayerNameNotOnline(args[0]));

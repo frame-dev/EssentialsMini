@@ -2,6 +2,7 @@ package de.framedev.essentialsmini.commands.playercommands;
 
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.CommandBase;
+import de.framedev.essentialsmini.utils.AdminBroadCast;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -35,6 +36,7 @@ public class BookCMD extends CommandBase {
         Player player = (Player) sender;
         if (!player.hasPermission("essentialsmini.book")) {
             player.sendMessage(getPlugin().getPrefix() + getPlugin().getNoPerms());
+            new AdminBroadCast("copybook/book","§cNo Permissions!", sender);
             return true;
         }
 
