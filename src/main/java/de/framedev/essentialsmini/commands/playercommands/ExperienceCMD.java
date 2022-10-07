@@ -123,9 +123,9 @@ public class ExperienceCMD extends CommandBase {
                     sender.sendMessage(getPlugin().getPrefix() + getPlugin().getVariables().getPlayerNameNotOnline(args[2]));
                     return true;
                 }
-                int level = player.getLevel();
+                int level = target.getLevel();
                 level += amount;
-                int xp = player.getTotalExperience();
+                int xp = target.getTotalExperience();
                 xp += amount;
                 String xpMessage = getPlugin().getCustomMessagesConfig().getString(Variables.EXPERIENCE + ".Self.XP");
                 xpMessage = textUtils.replaceAndToParagraph(xpMessage);
@@ -134,11 +134,13 @@ public class ExperienceCMD extends CommandBase {
                 levelMessage = textUtils.replaceAndToParagraph(levelMessage);
                 levelMessage = textUtils.replaceObject(levelMessage, "%Level%", level + "");
                 if (args[3].equalsIgnoreCase("level")) {
-                    player.setLevel(level);
-                    player.sendMessage(getPlugin().getPrefix() + levelMessage);
+                    target.setLevel(level);
+                    player.setLevel(player.getLevel() - amount);
+                    target.sendMessage(getPlugin().getPrefix() + levelMessage);
                 } else if (args[3].equalsIgnoreCase("xp")) {
-                    player.giveExp(amount);
-                    player.sendMessage(getPlugin().getPrefix() + xpMessage);
+                    target.setTotalExperience(xp);
+                    player.setTotalExperience(player.getTotalExperience() - amount);
+                    target.sendMessage(getPlugin().getPrefix() + xpMessage);
                 }
             }
         }

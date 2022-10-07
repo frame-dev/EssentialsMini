@@ -13,6 +13,12 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Objects;
+import java.util.TimeZone;
 
 
 public class BanListener extends ListenerBase {
@@ -30,7 +36,11 @@ public class BanListener extends ListenerBase {
                     new BanMuteManager().getTempBan(Bukkit.getOfflinePlayer(e.getUniqueId())).forEach((s, s2) -> {
                         try {
                             Bukkit.getServer().getBanList(BanList.Type.NAME).addBan(e.getName(), "§aYou are Banned. Reason:§c " + s2, new SimpleDateFormat("dd.MM.yyyy | HH:mm:ss").parse(s), "true");
-                            reason[0] = "§aYou are Banned. Reason:§c " + s2 + " §aExpired at §6: " + s;
+                            long rest = new SimpleDateFormat("dd.MM.yyyy | HH:mm:ss").parse(s).getTime() - new Date().getTime();
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTimeInMillis(rest);
+                            String t = String.format("%tT", calendar.getTimeInMillis()-TimeZone.getDefault().getRawOffset());
+                            reason[0] = "§aYou are Banned. Reason:§c " + s2 + " §aExpired at §6: " + s + " §aWait another : §6" + t;
                         } catch (ParseException parseException) {
                             parseException.printStackTrace();
                         }
