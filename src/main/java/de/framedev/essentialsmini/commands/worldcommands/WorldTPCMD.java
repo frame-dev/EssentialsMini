@@ -1,6 +1,6 @@
 package de.framedev.essentialsmini.commands.worldcommands;
 
-import de.framedev.essentialsmini.api.EssentialsMiniAPI;
+import de.framedev.essentialsmini.main.EssentialsMiniAPI;
 import de.framedev.essentialsmini.main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

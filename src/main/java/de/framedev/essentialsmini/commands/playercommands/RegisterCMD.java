@@ -26,6 +26,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 
 public class RegisterCMD extends CommandListenerBase {
 
@@ -41,6 +42,16 @@ public class RegisterCMD extends CommandListenerBase {
         this.plugin = plugin;
     }
 
+    String passwordToBase64(String password) {
+        String encodedString = Base64.getEncoder().encodeToString(password.getBytes());
+        return encodedString;
+    }
+
+    String base64ToPassword(String base64) {
+        String decodedString = new String(Base64.getDecoder().decode(base64.getBytes()));
+        return decodedString;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!plugin.getVariables().isOnlineMode()) {
@@ -50,7 +61,7 @@ public class RegisterCMD extends CommandListenerBase {
                     if (!cfg.contains(player.getName())) {
                         if (args.length == 1) {
                             String pwd = args[0];
-                            cfg.set(player.getName(), pwd);
+                            cfg.set(player.getName(), passwordToBase64(pwd));
                             try {
                                 cfg.save(file);
                             } catch (IOException e) {
@@ -75,7 +86,7 @@ public class RegisterCMD extends CommandListenerBase {
                         if (!registerd.contains(player)) {
                             if (args.length == 1) {
                                 String pwd = args[0];
-                                if (cfg.getString(player.getName()).equalsIgnoreCase(pwd)) {
+                                if (cfg.getString(player.getName()).equalsIgnoreCase(passwordToBase64(pwd))) {
                                     registerd.add(player);
                                     player.sendMessage(plugin.getPrefix() + "§aDu bist Erfolgreich Eingeloggt!");
                                 } else {

@@ -61,7 +61,7 @@ public class JsonConfig {
     }
 
     public ArrayList<Object> getList(String path) {
-        ArrayList<Object> list = new ArrayList<>();
+        ArrayList<Object> list;
         if (object.get(path) != null) {
             list = (ArrayList<Object>) object.get(path);
             return list;

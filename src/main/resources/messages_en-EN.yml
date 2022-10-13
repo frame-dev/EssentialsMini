@@ -76,7 +76,7 @@ Money:
   MSG:
     NotEnough: "&cYou don't have enough money &6:%Money%"
     Balance: '&aYour current balance is &b[Money]'
-    Pay: '&aYou have paid&b[Target] &b[Money]!'
+    Pay: '&aYou have paid &b[Target] &b[Money]!'
     GotPay: '&aYou were paid &b[Money] &afrom &b[Player]&a!'
     Set: '&aYour money has been set to &b[Money]!'
   MoneyBalance:

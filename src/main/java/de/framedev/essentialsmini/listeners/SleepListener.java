@@ -9,10 +9,8 @@ package de.framedev.essentialsmini.listeners;
  * This Class was created at 10.08.2020 12:41
  */
 
+import de.framedev.essentialsmini.database.BackendManager;
 import de.framedev.essentialsmini.main.Main;
-import de.framedev.essentialsmini.managers.BackendManager;
-import de.framedev.essentialsmini.managers.PlayerManager;
-import de.framedev.essentialsmini.managers.PlayerManagerCfgLoss;
 import de.framedev.essentialsmini.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
@@ -20,8 +18,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.io.FileNotFoundException;
 
 public class SleepListener implements Listener {
 
@@ -36,12 +32,13 @@ public class SleepListener implements Listener {
     @EventHandler
     public void onPlayerSleep(PlayerBedEnterEvent event) {
         if (!plugin.getConfig().getBoolean("OnlyEssentialsFeatures")) {
-            if (plugin.isMongoDB()) {
+            /*§if (plugin.isMongoDB()) {
                 String collection = "essentialsmini_data";
                 int sleepTimes = (int) plugin.getBackendManager().get(event.getPlayer(), BackendManager.DATA.SLEEPTIMES.getName(), collection);
                 sleepTimes++;
-                plugin.getBackendManager().updateUser(event.getPlayer(), BackendManager.DATA.SLEEPTIMES.getName(), sleepTimes, collection);
-            }
+                plugin.getBackendManager().updateUser(event.getPlayer(), BackendManager.DATA.S.getName(), sleepTimes, collection);
+            }*/
+            /**
             if (plugin.getConfig().getBoolean("JsonFormat")) {
                 try {
                     PlayerManagerCfgLoss.getPlayerManagerCfgLoss(event.getPlayer()).setSleepTimes(PlayerManagerCfgLoss.getPlayerManagerCfgLoss(event.getPlayer()).getSleepTimes() + 1);
@@ -50,7 +47,7 @@ public class SleepListener implements Listener {
                 }
             } else {
                 new PlayerManager(event.getPlayer()).addSleepTimes();
-            }
+            }*/
         }
         if (plugin.getConfig().getBoolean("SkipNight")) {
             if (event.getPlayer().getWorld().getTime() >= 12542 && event.getPlayer().getWorld().getTime() <= 23460 || event.getPlayer().getWorld().isThundering()) {

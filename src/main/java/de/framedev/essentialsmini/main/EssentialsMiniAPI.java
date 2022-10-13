@@ -1,10 +1,9 @@
-package de.framedev.essentialsmini.api;
+package de.framedev.essentialsmini.main;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import de.framedev.essentialsmini.commands.playercommands.*;
 import de.framedev.essentialsmini.commands.worldcommands.WorldTPCMD;
-import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.*;
 import de.framedev.essentialsmini.utils.InventoryStringDeSerializer;
 import org.bukkit.*;
@@ -22,22 +21,27 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * This is the API for this Plugin
- */
 public class EssentialsMiniAPI {
 
+    // The Main class from this Plugin
     private final Main plugin;
-    // API Instance
+
+    // The Singleton for the API
     private static EssentialsMiniAPI instance;
     private final boolean jsonFormat;
+
+    // Is Boolean enabled or not
     private final boolean economy;
 
-    public EssentialsMiniAPI() {
-        this.plugin = Main.getInstance();
+    protected EssentialsMiniAPI(Main plugin) {
         instance = this;
+        this.plugin = plugin;
         jsonFormat = plugin.getConfig().getBoolean("JsonFormat");
         economy = plugin.getVaultManager() != null;
+    }
+
+    public static EssentialsMiniAPI getInstance() {
+        return instance;
     }
 
     public boolean isEconomy() {
@@ -46,10 +50,6 @@ public class EssentialsMiniAPI {
 
     public boolean isJsonFormat() {
         return jsonFormat;
-    }
-
-    public static EssentialsMiniAPI getInstance() {
-        return instance;
     }
 
     public boolean isPlayerVanish(Player player) {
@@ -128,13 +128,6 @@ public class EssentialsMiniAPI {
         return new BossBarManager(title);
     }
 
-    public PlayerManager getPlayerManagerCfg(OfflinePlayer player) {
-        if (!isJsonFormat()) {
-            return new PlayerManager(player);
-        }
-        return null;
-    }
-
     /**
      * This Method saves a Location to the Location File
      *
@@ -155,42 +148,6 @@ public class EssentialsMiniAPI {
         return new LocationsManager(locationName).getLocation();
     }
 
-    public PlayerManagerCfgLoss getPlayerManagerJson(OfflinePlayer player) {
-        if (isJsonFormat()) {
-            if (!plugin.getCfgLossHashMap().isEmpty()) {
-                if (plugin.getCfgLossHashMap().containsKey(player)) {
-                    return plugin.getCfgLossHashMap().get(player);
-                } else {
-                    try {
-                        return PlayerManagerCfgLoss.getPlayerManagerCfgLoss(player);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else {
-                try {
-                    return PlayerManagerCfgLoss.getPlayerManagerCfgLoss(player);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return null;
-    }
-
-    /**
-     * This Method returns the MongoDB PlayerManager when Mongo is Enabled
-     *
-     * @param player the Player
-     * @return returns the PlayerManagerMongoDB
-     */
-    public PlayerManagerMongoDB getPlayerManagerMongoDb(OfflinePlayer player) {
-        if (plugin.isMongoDB()) {
-            return PlayerManagerMongoDB.getPlayerManager(player.getName(), "test");
-        }
-        return null;
-    }
-
     public MaterialManager getMaterialManager() {
         return new MaterialManager();
     }
@@ -198,59 +155,6 @@ public class EssentialsMiniAPI {
     public void printAllHomesFromPlayers() {
         for (OfflinePlayer offlinePlayer : Bukkit.getOfflinePlayers()) {
             getPlayerHomes(offlinePlayer).forEach((s, location) -> Bukkit.getConsoleSender().sendMessage(plugin.getPrefix() + "§7" + offlinePlayer.getName() + " Homes : " + s + " = " + new LocationsManager().locationToString(location)));
-        }
-    }
-
-    @Deprecated
-    public void printPlayerDataFromPlayer(ConsoleCommandSender sender, OfflinePlayer player) {
-        if (!isJsonFormat()) {
-            final PlayerManager playerManager = new PlayerManager(player);
-            long login = playerManager.getLastLogin();
-            sender.sendMessage("§6Info About §a" + player.getName());
-            sender.sendMessage(
-                    "§aLast Login : §6" + new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss").format(new Date(login)));
-            long logout = playerManager.getLastLogout();
-            sender.sendMessage("§aLast Logout : §6"
-                    + new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss").format(new Date(logout)));
-            sender.sendMessage("§aTime Played : §6" + playerManager.getTimePlayed());
-            sender.sendMessage("§aOnline : §6" + player.isOnline());
-            sender.sendMessage("§aPlayerKills : §6" + playerManager.getPlayerKills());
-            sender.sendMessage("§aEntityKills : §6" + playerManager.getEntityKills());
-            sender.sendMessage("§aDamage : §6" + playerManager.getDamage());
-            sender.sendMessage("§aDeaths : §6" + playerManager.getDeaths());
-            sender.sendMessage("§aCommandsUsed : §6" + playerManager.getCommandsUsed());
-            sender.sendMessage("§aBlocksBroken : §6" + playerManager.getBlockBroken());
-            sender.sendMessage("§aBlocksPlaced : §6" + playerManager.getBlockPlace());
-        } else {
-            PlayerManagerCfgLoss playerManager = null;
-            if (player.isOnline()) {
-                if (plugin.getCfgLossHashMap().containsKey(player))
-                    playerManager = plugin.getCfgLossHashMap().get(player);
-            } else {
-                try {
-                    playerManager = PlayerManagerCfgLoss.getPlayerManagerCfgLoss(player);
-                } catch (FileNotFoundException ignored) {
-                    playerManager = new PlayerManagerCfgLoss(player);
-                }
-            }
-            if (playerManager == null) return;
-            long login = playerManager.getLastlogin();
-            sender.sendMessage("§6Info About §a" + player.getName());
-            sender.sendMessage(
-                    "§aLast Login : §6" + new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss").format(new Date(login)));
-            long logout = playerManager.getLastLogout();
-            sender.sendMessage("§aLast Logout : §6"
-                    + new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss").format(new Date(logout)));
-            sender.sendMessage("§aTime Played : §6" + playerManager.getTimePlayed());
-            sender.sendMessage("§aOnline : §6" + player.isOnline());
-            sender.sendMessage("§aPlayerKills : §6" + playerManager.getPlayerKills());
-            sender.sendMessage("§aEntityKills : §6" + playerManager.getEntityKills());
-            sender.sendMessage("§aDamage : §6" + playerManager.getDamage());
-            sender.sendMessage("§aDeaths : §6" + playerManager.getDeaths());
-            sender.sendMessage("§aCommandsUsed : §6" + playerManager.getCommandsUsed());
-            sender.sendMessage("§aBlocksBroken : §6" + playerManager.getBlockBroken());
-            sender.sendMessage("§aBlocksPlaced : §6" + playerManager.getBlockPlace());
-
         }
     }
 
@@ -396,7 +300,7 @@ public class EssentialsMiniAPI {
     public String toPrettyJson(Object obj) {
         return new GsonBuilder().setPrettyPrinting().create().toJson(obj);
     }
-    
+
     public String toJson(Object obj) {
         return new Gson().toJson(obj);
     }

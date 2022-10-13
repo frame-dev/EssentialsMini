@@ -16,9 +16,9 @@ import java.util.UUID;
 
 /**
  * This Plugin was Created by FrameDev
- * Package : de.framedev.javagradle.managers
+ * Package : de.framedev.essentialsmini.database
  * Date: 07.03.21
- * Project: JavaGradle
+ * Project: EssentialsMini
  * Copyrighted by FrameDev
  */
 

@@ -22,7 +22,7 @@ public class UpdateScheduler implements Runnable {
 
     @Override
     public void run() {
-        boolean[] s = {true, true, true};
+        boolean[] s = {true, true};
         if (started)
             new BukkitRunnable() {
                 @Override
@@ -37,21 +37,12 @@ public class UpdateScheduler implements Runnable {
                     } else {
                         s[0] = false;
                     }
-                    if (Main.getInstance().getConfig().getBoolean("PlayerInfoSave")) {
-                        Main.getInstance().getCfgLossHashMap().forEach((player, playerManagerCfgLoss) -> {
-                            if (playerManagerCfgLoss.getName().equalsIgnoreCase(player.getName())) {
-                                playerManagerCfgLoss.savePlayerManager();
-                            }
-                        });
-                    } else {
-                        s[1] = false;
-                    }
                     if (Main.getInstance().getConfig().getBoolean("BackupMessages")) {
                         Bukkit.getConsoleSender().sendMessage(Main.getInstance().getPrefix() + "§6User Data §aSaved!");
                     } else {
-                        s[2] = false;
+                        s[1] = false;
                     }
-                    if (!s[0] && !s[1] && !s[2]) {
+                    if (!s[0] && !s[1]) {
                         started = false;
                         cancel();
                     }

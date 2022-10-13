@@ -9,15 +9,15 @@ package de.framedev.essentialsmini.listeners;
  * This Class was created at 18.08.2020 22:47
  */
 
-import de.framedev.essentialsmini.api.events.PlayerInventoryClearEvent;
-import de.framedev.essentialsmini.api.events.PlayerKillEntityEvent;
-import de.framedev.essentialsmini.api.events.PlayerKillPlayerEvent;
+import de.framedev.essentialsmini.api.events.*;
 import de.framedev.essentialsmini.commands.playercommands.KillCMD;
 import de.framedev.essentialsmini.commands.playercommands.SpawnCMD;
 import de.framedev.essentialsmini.commands.playercommands.VanishCMD;
+import de.framedev.essentialsmini.database.BackendManager;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.LocationsManager;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -28,11 +28,11 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import static de.framedev.essentialsmini.managers.BackendManager.DATA;
 import static org.bukkit.Bukkit.getServer;
 
 public class PlayerListeners implements Listener {
@@ -192,7 +192,7 @@ public class PlayerListeners implements Listener {
             if (plugin.isMongoDB()) {
                 if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
                     if (plugin.getVaultManager().getEco().hasAccount(event.getPlayer())) {
-                        plugin.getBackendManager().updateUser(event.getPlayer(), DATA.MONEY.getName(), plugin.getVaultManager().getEco().getBalance(event.getPlayer()), collection);
+                        plugin.getBackendManager().updateUser(event.getPlayer(), BackendManager.DATA.MONEY.getName(), plugin.getVaultManager().getEco().getBalance(event.getPlayer()), collection);
                     }
                 }
             }
@@ -603,5 +603,18 @@ public class PlayerListeners implements Listener {
                 }
             }
         }*/
+    }
+
+    @EventHandler
+    public void onHitByArrow(ProjectileHitEvent event) {
+        if (event.getHitBlock() != null) return;
+        if (event.getHitEntity() == null) return;
+        if (event.getHitEntity() != null && event.getHitEntity() instanceof Player && event.getEntity().getShooter() != null) {
+            if (event.getEntity().getShooter() instanceof Entity)
+                getServer().getPluginManager().callEvent(new PlayerHitByProjectileEvent((Player) event.getHitEntity(), (Entity) event.getEntity().getShooter()));
+        }
+        if (event.getHitEntity() != null && event.getHitEntity() instanceof Entity && event.getEntity().getShooter() != null) {
+            getServer().getPluginManager().callEvent(new EntityHitByProjectileEvent(event.getHitEntity(), (Entity) event.getEntity().getShooter()));
+        }
     }
 }

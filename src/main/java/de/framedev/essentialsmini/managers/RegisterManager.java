@@ -86,7 +86,6 @@ public class RegisterManager {
         new DayNightCMD(plugin);
         new BackpackCMD(plugin);
         new SleepCMD(plugin);
-        new PlayerDataCMD(plugin);
         new ItemCMD(plugin);
         new KillCMD(plugin);
         new PlayerHeadsCMD(plugin);
@@ -138,6 +137,8 @@ public class RegisterManager {
         new GlobalMuteCMD(plugin);
         new ExperienceCMD(plugin);
         new NickCMD(plugin);
+        if(!plugin.getConfig().getBoolean("OnlineMode"))
+            new RegisterCMD(plugin);
         for (Map.Entry<String, CommandExecutor> commands : plugin.getCommands().entrySet()) {
             if (commands.getKey() == null) continue;
             if (commands.getValue() == null) continue;

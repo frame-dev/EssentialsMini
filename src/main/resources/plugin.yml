@@ -92,9 +92,6 @@ commands:
     description: Command for all Children Commands
   sleep:
     description: Use this command as Sleepback the Bed despawn at 7 seconds
-  playerdata:
-    aliases:
-      - pldata
   item:
     aliases:
       - i
@@ -237,6 +234,8 @@ commands:
     aliases:
       - exp
       - experience
+  register:
+  login:
 permissions:
   essentialsmini.*:
     children:

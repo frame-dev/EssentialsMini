@@ -17,6 +17,7 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
@@ -130,10 +131,11 @@ public class MoneySignListeners extends ListenerBase implements CommandExecutor 
                     if (e.getPlayer().hasPermission("essentialsmini.signs.use")) {
                         String[] args = s.getLines();
                         Material name = Material.getMaterial(args[1].toUpperCase());
-                        int amount = Integer.parseInt(args[2]);
-                        if (s.getLine(1).equalsIgnoreCase(name.name()) && s.getLine(2).equalsIgnoreCase(amount + "")) {
-                            e.getPlayer().getInventory().addItem(new ItemStack(name, amount));
+                        Inventory inventory = Bukkit.createInventory(null, 3*9, "Free");
+                        for(int i = 0; i < inventory.getSize(); i++) {
+                            inventory.setItem(i, new ItemStack(name, 64));
                         }
+                        e.getPlayer().openInventory(inventory);
                     } else {
                         e.getPlayer().sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNoPerms());
                     }
@@ -244,12 +246,9 @@ public class MoneySignListeners extends ListenerBase implements CommandExecutor 
             if (e.getPlayer().hasPermission("essentialsmini.signs.create")) {
                 String[] args = e.getLines();
                 Material name = Material.getMaterial(args[1].toUpperCase());
-                int amount = Integer.parseInt(args[2]);
-                if (e.getLine(1).equalsIgnoreCase(name.name()) &&
-                        e.getLine(2).equalsIgnoreCase(amount + "")) {
+                if (e.getLine(1).equalsIgnoreCase(name.name())) {
                     e.setLine(0, signName);
                     e.setLine(1, name.name());
-                    e.setLine(2, amount + "");
                 }
             } else {
                 e.getPlayer().sendMessage(Main.getInstance().getPrefix() + Main.getInstance().getNoPerms());

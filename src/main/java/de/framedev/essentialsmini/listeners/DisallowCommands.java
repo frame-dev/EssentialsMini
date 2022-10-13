@@ -307,7 +307,7 @@ public class DisallowCommands extends ListenerBase {
             }
         }
         if (!event.getPlayer().hasPermission(plugin.getPermissionName() + "fuck")) {
-            if (event.getMessage().contains("/fuck") || event.getMessage().contains("/essentialsmini.fuck")) {
+            if (event.getMessage().contains("/fuck") || event.getMessage().contains("/essentialsmini:fuck")) {
                 String message = plugin.getConfig().getString("NotAllowCommand");
                 if (message.contains("&"))
                     message = message.replace('&', '§');
@@ -329,7 +329,7 @@ public class DisallowCommands extends ListenerBase {
             if (event.getMessage().split(" ")[0].equalsIgnoreCase("/gm") || event.getMessage().split(" ")[0].equalsIgnoreCase("/gamemode")) {
                 if (event.getPlayer().hasPermission("essentialsmini.gamemode") || event.getPlayer().hasPermission("essentialsmini.gamemode.others")) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        if (player.isOnline() && player != null) {
+                        if (player.isOnline() && player != null && player.hasPermission("essentialsmini.adminbroadcast") && !event.getPlayer().hasPermission("essentialsmini.adminbroadcast")) {
                             player.sendMessage(plugin.getPrefix() + "§6" + event.getPlayer().getName() + " §aChanged the Gamemode!");
                         }
                     }

@@ -28,9 +28,6 @@ public class NickCMD extends CommandBase {
         this.nickPlayer = new HashMap<>();
     }
 
-    /**
-     * TODO: Add Skin Changer to this Command {@link SkinChanger}
-     */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {

@@ -49,6 +49,9 @@ public class AdminBroadCast implements Serializable {
         save();
     }
 
+    /**
+     * This will send the Broadcast to the Players with the Permissions
+     */
     @SuppressWarnings("deprecation")
     public void send() {
         if (Main.getInstance().getSettingsCfg().getBoolean(Variables.ADMIN_BROADCAST)) {
@@ -58,6 +61,8 @@ public class AdminBroadCast implements Serializable {
                     send = true;
                 }
             }
+            // Send to Console
+            Bukkit.getConsoleSender().sendMessage(Main.getInstance().getPrefix() + "§6[§aAdmin§bBroadCast§6] §c>> §c[Command] §6" + command + " §c[Message] §b" + message + " §6has been send by §6" + commandSender);
             adminBroadCasts.add(this);
         }
     }

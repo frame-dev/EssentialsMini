@@ -2,16 +2,12 @@ package de.framedev.essentialsmini.main;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import de.framedev.essentialsmini.api.EssentialsMiniAPI;
 import de.framedev.essentialsmini.commands.playercommands.BackpackCMD;
 import de.framedev.essentialsmini.commands.playercommands.EnchantCMD;
 import de.framedev.essentialsmini.commands.playercommands.SaveInventoryCMD;
 import de.framedev.essentialsmini.commands.playercommands.VanishCMD;
 import de.framedev.essentialsmini.commands.servercommands.LagCMD;
-import de.framedev.essentialsmini.database.MongoManager;
-import de.framedev.essentialsmini.database.MySQL;
-import de.framedev.essentialsmini.database.SQL;
-import de.framedev.essentialsmini.database.SQLite;
+import de.framedev.essentialsmini.database.*;
 import de.framedev.essentialsmini.managers.*;
 import de.framedev.essentialsmini.utils.*;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -22,7 +18,6 @@ import net.md_5.bungee.api.chat.hover.content.Text;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.Server;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -62,7 +57,6 @@ public class Main extends JavaPlugin {
     // Register Listener List
     private ArrayList<Listener> listeners;
 
-    private final HashMap<OfflinePlayer, PlayerManagerCfgLoss> cfgLossHashMap = new HashMap<>();
     private Map<String, Object> limitedHomesPermission;
 
     /* Json Config.json */
@@ -119,6 +113,7 @@ public class Main extends JavaPlugin {
         this.utilities = new Utilities();
 
         // Set Dev Build
+        // TODO: Update
         utilities.setDev(true);
 
         // Info FileConfiguration
@@ -173,7 +168,7 @@ public class Main extends JavaPlugin {
         this.configVersion = getConfig().getString("Config-Version");
 
         // API Init
-        new EssentialsMiniAPI();
+        new EssentialsMiniAPI(this);
         getLogger().info("API Loaded");
 
         this.onlyEssentialsFeatures = getConfig().getBoolean("OnlyEssentialsFeatures");
@@ -234,7 +229,7 @@ public class Main extends JavaPlugin {
             this.mongoDbUtils = new MongoDBUtils();
             if (isMongoDB()) {
                 for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
-                    getBackendManager().createUserMoney(player, "essentialsmini_data");
+                    getBackendManager().createUser(player, "essentialsmini_data");
                 }
                 Bukkit.getConsoleSender().sendMessage(getPrefix() + "§aMongoDB Enabled!");
             }
@@ -492,15 +487,6 @@ public class Main extends JavaPlugin {
             new LocationsManager().saveBackup();
         }
         new LocationsManager().deleteLocations();
-        if (!getCfgLossHashMap().isEmpty()) {
-            getCfgLossHashMap().forEach((player, playerManagerCfgLoss) -> {
-                if (playerManagerCfgLoss.getName().equalsIgnoreCase(player.getName())) {
-                    if (isMysql())
-                        playerManagerCfgLoss.savePlayerData(player);
-                    playerManagerCfgLoss.savePlayerManager();
-                }
-            });
-        }
         new SaveLists().saveVanishList();
         if (!VanishCMD.hided.isEmpty()) VanishCMD.hided.forEach(players -> {
             if (Bukkit.getPlayer(players) != null) {
@@ -737,10 +723,6 @@ public class Main extends JavaPlugin {
     public BackendManager getBackendManager() {
         if (mongoDbUtils == null) return null;
         return mongoDbUtils.getBackendManager();
-    }
-
-    public HashMap<OfflinePlayer, PlayerManagerCfgLoss> getCfgLossHashMap() {
-        return cfgLossHashMap;
     }
 
     public FileConfiguration getCustomMessagesConfig() {
