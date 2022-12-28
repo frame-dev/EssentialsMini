@@ -92,8 +92,6 @@ public class Main extends JavaPlugin {
     private boolean mysql;
     private boolean sql;
 
-    private boolean onlyEssentialsFeatures;
-
     private String currencySymbol;
 
     private ArrayList<String> offlinePlayers;
@@ -114,7 +112,7 @@ public class Main extends JavaPlugin {
 
         // Set Dev Build
         // TODO: Update
-        utilities.setDev(true);
+        utilities.setDev(false);
 
         // Info FileConfiguration
         this.infoFile = new File(getDataFolder(), "info.yml");
@@ -170,8 +168,6 @@ public class Main extends JavaPlugin {
         // API Init
         new EssentialsMiniAPI(this);
         getLogger().info("API Loaded");
-
-        this.onlyEssentialsFeatures = getConfig().getBoolean("OnlyEssentialsFeatures");
 
         if (getConfig().getBoolean("HomeTP")) {
             homeTP = true;
@@ -495,7 +491,7 @@ public class Main extends JavaPlugin {
         });
         savePlayers();
         if (thread != null && thread.isAlive())
-            thread.getThreadGroup().destroy();
+            thread.getThreadGroup().interrupt();
         Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cDisabled! Bye");
     }
 
@@ -533,10 +529,6 @@ public class Main extends JavaPlugin {
         return Language.EN;
     }
 
-    public boolean isOnlyEssentialsFeatures() {
-        return onlyEssentialsFeatures;
-    }
-
     /**
      * Require the MySQLAPI Developed by Me
      * Return if SQLite is enabled!
@@ -561,8 +553,8 @@ public class Main extends JavaPlugin {
      *
      * @param data the Data to Debugging
      */
-    public void debug(Object data) {
-        System.out.println(data);
+    public void debug(String data) {
+        getLogger().info(data);
     }
 
     /**
@@ -996,13 +988,13 @@ public class Main extends JavaPlugin {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             for (Permission permission : getDescription().getPermissions()) {
-                writer.append(permission.getName() + "\n");
+                writer.append(permission.getName()).append("\n");
             }
             writer.flush();
             writer.close();
             BufferedWriter writerCommands = new BufferedWriter(new FileWriter(commandsFile));
             for (String command : getCommands().keySet()) {
-                writerCommands.append("/" + command + "\n");
+                writerCommands.append("/").append(command).append("\n");
             }
             writerCommands.flush();
             writerCommands.close();

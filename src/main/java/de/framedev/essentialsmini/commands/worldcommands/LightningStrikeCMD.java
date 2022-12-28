@@ -11,7 +11,7 @@ package de.framedev.essentialsmini.commands.worldcommands;
  */
 
 import de.framedev.essentialsmini.main.Main;
-import de.framedev.essentialsmini.managers.CommandBase;
+import de.framedev.essentialsmini.abstracts.CommandBase;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

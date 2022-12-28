@@ -1,4 +1,4 @@
-package de.framedev.essentialsmini.managers;
+package de.framedev.essentialsmini.abstracts;
 
 
 /*

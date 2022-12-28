@@ -3,7 +3,7 @@ package de.framedev.essentialsmini.commands.playercommands;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.BanFile;
 import de.framedev.essentialsmini.managers.BanMuteManager;
-import de.framedev.essentialsmini.managers.CommandBase;
+import de.framedev.essentialsmini.abstracts.CommandBase;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;

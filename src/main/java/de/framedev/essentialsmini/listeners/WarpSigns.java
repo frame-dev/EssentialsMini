@@ -1,7 +1,7 @@
 package de.framedev.essentialsmini.listeners;
 
 import de.framedev.essentialsmini.main.Main;
-import de.framedev.essentialsmini.managers.ListenerBase;
+import de.framedev.essentialsmini.abstracts.ListenerBase;
 import de.framedev.essentialsmini.managers.LocationsManager;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;

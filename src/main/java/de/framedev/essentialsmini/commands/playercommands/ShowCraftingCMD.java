@@ -10,7 +10,7 @@ package de.framedev.essentialsmini.commands.playercommands;
  */
 
 import de.framedev.essentialsmini.main.Main;
-import de.framedev.essentialsmini.managers.CommandBase;
+import de.framedev.essentialsmini.abstracts.CommandBase;
 import de.framedev.essentialsmini.managers.MaterialManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

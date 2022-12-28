@@ -1,7 +1,7 @@
 package de.framedev.essentialsmini.commands.playercommands;
 
 import de.framedev.essentialsmini.main.Main;
-import de.framedev.essentialsmini.managers.CommandListenerBase;
+import de.framedev.essentialsmini.abstracts.CommandListenerBase;
 import de.framedev.essentialsmini.utils.AdminBroadCast;
 import de.framedev.essentialsmini.utils.TextUtils;
 import org.bukkit.Bukkit;

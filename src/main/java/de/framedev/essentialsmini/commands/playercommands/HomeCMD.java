@@ -5,7 +5,7 @@
 package de.framedev.essentialsmini.commands.playercommands;
 
 import de.framedev.essentialsmini.main.Main;
-import de.framedev.essentialsmini.managers.CommandListenerBase;
+import de.framedev.essentialsmini.abstracts.CommandListenerBase;
 import de.framedev.essentialsmini.managers.InventoryManager;
 import de.framedev.essentialsmini.managers.ItemBuilder;
 import de.framedev.essentialsmini.managers.LocationsManager;

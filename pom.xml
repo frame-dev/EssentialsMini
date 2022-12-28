@@ -6,11 +6,11 @@
 
     <groupId>de.framedev</groupId>
     <artifactId>EssentialsMini</artifactId>
-    <version>1.3.7.1-PRE-RELEASE</version>
+    <version>1.3.8-RELEASE</version>
     <url>https://framedev.ch</url>
 
     <properties>
-        <repo_version>pre-release</repo_version>
+        <repo_version>release</repo_version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

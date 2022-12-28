@@ -27,6 +27,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -157,7 +158,7 @@ public class TeleportCMD implements CommandExecutor, Listener {
                         tpDelay = new TextUtils().replaceObject(tpDelay, "%Time%", delay + "");
                         tpRequest.get(player).sendMessage(plugin.getPrefix() + tpDelay);
                         Player target = tpRequest.get(player);
-                        new BukkitRunnable() {
+                        /*new BukkitRunnable() {
                             @Override
                             public void run() {
                                 if (queue.contains(target)) {
@@ -165,7 +166,8 @@ public class TeleportCMD implements CommandExecutor, Listener {
                                     queue.remove(target);
                                 }
                             }
-                        }.runTaskLater(plugin, 20 * delay);
+                        }.runTaskLater(plugin, 20 * delay);*/
+                        runnable(target, player);
                         tpRequest.remove(player);
                     } else {
                         if (player.getWorld().getName().equalsIgnoreCase(tpRequest.get(player).getWorld().getName())) {
@@ -298,7 +300,7 @@ public class TeleportCMD implements CommandExecutor, Listener {
                         tpDelay = new TextUtils().replaceObject(tpDelay, "%Time%", delay + "");
                         player[0].sendMessage(plugin.getPrefix() + tpDelay);
                         Player target = tpHereRequest.get(player[0]);
-                        new BukkitRunnable() {
+                        /*new BukkitRunnable() {
                             @Override
                             public void run() {
                                 if (queue.contains(player[0])) {
@@ -307,7 +309,8 @@ public class TeleportCMD implements CommandExecutor, Listener {
                                     tpHereRequest.remove(player[0]);
                                 }
                             }
-                        }.runTaskLater(plugin, 20 * 3);
+                        }.runTaskLater(plugin, 20 * 3);*/
+                        runnable(player[0], target);
                         tpHereRequest.remove(target);
                     } else {
                         if (tpHereRequest.get(player[0]).getWorld().getName().equalsIgnoreCase(player[0].getWorld().getName())) {
@@ -369,5 +372,18 @@ public class TeleportCMD implements CommandExecutor, Listener {
                 event.getPlayer().sendMessage(plugin.getPrefix() + message);
             }
         }
+    }
+
+    public void runnable(Player player, Player target) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (queue.contains(player)) {
+                    player.teleport(target.getLocation());
+                    queue.remove(player);
+                    tpHereRequest.remove(player);
+                }
+            }
+        }.runTaskLater(plugin, 20 * 3);
     }
 }

@@ -12,7 +12,7 @@ package de.framedev.essentialsmini.commands.playercommands;
  */
 
 import de.framedev.essentialsmini.main.Main;
-import de.framedev.essentialsmini.managers.CommandListenerBase;
+import de.framedev.essentialsmini.abstracts.CommandListenerBase;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

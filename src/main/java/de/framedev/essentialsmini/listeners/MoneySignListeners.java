@@ -1,7 +1,7 @@
 package de.framedev.essentialsmini.listeners;
 
 import de.framedev.essentialsmini.main.Main;
-import de.framedev.essentialsmini.managers.ListenerBase;
+import de.framedev.essentialsmini.abstracts.ListenerBase;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
 import org.bukkit.block.Sign;

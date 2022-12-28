@@ -1,13 +1,10 @@
 package de.framedev.essentialsmini.listeners;
 
 import de.framedev.essentialsmini.main.Main;
-import de.framedev.essentialsmini.managers.ListenerBase;
-import de.framedev.essentialsmini.utils.AdminBroadCast;
-import org.bukkit.Bukkit;
+import de.framedev.essentialsmini.abstracts.ListenerBase;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerCommandSendEvent;
 import org.bukkit.help.HelpTopic;
@@ -325,16 +322,6 @@ public class DisallowCommands extends ListenerBase {
                 event.setCancelled(true);
             }
         }
-        if (plugin.getSettingsCfg().getBoolean("AdminCommandBroadCast"))
-            if (event.getMessage().split(" ")[0].equalsIgnoreCase("/gm") || event.getMessage().split(" ")[0].equalsIgnoreCase("/gamemode")) {
-                if (event.getPlayer().hasPermission("essentialsmini.gamemode") || event.getPlayer().hasPermission("essentialsmini.gamemode.others")) {
-                    for (Player player : Bukkit.getOnlinePlayers()) {
-                        if (player.isOnline() && player != null && player.hasPermission("essentialsmini.adminbroadcast") && !event.getPlayer().hasPermission("essentialsmini.adminbroadcast")) {
-                            player.sendMessage(plugin.getPrefix() + "§6" + event.getPlayer().getName() + " §aChanged the Gamemode!");
-                        }
-                    }
-                }
-            }
         if (!(event.isCancelled())) {
             Player player = event.getPlayer();
             String msg = event.getMessage().split(" ")[0];

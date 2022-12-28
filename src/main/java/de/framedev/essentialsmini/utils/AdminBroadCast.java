@@ -3,7 +3,7 @@ package de.framedev.essentialsmini.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import de.framedev.essentialsmini.main.Main;
-import de.framedev.essentialsmini.managers.CommandBase;
+import de.framedev.essentialsmini.abstracts.CommandBase;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

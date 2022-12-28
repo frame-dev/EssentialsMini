@@ -1,7 +1,7 @@
 package de.framedev.essentialsmini.commands.servercommands;
 
 import de.framedev.essentialsmini.main.Main;
-import de.framedev.essentialsmini.managers.CommandBase;
+import de.framedev.essentialsmini.abstracts.CommandBase;
 import de.framedev.essentialsmini.utils.TextUtils;
 import lombok.NonNull;
 import org.bukkit.Bukkit;

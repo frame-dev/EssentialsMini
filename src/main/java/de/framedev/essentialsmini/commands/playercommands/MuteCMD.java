@@ -2,7 +2,7 @@ package de.framedev.essentialsmini.commands.playercommands;
 
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.BanMuteManager;
-import de.framedev.essentialsmini.managers.CommandBase;
+import de.framedev.essentialsmini.abstracts.CommandBase;
 import de.framedev.essentialsmini.utils.AdminBroadCast;
 import de.framedev.essentialsmini.utils.DateUnit;
 import de.framedev.essentialsmini.utils.ReplaceCharConfig;
