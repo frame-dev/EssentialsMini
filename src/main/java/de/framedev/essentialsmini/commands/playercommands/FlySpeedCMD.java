@@ -37,13 +37,13 @@ public class FlySpeedCMD extends CommandBase {
             Player player = (Player) sender;
             if (!player.hasPermission(plugin.getPermissionName() + "flyspeed")) {
                 player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                new AdminBroadCast(this,"§cNo Permissions!", sender);
+                new AdminBroadCast(this, "§cNo Permissions!", sender);
                 return true;
             }
-            float flyspeed = Float.parseFloat(args[0]) / 10F;
-            player.setFlySpeed(flyspeed);
+            float flySpeed = Float.parseFloat(args[0]) / 10F;
+            player.setFlySpeed(flySpeed);
             String flySpeedMessage = plugin.getLanguageConfig(player).getString("ChangeFlySpeed");
-            flySpeedMessage = new TextUtils().replaceObject("flySpeed", "%flyspeed%", String.valueOf(flyspeed * 10F));
+            flySpeedMessage = new TextUtils().replaceObject("flySpeed", "%flyspeed%", String.valueOf(flySpeed * 10F));
             flySpeedMessage = new TextUtils().replaceAndToParagraph(flySpeedMessage);
             player.sendMessage(flySpeedMessage);
             return true;

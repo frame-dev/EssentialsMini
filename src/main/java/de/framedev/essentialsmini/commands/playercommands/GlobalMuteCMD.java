@@ -34,7 +34,7 @@ public class GlobalMuteCMD extends CommandBase {
         if (command.getName().equalsIgnoreCase("globalmute")) {
             if (!sender.hasPermission("essentialsmini.globalmute")) {
                 sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                new AdminBroadCast(this,"§cNo Permissions!", sender);
+                new AdminBroadCast(this, "§cNo Permissions!", sender);
                 return true;
             }
 

@@ -125,7 +125,7 @@ public class BackpackCMD extends CommandListenerBase {
                         }
                     } else {
                         sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                        new AdminBroadCast(this,"§cNo Permissions!", sender);
+                        new AdminBroadCast(this, "§cNo Permissions!", sender);
                     }
                 }
                 if (args[0].equalsIgnoreCase("delete")) {
@@ -158,7 +158,7 @@ public class BackpackCMD extends CommandListenerBase {
                         }
                     } else {
                         sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                        new AdminBroadCast(this,"§cNo Permissions!", sender);
+                        new AdminBroadCast(this, "§cNo Permissions!", sender);
                     }
                 }
             }

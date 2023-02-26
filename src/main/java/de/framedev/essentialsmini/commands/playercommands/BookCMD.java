@@ -36,7 +36,7 @@ public class BookCMD extends CommandBase {
         Player player = (Player) sender;
         if (!player.hasPermission("essentialsmini.book")) {
             player.sendMessage(getPlugin().getPrefix() + getPlugin().getNoPerms());
-            new AdminBroadCast("copybook/book","§cNo Permissions!", sender);
+            new AdminBroadCast("copybook/book", "§cNo Permissions!", sender);
             return true;
         }
 

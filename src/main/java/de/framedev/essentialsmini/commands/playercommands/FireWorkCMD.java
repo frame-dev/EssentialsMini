@@ -47,7 +47,7 @@ public class FireWorkCMD extends CommandBase {
         Player player = (Player) sender;
         if (!player.hasPermission(getPlugin().getPermissionName() + "firework")) {
             player.sendMessage(getPlugin().getPrefix() + getPlugin().getNoPerms());
-            new AdminBroadCast(this,"§cNo Permissions!", sender);
+            new AdminBroadCast(this, "§cNo Permissions!", sender);
             return true;
         }
         if (args[0].equalsIgnoreCase("create")) {
@@ -131,7 +131,7 @@ public class FireWorkCMD extends CommandBase {
                 effect.clearEffects();
             itemStack.setItemMeta(effect);
         }
-        if(args[0].equalsIgnoreCase("fire")) {
+        if (args[0].equalsIgnoreCase("fire")) {
             ItemStack itemStack = player.getInventory().getItemInMainHand();
             if (itemStack.getType() != Material.FIREWORK_ROCKET) {
                 player.sendMessage(getPlugin().getPrefix() + "§cKein Feuerwerksrackete in der Hand gefunden!");

@@ -47,7 +47,7 @@ public class FlyCMD extends CommandBase {
                     }
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                    new AdminBroadCast(this,"§cNo Permissions!", sender);
+                    new AdminBroadCast(this, "§cNo Permissions!", sender);
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -93,7 +93,7 @@ public class FlyCMD extends CommandBase {
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                new AdminBroadCast(this,"§cNo Permissions!", sender);
+                new AdminBroadCast(this, "§cNo Permissions!", sender);
             }
         }
         return false;

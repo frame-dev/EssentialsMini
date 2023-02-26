@@ -36,8 +36,8 @@ public class BackCMD extends CommandListenerBase {
     //Test
     @Override
     public boolean onCommand(@NonNull CommandSender sender, Command command, String label, String[] args) {
-        if(command.getName().equalsIgnoreCase("back")) {
-            if(plugin.getConfig().getBoolean("Back")) {
+        if (command.getName().equalsIgnoreCase("back")) {
+            if (plugin.getConfig().getBoolean("Back")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
                     if (deaths.containsKey(player)) {
@@ -45,7 +45,7 @@ public class BackCMD extends CommandListenerBase {
                         /*  Player Teleports to the Death Location */
                         player.teleport(deaths.get(player));
                         String message = plugin.getLanguageConfig(player).getString("DeathTeleport");
-                        if(message != null) {
+                        if (message != null) {
                             message = new TextUtils().replaceAndToParagraph(message);
                         }
                         player.sendMessage(plugin.getPrefix() + message);
@@ -53,7 +53,7 @@ public class BackCMD extends CommandListenerBase {
                         deaths.remove(player);
                     } else {
                         String message = plugin.getLanguageConfig(player).getString("NoDeathLocationFound");
-                        if(message != null) {
+                        if (message != null) {
                             message = new TextUtils().replaceAndToParagraph(message);
                         }
                         player.sendMessage(plugin.getPrefix() + message);
@@ -68,11 +68,11 @@ public class BackCMD extends CommandListenerBase {
 
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
-        if(plugin.getConfig().getBoolean("Back")) {
+        if (plugin.getConfig().getBoolean("Back")) {
             Player player = event.getEntity();
             deaths.put(player, player.getLocation());
             String message = plugin.getLanguageConfig(player).getString("DeathCommandUsage");
-            if(message != null) {
+            if (message != null) {
                 message = new TextUtils().replaceAndToParagraph(message);
             }
             player.sendMessage(plugin.getPrefix() + message);

@@ -139,7 +139,7 @@ public class GameModeCMD extends CommandBase {
                     }
                 } else {
                     sender.sendMessage(Main.getInstance().getPrefix() + plugin.getNoPerms());
-                    new AdminBroadCast(this,"§cNo Permissions!", sender);
+                    new AdminBroadCast(this, "§cNo Permissions!", sender);
                 }
             } else if (args.length == 2) {
                 if (sender.hasPermission("essentialsmini.gamemode.others")) {
@@ -343,7 +343,7 @@ public class GameModeCMD extends CommandBase {
                     }
                 } else {
                     sender.sendMessage(Main.getInstance().getPrefix() + plugin.getNoPerms());
-                    new AdminBroadCast(this,"§cNo Permissions!", sender);
+                    new AdminBroadCast(this, "§cNo Permissions!", sender);
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("/gamemode <Gamemode (Name oder Zahl)> §coder §6/gamemode <Gamemode (Name oder Zahl)> <Spieler Name>"));

@@ -139,6 +139,7 @@ public class RegisterManager {
         new NickCMD(plugin);
         if(!plugin.getConfig().getBoolean("OnlineMode"))
             new RegisterCMD(plugin);
+        new PlWeatherCMD(plugin);
         for (Map.Entry<String, CommandExecutor> commands : plugin.getCommands().entrySet()) {
             if (commands.getKey() == null) continue;
             if (commands.getValue() == null) continue;

@@ -101,9 +101,9 @@ public class EcoCMDs extends CommandBase {
                                 }
                             }
                         } else {
-                            if(plugin.getLanguage(p) == Language.EN) {
+                            if (plugin.getLanguage(p) == Language.EN) {
                                 sender.sendMessage(plugin.getPrefix() + "§6" + args[0] + " §cisn't a Number!");
-                            } else if(plugin.getLanguage(p) == Language.DE) {
+                            } else if (plugin.getLanguage(p) == Language.DE) {
                                 sender.sendMessage(plugin.getPrefix() + "§6" + args[0] + " §cist keine Nummer!");
                             } else {
                                 sender.sendMessage(plugin.getPrefix() + "§6" + args[0] + " §cisn't a Number!");
@@ -114,7 +114,7 @@ public class EcoCMDs extends CommandBase {
                     }
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                    new AdminBroadCast(this,"§cNo Permissions!", sender);
+                    new AdminBroadCast(this, "§cNo Permissions!", sender);
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -134,7 +134,7 @@ public class EcoCMDs extends CommandBase {
                     }
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                    new AdminBroadCast(this,1,"§cNo Permissions!", sender);
+                    new AdminBroadCast(this, 1, "§cNo Permissions!", sender);
                 }
                 return true;
             } else if (args.length == 1) {
@@ -149,7 +149,7 @@ public class EcoCMDs extends CommandBase {
                     sender.sendMessage(plugin.getPrefix() + balance);
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                    new AdminBroadCast(this,1,"§cNo Permissions!", sender);
+                    new AdminBroadCast(this, 1, "§cNo Permissions!", sender);
                 }
                 return true;
             } else {
@@ -178,7 +178,7 @@ public class EcoCMDs extends CommandBase {
                                 }
                             } else {
                                 sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                                new AdminBroadCast(this,2,"§cNo Permissions!", sender);
+                                new AdminBroadCast(this, 2, "§cNo Permissions!", sender);
                             }
                         } else {
                             sender.sendMessage(plugin.getPrefix() + "§6" + args[0] + " §cisn't a Number!");
@@ -211,7 +211,7 @@ public class EcoCMDs extends CommandBase {
                             }
                         } else {
                             sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                            new AdminBroadCast(this,2,"§cNo Permissions!", sender);
+                            new AdminBroadCast(this, 2, "§cNo Permissions!", sender);
                         }
                     }
                 }
@@ -234,7 +234,7 @@ public class EcoCMDs extends CommandBase {
                                 }
                             } else {
                                 sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                                new AdminBroadCast(this,2,"§cNo Permissions!", sender);
+                                new AdminBroadCast(this, 2, "§cNo Permissions!", sender);
                             }
                         } else {
                             sender.sendMessage(plugin.getPrefix() + "§6" + args[0] + " §cisn't a Number!");
@@ -267,7 +267,7 @@ public class EcoCMDs extends CommandBase {
                             }
                         } else {
                             sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                            new AdminBroadCast(this,2,"§cNo Permissions!", sender);
+                            new AdminBroadCast(this, 2, "§cNo Permissions!", sender);
                         }
                     }
                 }
@@ -291,7 +291,7 @@ public class EcoCMDs extends CommandBase {
                                 }
                             } else {
                                 sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                                new AdminBroadCast(this,2,"§cNo Permissions!", sender);
+                                new AdminBroadCast(this, 2, "§cNo Permissions!", sender);
                             }
                         } else {
                             sender.sendMessage(plugin.getPrefix() + "§6" + args[0] + " §cisn't a Number!");
@@ -325,7 +325,7 @@ public class EcoCMDs extends CommandBase {
                             }
                         } else {
                             sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                            new AdminBroadCast(this,2,"§cNo Permissions!", sender);
+                            new AdminBroadCast(this, 2, "§cNo Permissions!", sender);
                         }
                     }
                 }
@@ -345,9 +345,9 @@ public class EcoCMDs extends CommandBase {
                     } else {
                         for (String bank : plugin.getVaultManager().getEco().getBanks()) {
                             if (plugin.getVaultManager().getEco().isBankMember(bank, all).transactionSuccess() || plugin.getVaultManager().getEco().isBankOwner(bank, all).transactionSuccess()) {
-                                mostplayers.put(all.getName(), Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().getBalance(all)).replace(",",".")) + Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().bankBalance(bank).balance).replace(",",".")));
+                                mostplayers.put(all.getName(), Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().getBalance(all)).replace(",", ".")) + Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().bankBalance(bank).balance).replace(",", ".")));
                             } else {
-                                mostplayers.put(all.getName(), Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().getBalance(all)).replace(",",".")));
+                                mostplayers.put(all.getName(), Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().getBalance(all)).replace(",", ".")));
                             }
                         }
                     }
@@ -358,9 +358,9 @@ public class EcoCMDs extends CommandBase {
                     } else {
                         for (String bank : plugin.getVaultManager().getEco().getBanks()) {
                             if (plugin.getVaultManager().getEco().isBankMember(bank, alloffline).transactionSuccess() || plugin.getVaultManager().getEco().isBankOwner(bank, alloffline).transactionSuccess()) {
-                                mostplayers.put(alloffline.getName(), Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().getBalance(alloffline)).replace(",",".")) + Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().bankBalance(bank).balance).replace(",",".")));
+                                mostplayers.put(alloffline.getName(), Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().getBalance(alloffline)).replace(",", ".")) + Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().bankBalance(bank).balance).replace(",", ".")));
                             } else {
-                                mostplayers.put(alloffline.getName(), Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().getBalance(alloffline)).replace(",",".")));
+                                mostplayers.put(alloffline.getName(), Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().getBalance(alloffline)).replace(",", ".")));
                             }
                         }
                     }

@@ -55,13 +55,14 @@ public class MuteCMD extends CommandBase implements Listener {
         cfg = YamlConfiguration.loadConfiguration(file);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("mute")) {
             if (args.length == 1) {
                 if (!sender.hasPermission(plugin.getPermissionName() + "mute")) {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                    new AdminBroadCast("mute","§cNo Permissions!", sender);
+                    new AdminBroadCast("mute", "§cNo Permissions!", sender);
                     return true;
                 }
 
@@ -94,7 +95,7 @@ public class MuteCMD extends CommandBase implements Listener {
             if (args.length == 5) {
                 if (!sender.hasPermission(plugin.getPermissionName() + "tempmute")) {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                    new AdminBroadCast("tempmute","§cNo Permissions!", sender);
+                    new AdminBroadCast("tempmute", "§cNo Permissions!", sender);
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("type")) {
@@ -180,11 +181,15 @@ public class MuteCMD extends CommandBase implements Listener {
             if (args.length == 1) {
                 if (!sender.hasPermission(plugin.getPermissionName() + "tempmute")) {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                    new AdminBroadCast("removetempmute","§cNo Permissions!", sender);
+                    new AdminBroadCast("removetempmute", "§cNo Permissions!", sender);
                     return true;
                 }
 
                 OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
+                if (player.getName() == null) {
+                    System.out.println("Player Name is Null; MuteCMD.java:189");
+                    return true;
+                }
                 if (plugin.isMysql() || plugin.isSQL()) {
                     new BanMuteManager().removeTempMute(player);
                     String selfUnMute = plugin.getCustomMessagesConfig().getString("Mute.Self.Deactivate");
@@ -219,7 +224,7 @@ public class MuteCMD extends CommandBase implements Listener {
         if (command.getName().equalsIgnoreCase("muteinfo")) {
             if (!sender.hasPermission(plugin.getPermissionName() + "muteinfo")) {
                 sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                new AdminBroadCast("muteinfo","§cNo Permissions!", sender);
+                new AdminBroadCast("muteinfo", "§cNo Permissions!", sender);
                 return true;
             }
 

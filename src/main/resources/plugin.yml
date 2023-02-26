@@ -236,6 +236,12 @@ commands:
       - experience
   register:
   login:
+  plweather:
+    aliases:
+      - playerweather
+  resetplweather:
+    aliases:
+      - resetplayerweather
 permissions:
   essentialsmini.*:
     children:
@@ -323,6 +329,7 @@ permissions:
       essentialsmini.checkupdates: true
       essentialsmini.globalmute: true
       essentialsmini.globalmute.bypass: true
+      essentialsmini.plweather: true
   essentialsmini.sethome:
     default: op
   essentialsmini.worldutils:
@@ -523,3 +530,5 @@ permissions:
     default: op
     children:
       essentialsmini.globalmute: true
+  essentialsmini.plweather:
+    default: op

@@ -51,14 +51,14 @@ public class BankCMD extends CommandBase {
                     sender.sendMessage(plugin.getPrefix() + "§6<<<===>>>");
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                    new AdminBroadCast(this,"§cNo Permissions!", sender);
+                    new AdminBroadCast(this, "§cNo Permissions!", sender);
                 }
             }
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("info")) {
                 if (!sender.hasPermission(plugin.getPermissionName() + "bank.info")) {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                    new AdminBroadCast(this,"§cNo Permissions!", sender);
+                    new AdminBroadCast(this, "§cNo Permissions!", sender);
                     return true;
                 }
                 String name = args[1];
@@ -98,7 +98,7 @@ public class BankCMD extends CommandBase {
                         }
                     } else {
                         player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                        new AdminBroadCast(this,"§cNo Permissions!", sender);
+                        new AdminBroadCast(this, "§cNo Permissions!", sender);
                     }
                 }
             }
@@ -125,7 +125,7 @@ public class BankCMD extends CommandBase {
                         }
                     } else {
                         player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                        new AdminBroadCast(this,"§cNo Permissions!", sender);
+                        new AdminBroadCast(this, "§cNo Permissions!", sender);
                     }
                 }
             }
@@ -159,7 +159,7 @@ public class BankCMD extends CommandBase {
                         }
                     } else {
                         player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                        new AdminBroadCast(this,"§cNo Permissions!", sender);
+                        new AdminBroadCast(this, "§cNo Permissions!", sender);
                     }
                 }
             }
@@ -185,7 +185,7 @@ public class BankCMD extends CommandBase {
                         }
                     } else {
                         player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                        new AdminBroadCast(this,"§cNo Permissions!", sender);
+                        new AdminBroadCast(this, "§cNo Permissions!", sender);
                     }
                 }
             }
@@ -221,7 +221,7 @@ public class BankCMD extends CommandBase {
                         }
                     } else {
                         player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                        new AdminBroadCast(this,"§cNo Permissions!", sender);
+                        new AdminBroadCast(this, "§cNo Permissions!", sender);
                     }
                 }
             } else if (args[0].equalsIgnoreCase("withdraw")) {
@@ -254,7 +254,7 @@ public class BankCMD extends CommandBase {
                         }
                     } else {
                         player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                        new AdminBroadCast(this,"§cNo Permissions!", sender);
+                        new AdminBroadCast(this, "§cNo Permissions!", sender);
                     }
                 }
             } else if (args[0].equalsIgnoreCase("addmember")) {
@@ -281,7 +281,7 @@ public class BankCMD extends CommandBase {
                         }
                     } else {
                         player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                        new AdminBroadCast(this,"§cNo Permissions!", sender);
+                        new AdminBroadCast(this, "§cNo Permissions!", sender);
                     }
                 }
             } else if (args[0].equalsIgnoreCase("removemember")) {
@@ -308,7 +308,7 @@ public class BankCMD extends CommandBase {
                         }
                     } else {
                         player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                        new AdminBroadCast(this,"§cNo Permissions!", sender);
+                        new AdminBroadCast(this, "§cNo Permissions!", sender);
                     }
                 }
             }

@@ -58,7 +58,7 @@ public class MessageCMD extends CommandBase {
                     }
                 } else {
                     player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                    new AdminBroadCast("msgtoggle","§cNo Permissions!", sender);
+                    new AdminBroadCast("msgtoggle", "§cNo Permissions!", sender);
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());

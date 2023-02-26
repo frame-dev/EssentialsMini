@@ -30,7 +30,7 @@ public class WorkbenchCMD extends CommandBase {
             if (args.length == 0) {
                 if (sender.hasPermission(plugin.getPermissionName() + "workbench")) {
                     ((Player) sender).openWorkbench(((Player) sender).getLocation(), true);
-                    sender.sendMessage(getPrefix() + "§aWorkbench opend");
+                    sender.sendMessage(getPrefix() + "§aWorkbench Opened");
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 }

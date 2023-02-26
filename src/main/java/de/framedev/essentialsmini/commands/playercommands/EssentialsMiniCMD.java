@@ -150,8 +150,8 @@ public class EssentialsMiniCMD extends CommandBase {
                         sender.sendMessage(plugin.getPrefix() + "§6OnlyEssentialsFeatures §awurde auf §6" + isSet + " §agesetzt!");
                         sender.sendMessage(plugin.getPrefix() + "§6Wenn du fertig bis Reloade bitte einmal den Server!");
                     }
-                    if(args[0].equalsIgnoreCase("adminbroadcast")) {
-                        for(AdminBroadCast broadCast : AdminBroadCast.getAdminBroadCasts()) {
+                    if (args[0].equalsIgnoreCase("adminbroadcast")) {
+                        for (AdminBroadCast broadCast : AdminBroadCast.getAdminBroadCasts()) {
                             sender.sendMessage(broadCast.toString());
                         }
                         sender.sendMessage("§aAll BroadCasts");

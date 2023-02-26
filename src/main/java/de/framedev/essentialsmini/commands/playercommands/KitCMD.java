@@ -148,7 +148,7 @@ public class KitCMD extends CommandBase {
                         new KitManager().createKit(args[0], items, Integer.parseInt(args[1]));
                         p.sendMessage(plugin.getPrefix() + "§aKit Created §6" + args[0]);
                         p.getInventory().clear();
-                    } else if(args.length == 3) {
+                    } else if (args.length == 3) {
                         ItemStack[] items = p.getInventory().getContents();
                         new KitManager().createKit(args[0], items, Integer.parseInt(args[1]), Integer.parseInt(args[2]));
                         p.sendMessage(plugin.getPrefix() + "§aKit Created §6" + args[0]);

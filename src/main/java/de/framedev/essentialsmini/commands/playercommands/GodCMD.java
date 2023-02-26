@@ -39,19 +39,19 @@ public class GodCMD implements CommandExecutor {
             Player player = (Player) sender;
             if (!player.hasPermission(new Permission(plugin.getPermissionName() + "god", PermissionDefault.OP))) {
                 player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                new AdminBroadCast("godmode","§cNo Permissions!", sender);
+                new AdminBroadCast("godmode", "§cNo Permissions!", sender);
                 return true;
             }
             if (player.isInvulnerable()) {
                 player.setInvulnerable(false);
                 String godSelfOff = plugin.getLanguageConfig(player).getString("God.Self.Deactivated");
-                if(godSelfOff.contains("&"))
+                if (godSelfOff.contains("&"))
                     godSelfOff = godSelfOff.replace('&', '§');
                 player.sendMessage(plugin.getPrefix() + godSelfOff);
             } else {
                 player.setInvulnerable(true);
                 String godSelfOn = plugin.getLanguageConfig(player).getString("God.Self.Activated");
-                if(godSelfOn.contains("&"))
+                if (godSelfOn.contains("&"))
                     godSelfOn = godSelfOn.replace('&', '§');
                 player.sendMessage(plugin.getPrefix() + godSelfOn);
             }
@@ -67,28 +67,28 @@ public class GodCMD implements CommandExecutor {
                     player.setInvulnerable(false);
                     if (!Main.getSilent().contains(sender.getName())) {
                         String godSelfOff = plugin.getLanguageConfig(player).getString("God.Self.Deactivated");
-                        if(godSelfOff.contains("&"))
+                        if (godSelfOff.contains("&"))
                             godSelfOff = godSelfOff.replace('&', '§');
                         player.sendMessage(plugin.getPrefix() + godSelfOff);
                     }
                     String godOtherOff = plugin.getLanguageConfig(sender).getString("God.Other.Deactivated");
-                    if(godOtherOff.contains("%Player%"))
+                    if (godOtherOff.contains("%Player%"))
                         godOtherOff = godOtherOff.replace("%Player%", player.getName());
-                    if(godOtherOff.contains("&"))
+                    if (godOtherOff.contains("&"))
                         godOtherOff = godOtherOff.replace('&', '§');
                     sender.sendMessage(plugin.getPrefix() + godOtherOff);
                 } else {
                     player.setInvulnerable(true);
                     if (!Main.getSilent().contains(sender.getName())) {
                         String godSelfOn = plugin.getLanguageConfig(player).getString("God.Self.Activated");
-                        if(godSelfOn.contains("&"))
+                        if (godSelfOn.contains("&"))
                             godSelfOn = godSelfOn.replace('&', '§');
                         player.sendMessage(plugin.getPrefix() + godSelfOn);
                     }
                     String godOtherOff = plugin.getLanguageConfig(sender).getString("God.Other.Activated");
-                    if(godOtherOff.contains("%Player%"))
+                    if (godOtherOff.contains("%Player%"))
                         godOtherOff = godOtherOff.replace("%Player%", player.getName());
-                    if(godOtherOff.contains("&"))
+                    if (godOtherOff.contains("&"))
                         godOtherOff = godOtherOff.replace('&', '§');
                     sender.sendMessage(plugin.getPrefix() + godOtherOff);
                 }

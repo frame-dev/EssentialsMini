@@ -38,7 +38,7 @@ public class ExperienceCMD extends CommandBase {
         if (args.length == 4) {
             if (!sender.hasPermission(getPlugin().getPermissionName() + "xp")) {
                 sender.sendMessage(getPlugin().getPrefix() + getPlugin().getNoPerms());
-                new AdminBroadCast(this,"§cNo Permissions!", sender);
+                new AdminBroadCast(this, "§cNo Permissions!", sender);
                 return true;
             }
             if (args[0].equalsIgnoreCase("set")) {
@@ -115,9 +115,9 @@ public class ExperienceCMD extends CommandBase {
                 }
                 return true;
             }
-        } else if(args.length == 5) {
+        } else if (args.length == 5) {
             // xp send <Amount> <Player> <xp/level>
-            if(args[0].equalsIgnoreCase("send")) {
+            if (args[0].equalsIgnoreCase("send")) {
                 int amount = Integer.parseInt(args[1]);
                 Player player = (Player) sender;
                 Player target = Bukkit.getPlayer(args[2]);

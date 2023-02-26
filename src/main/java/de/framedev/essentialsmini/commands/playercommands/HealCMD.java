@@ -47,16 +47,14 @@ public class HealCMD extends CommandBase {
                     if (heal.contains("&"))
                         heal = heal.replace('&', '§');
                     player.sendMessage(plugin.getPrefix() + heal);
-                    return true;
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                    new AdminBroadCast(this,"§cNo Permissions!", sender);
-                    return true;
+                    new AdminBroadCast(this, "§cNo Permissions!", sender);
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
-                return true;
             }
+            return true;
         } else if (args.length == 1) {
             if (args[0].equalsIgnoreCase("**")) {
                 if (sender.hasPermission("essentialsmini.heal.others")) {
@@ -83,9 +81,8 @@ public class HealCMD extends CommandBase {
                     }
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                    new AdminBroadCast(this,"§cNo Permissions!", sender);
+                    new AdminBroadCast(this, "§cNo Permissions!", sender);
                 }
-                return true;
             } else {
                 if (sender.hasPermission("essentialsmini.heal.others")) {
                     Player player = Bukkit.getPlayer(args[0]);
@@ -112,10 +109,10 @@ public class HealCMD extends CommandBase {
                     }
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                    new AdminBroadCast(this,"§cNo Permissions!", sender);
+                    new AdminBroadCast(this, "§cNo Permissions!", sender);
                 }
-                return true;
             }
+            return true;
         } else {
             sender.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("/heal §coder §6/heal <PlayerName>"));
             return true;
