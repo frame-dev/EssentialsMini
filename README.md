@@ -5,6 +5,7 @@ ___
 - [Build in features](#build-in-features)
 - [Build by your own](#build-by-your-own)
 - [Future Features](#future-features)
+- [Language Add](#language-add)
 - [Changes](#changes)
 - [Download Pre-Release](#pre-releases)
 
@@ -34,7 +35,13 @@ then in the Directory target should be a file called EssentialsMini-(version).ja
 - [x] PlayerData Features
 - [x] MySQL / SQLite / MongoDB
 
-<br><br><br><br>
+<br>
+
+### **Language Add**
+
+If you want your own language simply change the messages-en_US.yml and add the correct abbreviations at the end and upload it here. (https://framedev.ch/sites/uploads/upload.php) After that I will add the language as soon as possible.
+
+<br><br><br>
 
 ### Changes
 - [1.2.4.2](https://github.com/frame-dev/EssentialsMini/commit/c70967c78ab67f6fcfc3d9acf3159a7249eb3788) tempmuteCMD Added / removetempmute added / muteinfo added / More TabCompleter Added (Quick access)
