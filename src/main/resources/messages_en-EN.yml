@@ -1,6 +1,6 @@
 NoPermissions: '&6No permissions&4&l!'
 WrongArgs: '&cPlease use &6%cmdUsage%&4&l!'
-UnkownCommand: '&cThis command does not exist &6%CMD%&4&l!'
+UnknownCommand: '&cThis command does not exist &6%CMD%&4&l!'
 OnlyPlayer: '&cThis command can only be used by a Player!'
 PlayerNotOnline: '&cThis Player is not online!'
 PlayerNameNotOnline: '&cThis Player is not online! &6%Player%'
@@ -52,7 +52,7 @@ Item:
 Warp:
   Created: '&aWarp has been created with the name &6%WarpName%&c!'
   Teleport: "&aYou've teleported to &6%WarpName%!"
-  Delete: '&athe Warp with the name &6%WarpName% &ahas been &cdeleted!'
+  Delete: '&aThe Warp with the name &6%WarpName% &ahas been &cdeleted!'
   NotExist: "&cThis Warp doesn't exist!"
   Cost: '&aThis Warp costs &6%Cost%&c!'
 

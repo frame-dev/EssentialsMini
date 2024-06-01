@@ -2,10 +2,10 @@ name: EssentialsMini
 author: FrameDev
 api-version: 1.13
 version: ${project.version}
-main: de.framedev.essentialsmini.main.Main
+main: ch.framedev.essentialsmini.main.Main
 softdepend:
   - Vault
-  - MDBConnection
+  - SpigotMongoDBUtils
 loadbefore:
   - Vault
 website: https://framedev.ch

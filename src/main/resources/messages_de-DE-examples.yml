@@ -1,6 +1,6 @@
 NoPermissions: '&6Keine Permissions&4&l!'
 WrongArgs: '&cBitte benutze &6%cmdUsage%&4&l!'
-UnkownCommand: '&cDieser Befehl existiert nicht &6%CMD%&4&l!'
+UnknownCommand: '&cDieser Befehl existiert nicht &6%CMD%&4&l!'
 OnlyPlayer: '&cDieser Befehl kann nur ein Spieler ausführen!'
 PlayerNotOnline: '&cDieser Spieler ist nicht Online!'
 PlayerNameNotOnline: '&cDieser Spieler ist nicht Online! &6%Player%'
