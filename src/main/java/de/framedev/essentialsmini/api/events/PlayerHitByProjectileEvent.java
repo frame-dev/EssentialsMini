@@ -1,11 +1,13 @@
 package de.framedev.essentialsmini.api.events;
 
+import lombok.Getter;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
+@Getter
 public class PlayerHitByProjectileEvent extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
 
@@ -26,11 +28,4 @@ public class PlayerHitByProjectileEvent extends Event {
         return HANDLERS;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
-    public Entity getShooter() {
-        return shooter;
-    }
 }

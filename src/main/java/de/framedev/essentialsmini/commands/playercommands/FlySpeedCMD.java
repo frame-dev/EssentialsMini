@@ -1,9 +1,9 @@
 package de.framedev.essentialsmini.commands.playercommands;
 
+import ch.framedev.simplejavautils.TextUtils;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.abstracts.CommandBase;
 import de.framedev.essentialsmini.utils.AdminBroadCast;
-import de.framedev.essentialsmini.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -44,7 +44,7 @@ public class FlySpeedCMD extends CommandBase {
             player.setFlySpeed(flySpeed);
             String flySpeedMessage = plugin.getLanguageConfig(player).getString("ChangeFlySpeed");
             flySpeedMessage = new TextUtils().replaceObject("flySpeed", "%flyspeed%", String.valueOf(flySpeed * 10F));
-            flySpeedMessage = new TextUtils().replaceAndToParagraph(flySpeedMessage);
+            flySpeedMessage = new TextUtils().replaceAndWithParagraph(flySpeedMessage);
             player.sendMessage(flySpeedMessage);
             return true;
         } else if (args.length == 2) {
@@ -61,10 +61,10 @@ public class FlySpeedCMD extends CommandBase {
             player.setFlySpeed(flyspeed);
             String flySpeed = plugin.getLanguageConfig(player).getString("ChangeFlySpeed");
             flySpeed = new TextUtils().replaceObject("flySpeed", "%flyspeed%", String.valueOf(flyspeed * 10F));
-            flySpeed = new TextUtils().replaceAndToParagraph(flySpeed);
+            flySpeed = new TextUtils().replaceAndWithParagraph(flySpeed);
             player.sendMessage(flySpeed);
             String other = plugin.getLanguageConfig(sender).getString("ChangeFlySpeedOther");
-            other = new TextUtils().replaceAndToParagraph(other);
+            other = new TextUtils().replaceAndWithParagraph(other);
             other = new TextUtils().replaceObject(other, "%player%", player.getName());
             other = new TextUtils().replaceObject(other, "%flyspeed%", String.valueOf(flyspeed * 10F));
             sender.sendMessage(other);

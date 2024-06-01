@@ -120,3 +120,4 @@ PlayerShop: true
 PlayerEvents: false
 
 TeleportDelay: 3
+Bank: true

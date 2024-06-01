@@ -1,9 +1,9 @@
 package de.framedev.essentialsmini.commands.playercommands;
 
+import ch.framedev.simplejavautils.TextUtils;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.abstracts.CommandListenerBase;
 import de.framedev.essentialsmini.utils.AdminBroadCast;
-import de.framedev.essentialsmini.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -46,7 +46,7 @@ public class VanishCMD extends CommandListenerBase {
                             hided.remove(player.getName());
                             String message = plugin.getLanguageConfig(player).getString("VanishOff.Single");
                             if (message.contains("&"))
-                                message = new TextUtils().replaceAndToParagraph(message);
+                                message = new TextUtils().replaceAndWithParagraph(message);
                             player.sendMessage(plugin.getPrefix() + message);
                             if (plugin.getConfig().getBoolean("Vanish.Message")) {
                                 String joinMessage = plugin.getConfig().getString("JoinMessage");
@@ -66,7 +66,7 @@ public class VanishCMD extends CommandListenerBase {
                             hided.add(player.getName());
                             String message = plugin.getLanguageConfig(player).getString("VanishOn.Single");
                             if (message.contains("&"))
-                                message = new TextUtils().replaceAndToParagraph(message);
+                                message = new TextUtils().replaceAndWithParagraph(message);
                             player.sendMessage(plugin.getPrefix() + message);
                             if (plugin.getConfig().getBoolean("Vanish.Message")) {
                                 String leaveMessage = plugin.getConfig().getString("LeaveMessage");
@@ -91,7 +91,7 @@ public class VanishCMD extends CommandListenerBase {
                             hided.remove(target.getName());
                             String message = plugin.getLanguageConfig(sender).getString("VanishOff.Single");
                             if (message.contains("&"))
-                                message = new TextUtils().replaceAndToParagraph(message);
+                                message = new TextUtils().replaceAndWithParagraph(message);
                             String playerMessage = plugin.getLanguageConfig(sender).getString("VanishOff.Multi");
                             if (playerMessage.contains("%Player%"))
                                 playerMessage = playerMessage.replace("%Player%", target.getName());
@@ -110,7 +110,7 @@ public class VanishCMD extends CommandListenerBase {
                             hided.add(target.getName());
                             String message = plugin.getLanguageConfig(sender).getString("VanishOn.Single");
                             if (message.contains("&"))
-                                message = new TextUtils().replaceAndToParagraph(message);
+                                message = new TextUtils().replaceAndWithParagraph(message);
                             String playerMessage = plugin.getLanguageConfig(sender).getString("VanishOn.Multi");
                             if (playerMessage.contains("%Player%"))
                                 playerMessage = playerMessage.replace("%Player%", target.getName());

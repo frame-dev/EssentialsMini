@@ -140,7 +140,7 @@ public class FireWorkCMD extends CommandBase {
             boolean direction = false;
             int amount = Integer.parseInt(args[1]);
             for (int i = 0; i < amount; i++) {
-                final Firework firework = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK);
+                final Firework firework = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK_ROCKET);
                 final FireworkMeta fmeta = (FireworkMeta) itemStack.getItemMeta();
                 if (fmeta != null) {
                     firework.setFireworkMeta(fmeta);

@@ -1,5 +1,6 @@
 package de.framedev.essentialsmini.api.events;
 
+import lombok.Getter;
 import org.bukkit.World;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -21,6 +22,7 @@ import java.util.List;
  * / Copyrighted by FrameDev
  */
 
+@Getter
 public class PlayerKillPlayerEvent extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
 
@@ -56,36 +58,8 @@ public class PlayerKillPlayerEvent extends Event {
         return HANDLERS;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
-    public String getPlayerName() {
-        return playerName;
-    }
-
-    public World getWorld() {
-        return world;
-    }
-
-    public Player getKiller() {
-        return killer;
-    }
-
-    public EntityDamageEvent.DamageCause getDeathCause() {
-        return deathCause;
-    }
-
-    public List<ItemStack> getDrops() {
-        return drops;
-    }
-
     public void setDrops(List<ItemStack> drops) {
         this.drops = drops;
-    }
-
-    public double getDroppedExp() {
-        return droppedExp;
     }
 
     public void setDroppedExp(double droppedExp) {

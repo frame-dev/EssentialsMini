@@ -1,8 +1,8 @@
 package de.framedev.essentialsmini.commands.worldcommands;
 
+import ch.framedev.simplejavautils.TextUtils;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.abstracts.CommandBase;
-import de.framedev.essentialsmini.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -39,7 +39,7 @@ public class DayNightCMD extends CommandBase {
                         player.getWorld().setTime(1000);
                         String message = plugin.getLanguageConfig(player).getString("Day");
                         if (message != null) {
-                            message = new TextUtils().replaceAndToParagraph(message);
+                            message = new TextUtils().replaceAndWithParagraph(message);
                         }
                         player.sendMessage(plugin.getPrefix() + message);
                         return true;
@@ -58,7 +58,7 @@ public class DayNightCMD extends CommandBase {
                     if (player.hasPermission("essentialsmini.night")) {
                         String message = plugin.getLanguageConfig(player).getString("Night");
                         if (message != null) {
-                            message = new TextUtils().replaceAndToParagraph(message);
+                            message = new TextUtils().replaceAndWithParagraph(message);
                         }
                         player.sendMessage(plugin.getPrefix() + message);
                         player.getWorld().setTime(13000);
@@ -107,7 +107,7 @@ public class DayNightCMD extends CommandBase {
                     world.setTime(1000);
                 String message = plugin.getLanguageConfig(sender).getString("Day");
                 if (message != null) {
-                    message = new TextUtils().replaceAndToParagraph(message);
+                    message = new TextUtils().replaceAndWithParagraph(message);
                 }
                 sender.sendMessage(plugin.getPrefix() + message);
                 return true;
@@ -115,7 +115,7 @@ public class DayNightCMD extends CommandBase {
             if (command.getName().equalsIgnoreCase("night")) {
                 String message = plugin.getLanguageConfig(sender).getString("Night");
                 if (message != null) {
-                    message = new TextUtils().replaceAndToParagraph(message);
+                    message = new TextUtils().replaceAndWithParagraph(message);
                 }
                 sender.sendMessage(plugin.getPrefix() + message);
                 for (World world : Bukkit.getWorlds())

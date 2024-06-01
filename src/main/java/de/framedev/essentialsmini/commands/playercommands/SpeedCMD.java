@@ -11,10 +11,10 @@ package de.framedev.essentialsmini.commands.playercommands;
  * This Class was created at 15.10.2020 20:02
  */
 
+import ch.framedev.simplejavautils.TextUtils;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.abstracts.CommandBase;
 import de.framedev.essentialsmini.utils.AdminBroadCast;
-import de.framedev.essentialsmini.utils.TextUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -36,7 +36,7 @@ public class SpeedCMD extends CommandBase {
                     ((Player) sender).setWalkSpeed(Integer.parseInt(args[0]) / 10F);
                     int walkSpeed = Integer.parseInt(args[0]);
                     String message = plugin.getLanguageConfig(sender).getString("WalkSpeed");
-                    message = new TextUtils().replaceAndToParagraph(message);
+                    message = new TextUtils().replaceAndWithParagraph(message);
                     message = new TextUtils().replaceObject(message, "%WalkSpeed%", String.valueOf(walkSpeed));
                     sender.sendMessage(plugin.getPrefix() + message);
                     new AdminBroadCast("speed",plugin.getPrefix() + message, sender);

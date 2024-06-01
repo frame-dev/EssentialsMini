@@ -1,9 +1,12 @@
 package de.framedev.essentialsmini.utils;
 
+import lombok.Getter;
+
 /**
  * Dies ist ein Plugin von FrameDev
  * Bitte nichts ändern, @Copyright by FrameDev
  */
+@Getter
 public enum DateUnit {
 
     SEC("Second(s)", 1),
@@ -14,22 +17,16 @@ public enum DateUnit {
     MON("Month(s)", 30 * 24 * 60 * 60),
     YEAR("Year(s)", 365 * 24 * 60 * 60);
 
+    /**
+     * -- GETTER --
+     *
+     */
     private final String output;
+    /**
+     * -- GETTER --
+     *
+     */
     private final long toSec;
-
-    /**
-     * @return the output
-     */
-    public String getOutput() {
-        return output;
-    }
-
-    /**
-     * @return the toSec
-     */
-    public long getToSec() {
-        return toSec;
-    }
 
     /**
      *

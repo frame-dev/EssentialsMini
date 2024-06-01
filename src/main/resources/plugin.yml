@@ -242,6 +242,9 @@ commands:
   resetplweather:
     aliases:
       - resetplayerweather
+  timeplayed:
+    aliases:
+      - playedtime
 permissions:
   essentialsmini.*:
     children:

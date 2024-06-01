@@ -4,13 +4,13 @@
  */
 package de.framedev.essentialsmini.commands.playercommands;
 
+import ch.framedev.simplejavautils.TextUtils;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.abstracts.CommandListenerBase;
 import de.framedev.essentialsmini.managers.InventoryManager;
 import de.framedev.essentialsmini.managers.ItemBuilder;
 import de.framedev.essentialsmini.managers.LocationsManager;
 import de.framedev.essentialsmini.utils.ReplaceCharConfig;
-import de.framedev.essentialsmini.utils.TextUtils;
 import lombok.SneakyThrows;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -137,13 +137,13 @@ public class HomeCMD extends CommandListenerBase {
                     homeExist = ReplaceCharConfig.replaceParagraph(homeExist);
                     sender.sendMessage(plugin.getPrefix() + homeExist);
                     String homeButton = plugin.getLanguageConfig(sender).getString("HomeButton");
-                    homeButton = new TextUtils().replaceAndToParagraph(homeButton);
+                    homeButton = new TextUtils().replaceAndWithParagraph(homeButton);
                     sender.sendMessage(plugin.getPrefix() + homeButton);
                     BaseComponent baseComponent = new TextComponent();
                     baseComponent.addExtra("§6[Yes]");
                     baseComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sethome"));
                     String showText = plugin.getLanguageConfig(sender).getString("ShowTextHover");
-                    showText = new TextUtils().replaceAndToParagraph(showText);
+                    showText = new TextUtils().replaceAndWithParagraph(showText);
                     baseComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(showText)));
                     sender.spigot().sendMessage(baseComponent);
                 }
@@ -497,13 +497,13 @@ public class HomeCMD extends CommandListenerBase {
                         homeExist = ReplaceCharConfig.replaceParagraph(homeExist);
                         sender.sendMessage(plugin.getPrefix() + homeExist);
                         String homeButton = plugin.getLanguageConfig(sender).getString("HomeButton");
-                        homeButton = new TextUtils().replaceAndToParagraph(homeButton);
+                        homeButton = new TextUtils().replaceAndWithParagraph(homeButton);
                         sender.sendMessage(plugin.getPrefix() + homeButton);
                         BaseComponent baseComponent = new TextComponent();
                         baseComponent.addExtra("§6[Yes]");
                         baseComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sethome " + name));
                         String showText = plugin.getLanguageConfig(sender).getString("ShowTextHoverOther");
-                        showText = new TextUtils().replaceAndToParagraph(showText);
+                        showText = new TextUtils().replaceAndWithParagraph(showText);
                         showText = new TextUtils().replaceObject(showText, "%Home%", name);
                         baseComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(showText)));
                         sender.spigot().sendMessage(baseComponent);

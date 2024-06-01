@@ -8,6 +8,7 @@ import de.framedev.essentialsmini.commands.worldcommands.SunRainThunderCMD;
 import de.framedev.essentialsmini.commands.worldcommands.WorldTPCMD;
 import de.framedev.essentialsmini.listeners.*;
 import de.framedev.essentialsmini.main.Main;
+import lombok.Getter;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.TabCompleter;
 
@@ -22,6 +23,7 @@ public class RegisterManager {
     private BackUpCMD backup;
 
     // MuteCMD Var
+    @Getter
     private MuteCMD muteCMD;
 
     /**
@@ -140,16 +142,13 @@ public class RegisterManager {
         if(!plugin.getConfig().getBoolean("OnlineMode"))
             new RegisterCMD(plugin);
         new PlWeatherCMD(plugin);
+        new TimePlayedCMD(plugin);
         for (Map.Entry<String, CommandExecutor> commands : plugin.getCommands().entrySet()) {
             if (commands.getKey() == null) continue;
             if (commands.getValue() == null) continue;
             if (plugin.getCommand(commands.getKey()) == null) continue;
             Objects.requireNonNull(plugin.getCommand(commands.getKey())).setExecutor(commands.getValue());
         }
-    }
-
-    public MuteCMD getMuteCMD() {
-        return muteCMD;
     }
 
     public BackUpCMD getBackupCMD() {

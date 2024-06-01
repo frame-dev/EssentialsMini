@@ -9,11 +9,11 @@ package de.framedev.essentialsmini.commands.playercommands;
  * This Class was created at 13.08.2020 19:44
  */
 
+import ch.framedev.simplejavautils.TextUtils;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.abstracts.CommandBase;
 import de.framedev.essentialsmini.utils.AdminBroadCast;
 import de.framedev.essentialsmini.utils.ReplaceCharConfig;
-import de.framedev.essentialsmini.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -36,7 +36,7 @@ public class EnchantCMD extends CommandBase {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (args.length >= 2) {
+        if (args.length == 2) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 if (player.hasPermission(plugin.getPermissionName() + "enchant")) {
@@ -55,7 +55,7 @@ public class EnchantCMD extends CommandBase {
                         } else {
                             String message = plugin.getLanguageConfig(player).getString("EnchantNotExist");
                             if (message != null) {
-                                message = new TextUtils().replaceAndToParagraph(message);
+                                message = new TextUtils().replaceAndWithParagraph(message);
                             }
                             sender.sendMessage(plugin.getPrefix() + message);
                         }
@@ -71,7 +71,7 @@ public class EnchantCMD extends CommandBase {
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
             }
-        } else if (args.length >= 3) {
+        } else if (args.length == 3) {
             if (sender.hasPermission(plugin.getPermissionName() + "enchant.others")) {
                 Player target = Bukkit.getPlayer(args[2]);
                 if (target != null) {
@@ -90,14 +90,14 @@ public class EnchantCMD extends CommandBase {
                         } else {
                             String message = plugin.getLanguageConfig(sender).getString("EnchantNotExist");
                             if (message != null) {
-                                message = new TextUtils().replaceAndToParagraph(message);
+                                message = new TextUtils().replaceAndWithParagraph(message);
                             }
                             sender.sendMessage(plugin.getPrefix() + message);
                         }
                     } else {
                         String message = plugin.getLanguageConfig(sender).getString("NoItemFoundInHand");
                         if (message != null) {
-                            message = new TextUtils().replaceAndToParagraph(message);
+                            message = new TextUtils().replaceAndWithParagraph(message);
                         }
                         sender.sendMessage(plugin.getPrefix() + message);
                     }
@@ -158,29 +158,29 @@ public class EnchantCMD extends CommandBase {
         }
 
         public static void load() {
-            ENCHANTMENTS.put("alldamage", Enchantment.DAMAGE_ALL);
-            ALIASENCHANTMENTS.put("alldmg", Enchantment.DAMAGE_ALL);
-            ENCHANTMENTS.put("sharpness", Enchantment.DAMAGE_ALL);
-            ALIASENCHANTMENTS.put("sharp", Enchantment.DAMAGE_ALL);
-            ALIASENCHANTMENTS.put("dal", Enchantment.DAMAGE_ALL);
-            ENCHANTMENTS.put("ardmg", Enchantment.DAMAGE_ARTHROPODS);
-            ENCHANTMENTS.put("baneofarthropods", Enchantment.DAMAGE_ARTHROPODS);
-            ALIASENCHANTMENTS.put("baneofarthropod", Enchantment.DAMAGE_ARTHROPODS);
-            ALIASENCHANTMENTS.put("arthropod", Enchantment.DAMAGE_ARTHROPODS);
-            ALIASENCHANTMENTS.put("dar", Enchantment.DAMAGE_ARTHROPODS);
-            ENCHANTMENTS.put("undeaddamage", Enchantment.DAMAGE_UNDEAD);
-            ENCHANTMENTS.put("smite", Enchantment.DAMAGE_UNDEAD);
-            ALIASENCHANTMENTS.put("du", Enchantment.DAMAGE_UNDEAD);
-            ENCHANTMENTS.put("digspeed", Enchantment.DIG_SPEED);
-            ENCHANTMENTS.put("efficiency", Enchantment.DIG_SPEED);
-            ALIASENCHANTMENTS.put("minespeed", Enchantment.DIG_SPEED);
-            ALIASENCHANTMENTS.put("cutspeed", Enchantment.DIG_SPEED);
-            ALIASENCHANTMENTS.put("ds", Enchantment.DIG_SPEED);
-            ALIASENCHANTMENTS.put("eff", Enchantment.DIG_SPEED);
-            ENCHANTMENTS.put("durability", Enchantment.DURABILITY);
-            ALIASENCHANTMENTS.put("dura", Enchantment.DURABILITY);
-            ENCHANTMENTS.put("unbreaking", Enchantment.DURABILITY);
-            ALIASENCHANTMENTS.put("d", Enchantment.DURABILITY);
+            ENCHANTMENTS.put("alldamage", Enchantment.SHARPNESS);
+            ALIASENCHANTMENTS.put("alldmg", Enchantment.SHARPNESS);
+            ENCHANTMENTS.put("sharpness", Enchantment.SHARPNESS);
+            ALIASENCHANTMENTS.put("sharp", Enchantment.SHARPNESS);
+            ALIASENCHANTMENTS.put("dal", Enchantment.SHARPNESS);
+            ENCHANTMENTS.put("ardmg", Enchantment.POWER);
+            ENCHANTMENTS.put("baneofarthropods", Enchantment.SMITE);
+            ALIASENCHANTMENTS.put("baneofarthropod", Enchantment.BANE_OF_ARTHROPODS);
+            ALIASENCHANTMENTS.put("arthropod", Enchantment.BANE_OF_ARTHROPODS);
+            ALIASENCHANTMENTS.put("dar", Enchantment.BANE_OF_ARTHROPODS);
+            ENCHANTMENTS.put("undeaddamage", Enchantment.SMITE);
+            ENCHANTMENTS.put("smite", Enchantment.SMITE);
+            ALIASENCHANTMENTS.put("du", Enchantment.SMITE);
+            ENCHANTMENTS.put("digspeed", Enchantment.EFFICIENCY);
+            ENCHANTMENTS.put("efficiency", Enchantment.EFFICIENCY);
+            ALIASENCHANTMENTS.put("minespeed", Enchantment.EFFICIENCY);
+            ALIASENCHANTMENTS.put("cutspeed", Enchantment.EFFICIENCY);
+            ALIASENCHANTMENTS.put("ds", Enchantment.EFFICIENCY);
+            ALIASENCHANTMENTS.put("eff", Enchantment.EFFICIENCY);
+            ENCHANTMENTS.put("durability", Enchantment.UNBREAKING);
+            ALIASENCHANTMENTS.put("dura", Enchantment.UNBREAKING);
+            ENCHANTMENTS.put("unbreaking", Enchantment.UNBREAKING);
+            ALIASENCHANTMENTS.put("d", Enchantment.UNBREAKING);
             ENCHANTMENTS.put("thorns", Enchantment.THORNS);
             ENCHANTMENTS.put("highcrit", Enchantment.THORNS);
             ALIASENCHANTMENTS.put("thorn", Enchantment.THORNS);
@@ -195,77 +195,77 @@ public class EnchantCMD extends CommandBase {
             ALIASENCHANTMENTS.put("kback", Enchantment.KNOCKBACK);
             ALIASENCHANTMENTS.put("kb", Enchantment.KNOCKBACK);
             ALIASENCHANTMENTS.put("k", Enchantment.KNOCKBACK);
-            ALIASENCHANTMENTS.put("blockslootbonus", Enchantment.LOOT_BONUS_BLOCKS);
-            ENCHANTMENTS.put("fortune", Enchantment.LOOT_BONUS_BLOCKS);
-            ALIASENCHANTMENTS.put("fort", Enchantment.LOOT_BONUS_BLOCKS);
-            ALIASENCHANTMENTS.put("lbb", Enchantment.LOOT_BONUS_BLOCKS);
-            ALIASENCHANTMENTS.put("mobslootbonus", Enchantment.LOOT_BONUS_MOBS);
-            ENCHANTMENTS.put("mobloot", Enchantment.LOOT_BONUS_MOBS);
-            ENCHANTMENTS.put("looting", Enchantment.LOOT_BONUS_MOBS);
-            ALIASENCHANTMENTS.put("lbm", Enchantment.LOOT_BONUS_MOBS);
-            ALIASENCHANTMENTS.put("oxygen", Enchantment.OXYGEN);
-            ENCHANTMENTS.put("respiration", Enchantment.OXYGEN);
-            ALIASENCHANTMENTS.put("breathing", Enchantment.OXYGEN);
-            ENCHANTMENTS.put("breath", Enchantment.OXYGEN);
-            ALIASENCHANTMENTS.put("o", Enchantment.OXYGEN);
-            ENCHANTMENTS.put("protection", Enchantment.PROTECTION_ENVIRONMENTAL);
-            ALIASENCHANTMENTS.put("prot", Enchantment.PROTECTION_ENVIRONMENTAL);
-            ENCHANTMENTS.put("protect", Enchantment.PROTECTION_ENVIRONMENTAL);
-            ALIASENCHANTMENTS.put("p", Enchantment.PROTECTION_ENVIRONMENTAL);
-            ALIASENCHANTMENTS.put("explosionsprotection", Enchantment.PROTECTION_EXPLOSIONS);
-            ALIASENCHANTMENTS.put("explosionprotection", Enchantment.PROTECTION_EXPLOSIONS);
-            ALIASENCHANTMENTS.put("expprot", Enchantment.PROTECTION_EXPLOSIONS);
-            ALIASENCHANTMENTS.put("blastprotection", Enchantment.PROTECTION_EXPLOSIONS);
-            ALIASENCHANTMENTS.put("bprotection", Enchantment.PROTECTION_EXPLOSIONS);
-            ALIASENCHANTMENTS.put("bprotect", Enchantment.PROTECTION_EXPLOSIONS);
-            ENCHANTMENTS.put("blastprotect", Enchantment.PROTECTION_EXPLOSIONS);
-            ALIASENCHANTMENTS.put("pe", Enchantment.PROTECTION_EXPLOSIONS);
-            ALIASENCHANTMENTS.put("fallprotection", Enchantment.PROTECTION_FALL);
-            ENCHANTMENTS.put("fallprot", Enchantment.PROTECTION_FALL);
-            ENCHANTMENTS.put("featherfall", Enchantment.PROTECTION_FALL);
-            ALIASENCHANTMENTS.put("featherfalling", Enchantment.PROTECTION_FALL);
-            ALIASENCHANTMENTS.put("pfa", Enchantment.PROTECTION_FALL);
-            ALIASENCHANTMENTS.put("fireprotection", Enchantment.PROTECTION_FIRE);
-            ALIASENCHANTMENTS.put("flameprotection", Enchantment.PROTECTION_FIRE);
-            ENCHANTMENTS.put("fireprotect", Enchantment.PROTECTION_FIRE);
-            ALIASENCHANTMENTS.put("flameprotect", Enchantment.PROTECTION_FIRE);
-            ENCHANTMENTS.put("fireprot", Enchantment.PROTECTION_FIRE);
-            ALIASENCHANTMENTS.put("flameprot", Enchantment.PROTECTION_FIRE);
-            ALIASENCHANTMENTS.put("pf", Enchantment.PROTECTION_FIRE);
-            ENCHANTMENTS.put("projectileprotection", Enchantment.PROTECTION_PROJECTILE);
-            ENCHANTMENTS.put("projprot", Enchantment.PROTECTION_PROJECTILE);
-            ALIASENCHANTMENTS.put("pp", Enchantment.PROTECTION_PROJECTILE);
+            ALIASENCHANTMENTS.put("blockslootbonus", Enchantment.FORTUNE);
+            ENCHANTMENTS.put("fortune", Enchantment.FORTUNE);
+            ALIASENCHANTMENTS.put("fort", Enchantment.FORTUNE);
+            ALIASENCHANTMENTS.put("lbb", Enchantment.FORTUNE);
+            ALIASENCHANTMENTS.put("mobslootbonus", Enchantment.LOOTING);
+            ENCHANTMENTS.put("mobloot", Enchantment.LOOTING);
+            ENCHANTMENTS.put("looting", Enchantment.LOOTING);
+            ALIASENCHANTMENTS.put("lbm", Enchantment.LOOTING);
+            ALIASENCHANTMENTS.put("oxygen", Enchantment.RESPIRATION);
+            ENCHANTMENTS.put("respiration", Enchantment.RESPIRATION);
+            ALIASENCHANTMENTS.put("breathing", Enchantment.RESPIRATION);
+            ENCHANTMENTS.put("breath", Enchantment.RESPIRATION);
+            ALIASENCHANTMENTS.put("o", Enchantment.RESPIRATION);
+            ENCHANTMENTS.put("protection", Enchantment.PROTECTION);
+            ALIASENCHANTMENTS.put("prot", Enchantment.PROTECTION);
+            ENCHANTMENTS.put("protect", Enchantment.PROTECTION);
+            ALIASENCHANTMENTS.put("p", Enchantment.PROTECTION);
+            ALIASENCHANTMENTS.put("explosionsprotection", Enchantment.BLAST_PROTECTION);
+            ALIASENCHANTMENTS.put("explosionprotection", Enchantment.BLAST_PROTECTION);
+            ALIASENCHANTMENTS.put("expprot", Enchantment.BLAST_PROTECTION);
+            ALIASENCHANTMENTS.put("blastprotection", Enchantment.BLAST_PROTECTION);
+            ALIASENCHANTMENTS.put("bprotection", Enchantment.BLAST_PROTECTION);
+            ALIASENCHANTMENTS.put("bprotect", Enchantment.BLAST_PROTECTION);
+            ENCHANTMENTS.put("blastprotect", Enchantment.BLAST_PROTECTION);
+            ALIASENCHANTMENTS.put("pe", Enchantment.BLAST_PROTECTION);
+            ALIASENCHANTMENTS.put("fallprotection", Enchantment.FEATHER_FALLING);
+            ENCHANTMENTS.put("fallprot", Enchantment.FEATHER_FALLING);
+            ENCHANTMENTS.put("featherfall", Enchantment.FEATHER_FALLING);
+            ALIASENCHANTMENTS.put("featherfalling", Enchantment.FEATHER_FALLING);
+            ALIASENCHANTMENTS.put("pfa", Enchantment.FEATHER_FALLING);
+            ALIASENCHANTMENTS.put("fireprotection", Enchantment.FIRE_PROTECTION);
+            ALIASENCHANTMENTS.put("flameprotection", Enchantment.FIRE_PROTECTION);
+            ENCHANTMENTS.put("fireprotect", Enchantment.FIRE_PROTECTION);
+            ALIASENCHANTMENTS.put("flameprotect", Enchantment.FIRE_PROTECTION);
+            ENCHANTMENTS.put("fireprot", Enchantment.FIRE_PROTECTION);
+            ALIASENCHANTMENTS.put("flameprot", Enchantment.FIRE_PROTECTION);
+            ALIASENCHANTMENTS.put("pf", Enchantment.FIRE_PROTECTION);
+            ENCHANTMENTS.put("projectileprotection", Enchantment.PROJECTILE_PROTECTION);
+            ENCHANTMENTS.put("projprot", Enchantment.PROJECTILE_PROTECTION);
+            ALIASENCHANTMENTS.put("pp", Enchantment.PROJECTILE_PROTECTION);
             ENCHANTMENTS.put("silktouch", Enchantment.SILK_TOUCH);
             ALIASENCHANTMENTS.put("softtouch", Enchantment.SILK_TOUCH);
             ALIASENCHANTMENTS.put("st", Enchantment.SILK_TOUCH);
-            ENCHANTMENTS.put("waterworker", Enchantment.WATER_WORKER);
-            ENCHANTMENTS.put("aquaaffinity", Enchantment.WATER_WORKER);
-            ALIASENCHANTMENTS.put("watermine", Enchantment.WATER_WORKER);
-            ALIASENCHANTMENTS.put("ww", Enchantment.WATER_WORKER);
-            ALIASENCHANTMENTS.put("firearrow", Enchantment.ARROW_FIRE);
-            ENCHANTMENTS.put("flame", Enchantment.ARROW_FIRE);
-            ENCHANTMENTS.put("flamearrow", Enchantment.ARROW_FIRE);
-            ALIASENCHANTMENTS.put("af", Enchantment.ARROW_FIRE);
-            ENCHANTMENTS.put("arrowdamage", Enchantment.ARROW_DAMAGE);
-            ENCHANTMENTS.put("power", Enchantment.ARROW_DAMAGE);
-            ALIASENCHANTMENTS.put("arrowpower", Enchantment.ARROW_DAMAGE);
-            ALIASENCHANTMENTS.put("ad", Enchantment.ARROW_DAMAGE);
-            ENCHANTMENTS.put("arrowknockback", Enchantment.ARROW_KNOCKBACK);
-            ALIASENCHANTMENTS.put("arrowkb", Enchantment.ARROW_KNOCKBACK);
-            ENCHANTMENTS.put("punch", Enchantment.ARROW_KNOCKBACK);
-            ALIASENCHANTMENTS.put("arrowpunch", Enchantment.ARROW_KNOCKBACK);
-            ALIASENCHANTMENTS.put("ak", Enchantment.ARROW_KNOCKBACK);
-            ALIASENCHANTMENTS.put("infinitearrows", Enchantment.ARROW_INFINITE);
-            ENCHANTMENTS.put("infarrows", Enchantment.ARROW_INFINITE);
-            ENCHANTMENTS.put("infinity", Enchantment.ARROW_INFINITE);
-            ALIASENCHANTMENTS.put("infinite", Enchantment.ARROW_INFINITE);
-            ALIASENCHANTMENTS.put("unlimited", Enchantment.ARROW_INFINITE);
-            ALIASENCHANTMENTS.put("unlimitedarrows", Enchantment.ARROW_INFINITE);
-            ALIASENCHANTMENTS.put("ai", Enchantment.ARROW_INFINITE);
-            ENCHANTMENTS.put("luck", Enchantment.LUCK);
-            ALIASENCHANTMENTS.put("luckofsea", Enchantment.LUCK);
-            ALIASENCHANTMENTS.put("luckofseas", Enchantment.LUCK);
-            ALIASENCHANTMENTS.put("rodluck", Enchantment.LUCK);
+            ENCHANTMENTS.put("waterworker", Enchantment.AQUA_AFFINITY);
+            ENCHANTMENTS.put("aquaaffinity", Enchantment.AQUA_AFFINITY);
+            ALIASENCHANTMENTS.put("watermine", Enchantment.AQUA_AFFINITY);
+            ALIASENCHANTMENTS.put("ww", Enchantment.AQUA_AFFINITY);
+            ALIASENCHANTMENTS.put("firearrow", Enchantment.FLAME);
+            ENCHANTMENTS.put("flame", Enchantment.FLAME);
+            ENCHANTMENTS.put("flamearrow", Enchantment.FLAME);
+            ALIASENCHANTMENTS.put("af", Enchantment.FLAME);
+            ENCHANTMENTS.put("arrowdamage", Enchantment.POWER);
+            ENCHANTMENTS.put("power", Enchantment.POWER);
+            ALIASENCHANTMENTS.put("arrowpower", Enchantment.POWER);
+            ALIASENCHANTMENTS.put("ad", Enchantment.POWER);
+            ENCHANTMENTS.put("arrowknockback", Enchantment.PUNCH);
+            ALIASENCHANTMENTS.put("arrowkb", Enchantment.PUNCH);
+            ENCHANTMENTS.put("punch", Enchantment.PUNCH);
+            ALIASENCHANTMENTS.put("arrowpunch", Enchantment.PUNCH);
+            ALIASENCHANTMENTS.put("ak", Enchantment.PUNCH);
+            ALIASENCHANTMENTS.put("infinitearrows", Enchantment.INFINITY);
+            ENCHANTMENTS.put("infarrows", Enchantment.INFINITY);
+            ENCHANTMENTS.put("infinity", Enchantment.INFINITY);
+            ALIASENCHANTMENTS.put("infinite", Enchantment.INFINITY);
+            ALIASENCHANTMENTS.put("unlimited", Enchantment.INFINITY);
+            ALIASENCHANTMENTS.put("unlimitedarrows", Enchantment.INFINITY);
+            ALIASENCHANTMENTS.put("ai", Enchantment.INFINITY);
+            ENCHANTMENTS.put("luck", Enchantment.LUCK_OF_THE_SEA);
+            ALIASENCHANTMENTS.put("luckofsea", Enchantment.LUCK_OF_THE_SEA);
+            ALIASENCHANTMENTS.put("luckofseas", Enchantment.LUCK_OF_THE_SEA);
+            ALIASENCHANTMENTS.put("rodluck", Enchantment.LUCK_OF_THE_SEA);
             ENCHANTMENTS.put("lure", Enchantment.LURE);
             ALIASENCHANTMENTS.put("rodlure", Enchantment.LURE);
             ENCHANTMENTS.put("depthstrider", Enchantment.DEPTH_STRIDER);

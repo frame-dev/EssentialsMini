@@ -9,11 +9,11 @@ package de.framedev.essentialsmini.commands.playercommands;
  * This Class was created at 13.08.2020 19:11
  */
 
+import ch.framedev.simplejavautils.TextUtils;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.abstracts.CommandBase;
 import de.framedev.essentialsmini.utils.AdminBroadCast;
 import de.framedev.essentialsmini.utils.ReplaceCharConfig;
-import de.framedev.essentialsmini.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
@@ -46,12 +46,12 @@ public class MessageCMD extends CommandBase {
                     if (msgToggle.contains(player)) {
                         msgToggle.remove(player);
                         String msgToggleMessage = plugin.getLanguageConfig(player).getString("MsgToggle.Deactivated");
-                        msgToggleMessage = new TextUtils().replaceAndToParagraph(msgToggleMessage);
+                        msgToggleMessage = new TextUtils().replaceAndWithParagraph(msgToggleMessage);
                         player.sendMessage(plugin.getPrefix() + msgToggleMessage);
                         return true;
                     } else {
                         String msgToggleMessage = plugin.getLanguageConfig(player).getString("MsgToggle.Activated");
-                        msgToggleMessage = new TextUtils().replaceAndToParagraph(msgToggleMessage);
+                        msgToggleMessage = new TextUtils().replaceAndWithParagraph(msgToggleMessage);
                         player.sendMessage(plugin.getPrefix() + msgToggleMessage);
                         msgToggle.add(player);
                         return true;
@@ -118,7 +118,7 @@ public class MessageCMD extends CommandBase {
                         } else {
                             if (target != null) {
                                 String msgToggleMessage = plugin.getLanguageConfig(player).getString("MsgToggle.Message");
-                                msgToggleMessage = new TextUtils().replaceAndToParagraph(msgToggleMessage);
+                                msgToggleMessage = new TextUtils().replaceAndWithParagraph(msgToggleMessage);
                                 player.sendMessage(plugin.getPrefix() + msgToggleMessage);
                             }
                         }
@@ -194,7 +194,7 @@ public class MessageCMD extends CommandBase {
                 if (player.hasPermission("essentialsmini.spy")) {
                     if (!spy.contains(player)) {
                         String spyMessage = plugin.getLanguageConfig(player).getString("Spy.Activate");
-                        spyMessage = new TextUtils().replaceAndToParagraph(spyMessage);
+                        spyMessage = new TextUtils().replaceAndWithParagraph(spyMessage);
                         player.sendMessage(plugin.getPrefix() + spyMessage);
                         spy.add(player);
                     } else {

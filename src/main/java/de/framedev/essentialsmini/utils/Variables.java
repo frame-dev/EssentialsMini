@@ -31,9 +31,9 @@ public class Variables {
     private String playerNameNotOnline;
     private String playerNotOnline;
 
-    public static final String TPMESSAGES = "TpaMessages";
-    public static final String MONEYMESSAGE = "Money";
-    public static final String WARPMESSAGE = "Warp";
+    public static final String TP_MESSAGES = "TpaMessages";
+    public static final String MONEY_MESSAGE = "Money";
+    public static final String WARP_MESSAGE = "Warp";
     public static final String EXPERIENCE = "Experience";
     public static final String ADMIN_BROADCAST = "AdminCommandBroadCast";
     public static final String BANK = "Bank";

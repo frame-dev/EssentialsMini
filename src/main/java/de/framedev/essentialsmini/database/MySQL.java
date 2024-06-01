@@ -12,7 +12,6 @@ import java.util.concurrent.Executors;
 
 public class MySQL {
 
-    private FileConfiguration cfg = Main.getInstance().getConfig();
     public static String MySQLPrefix = "§a[§bMySQL§a]";
     public static String host;
     public static String user;
@@ -22,6 +21,7 @@ public class MySQL {
     public static Connection con;
 
     public MySQL() {
+        FileConfiguration cfg = Main.getInstance().getConfig();
         host = cfg.getString("MySQL.Host");
         user = cfg.getString("MySQL.User");
         password = cfg.getString("MySQL.Password");

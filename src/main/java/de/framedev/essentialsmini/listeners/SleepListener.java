@@ -9,9 +9,8 @@ package de.framedev.essentialsmini.listeners;
  * This Class was created at 10.08.2020 12:41
  */
 
-import de.framedev.essentialsmini.database.BackendManager;
+import ch.framedev.simplejavautils.TextUtils;
 import de.framedev.essentialsmini.main.Main;
-import de.framedev.essentialsmini.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -57,7 +56,7 @@ public class SleepListener implements Listener {
                         @Override
                         public void run() {
                             String message = plugin.getCustomMessagesConfig().getString("SkipNight");
-                            message = new TextUtils().replaceAndToParagraph(message);
+                            message = new TextUtils().replaceAndWithParagraph(message);
                             message = new TextUtils().replaceObject(message, "%Player%", event.getPlayer().getName());
                             Bukkit.broadcastMessage(message);
                             event.getPlayer().getWorld().setTime(0);

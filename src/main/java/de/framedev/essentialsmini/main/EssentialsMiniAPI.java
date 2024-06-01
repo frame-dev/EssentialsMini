@@ -6,17 +6,16 @@ import de.framedev.essentialsmini.commands.playercommands.*;
 import de.framedev.essentialsmini.commands.worldcommands.WorldTPCMD;
 import de.framedev.essentialsmini.managers.*;
 import de.framedev.essentialsmini.utils.InventoryStringDeSerializer;
+import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -28,9 +27,11 @@ public class EssentialsMiniAPI {
 
     // The Singleton for the API
     private static EssentialsMiniAPI instance;
+    @Getter
     private final boolean jsonFormat;
 
     // Is Boolean enabled or not
+    @Getter
     private final boolean economy;
 
     protected EssentialsMiniAPI(Main plugin) {
@@ -41,15 +42,8 @@ public class EssentialsMiniAPI {
     }
 
     public static EssentialsMiniAPI getInstance() {
+        new EssentialsMiniAPI(Main.getInstance());
         return instance;
-    }
-
-    public boolean isEconomy() {
-        return economy;
-    }
-
-    public boolean isJsonFormat() {
-        return jsonFormat;
     }
 
     public boolean isPlayerVanish(Player player) {
@@ -365,7 +359,7 @@ public class EssentialsMiniAPI {
      */
     public boolean isPlayerPermBanned(OfflinePlayer player) {
         if (plugin.isMysql() || plugin.isSQL()) {
-            return new BanMuteManager().isPermaBan(player);
+            return new BanMuteManager().isPermBan(player);
         }
         return BanFile.isBanned(player.getName());
     }
@@ -410,7 +404,7 @@ public class EssentialsMiniAPI {
      */
     public String getPermBanReason(OfflinePlayer player) {
         if (plugin.isMysql() || plugin.isSQL()) {
-            return new BanMuteManager().getPermaBanReason(player);
+            return new BanMuteManager().getPermBanReason(player);
         }
         return BanFile.getBannedReason(player.getName());
     }

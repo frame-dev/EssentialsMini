@@ -458,7 +458,8 @@ public class PlayerListeners implements Listener {
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         try {
-            event.setRespawnLocation(new LocationsManager("spawn").getLocation());
+            if (event.getPlayer().getBedSpawnLocation() == null || event.getPlayer().getBedSpawnLocation().equals(new LocationsManager("spawn").getLocation()) && !event.isBedSpawn())
+                event.setRespawnLocation(new LocationsManager("spawn").getLocation());
         } catch (Exception ignored) {
             event.setRespawnLocation(event.getPlayer().getWorld().getSpawnLocation());
         }
@@ -613,7 +614,7 @@ public class PlayerListeners implements Listener {
             if (event.getEntity().getShooter() instanceof Entity)
                 getServer().getPluginManager().callEvent(new PlayerHitByProjectileEvent((Player) event.getHitEntity(), (Entity) event.getEntity().getShooter()));
         }
-        if (event.getHitEntity() != null && event.getHitEntity() instanceof Entity && event.getEntity().getShooter() != null) {
+        if (event.getHitEntity() != null && event.getHitEntity() != null && event.getEntity().getShooter() != null) {
             getServer().getPluginManager().callEvent(new EntityHitByProjectileEvent(event.getHitEntity(), (Entity) event.getEntity().getShooter()));
         }
     }

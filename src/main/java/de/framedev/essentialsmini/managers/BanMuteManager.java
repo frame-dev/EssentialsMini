@@ -214,7 +214,7 @@ public class BanMuteManager {
         return false;
     }
 
-    public void setPermaBan(OfflinePlayer player, BanCMD.BanType reason, boolean permaBan) {
+    public void setPermBan(OfflinePlayer player, BanCMD.BanType reason, boolean permaBan) {
         if (SQL.isTableExists(table)) {
             if (SQL.exists(table, "Player", player.getName())) {
                 SQL.updateData(table, "Ban", "'" + permaBan + "'", "Player = '" + player.getName() + "'");
@@ -228,7 +228,7 @@ public class BanMuteManager {
         }
     }
 
-    public void setPermaBan(OfflinePlayer player, String reason, boolean permaBan) {
+    public void setPermBan(OfflinePlayer player, String reason, boolean permaBan) {
         if (SQL.isTableExists(table)) {
             if (SQL.exists(table, "Player", player.getName())) {
                 SQL.updateData(table, "Ban", "'" + permaBan + "'", "Player = '" + player.getName() + "'");
@@ -242,7 +242,7 @@ public class BanMuteManager {
         }
     }
 
-    public boolean isPermaBan(OfflinePlayer player) {
+    public boolean isPermBan(OfflinePlayer player) {
         if (SQL.isTableExists(table)) {
             if (SQL.exists(table, "Player", player.getName())) {
                 if (SQL.get(table, "Ban", "Player", player.getName()) != null)
@@ -252,7 +252,7 @@ public class BanMuteManager {
         return false;
     }
 
-    public String getPermaBanReason(OfflinePlayer player) {
+    public String getPermBanReason(OfflinePlayer player) {
         if (SQL.isTableExists(table)) {
             if (SQL.exists(table, "Player", player.getName())) {
                 if (SQL.get(table, "BanReason", "Player", player.getName()) != null)
@@ -269,10 +269,10 @@ public class BanMuteManager {
                 Statement statement = MySQL.getConnection().createStatement();
                 ResultSet resultSet = statement.executeQuery("SELECT * FROM " + table);
                 while (resultSet.next()) {
-                    if (resultSet.getString("Player") != null && isPermaBan(Bukkit.getOfflinePlayer(resultSet.getString("Player"))))
+                    if (resultSet.getString("Player") != null && isPermBan(Bukkit.getOfflinePlayer(resultSet.getString("Player"))))
                         playerNames.add(resultSet.getString("Player"));
                 }
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
 
             }
         }
@@ -289,7 +289,7 @@ public class BanMuteManager {
                     if (resultSet.getString("Player") != null && isTempBan(Bukkit.getOfflinePlayer(resultSet.getString("Player"))) && !isExpiredTempBan(Bukkit.getOfflinePlayer(resultSet.getString("Player"))))
                         playerNames.add(resultSet.getString("Player"));
                 }
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
 
             }
         }
