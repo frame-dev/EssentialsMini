@@ -17,9 +17,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * @author Darryl
- */
 public class KeyGenerator {
 
     private static final Main plugin = Main.getInstance();

@@ -1,6 +1,7 @@
 package de.framedev.essentialsmini.api;
 
 import de.framedev.essentialsmini.main.Main;
+import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -21,14 +22,11 @@ public class BankAPI {
 
     File file = new File(Main.getInstance().getDataFolder() + "/money", "bankaccounts.yml");
     FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
+    @Getter
     private static BankAPI instance;
 
     public BankAPI() {
         instance = this;
-    }
-
-    public static BankAPI getInstance() {
-        return instance;
     }
 
     private void save() {

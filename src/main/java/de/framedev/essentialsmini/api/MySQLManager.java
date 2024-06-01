@@ -10,6 +10,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,7 +20,7 @@ import java.util.List;
 
 /**
  * This Plugin was Created by FrameDev
- * Package : de.framedev.essentialsmin.api
+ * Package : de.framedev.essentialsmini.api
  * Date: 23.11.2020
  * Project: EssentialsMini
  * Copyrighted by FrameDev
@@ -29,7 +31,7 @@ public class MySQLManager {
     private static boolean runOnce;
 
     public MySQLManager() {
-        if(!runOnce) {
+        if (!runOnce) {
             Bukkit.getConsoleSender().sendMessage(Main.getInstance().getPrefix() + "§aMySQL for Vault Enabled!");
             runOnce = true;
         }
@@ -54,7 +56,7 @@ public class MySQLManager {
                     SQL.insertData(tableName, "'" + player.getUniqueId() + "','" + player.getName() + "','" + amount + "'", "Player", "Name", "Money");
                 }
             } else {
-                SQL.createTable(tableName, "Player TEXT(256)", "Name TEXT(255)", "Money DOUBLE", "BankBalance DOUBLE", "BankName TEXT", "BankOwner TEXT", "BankMembers TEXT");
+                SQL.createTable(tableName, "Player TEXT(256)", "Name TEXT(255)", "Money TEXT", "BankBalance DOUBLE", "BankName TEXT", "BankOwner TEXT", "BankMembers TEXT");
                 SQL.insertData(tableName, "'" + player.getUniqueId() + "','" + player.getName() + "','" + amount + "'", "Player", "Name", "Money");
             }
         } else {
@@ -65,8 +67,10 @@ public class MySQLManager {
                     SQL.insertData(tableName, "'" + player.getName() + "','" + amount + "'", "Player", "Money");
                 }
             } else {
-                SQL.createTable(tableName, "Player TEXT(256)", "Name TEXT(255)", "Money DOUBLE", "BankBalance DOUBLE", "BankName TEXT", "BankOwner TEXT", "BankMembers TEXT");
-                SQL.insertData(tableName, "'" + player.getName() + "','" + amount + "'", "Player", "Money");
+                BigDecimal bd = new BigDecimal(amount);
+                int packedInt = bd.scaleByPowerOfTen(4).intValue();
+                SQL.createTable(tableName, "Player TEXT(256)", "Name TEXT(255)", "Money TEXT", "BankBalance DOUBLE", "BankName TEXT", "BankOwner TEXT", "BankMembers TEXT");
+                SQL.insertData(tableName, "'" + player.getName() + "','" + packedInt + "'", "Player", "Money");
             }
         }
     }
@@ -80,21 +84,23 @@ public class MySQLManager {
             if (SQL.isTableExists(tableName)) {
                 if (SQL.exists(tableName, "Player", player.getUniqueId().toString())) {
                     if (SQL.get(tableName, "Money", "Player", player.getUniqueId().toString()) != null) {
-                        return (double) SQL.get(tableName, "Money", "Player", player.getUniqueId().toString());
+                        String bd = (String) SQL.get(tableName, "Money", "Player", player.getUniqueId().toString());
+                        return Double.parseDouble(bd);
                     }
                 }
             } else {
-                SQL.createTable(tableName, "Player TEXT(256)", "Name TEXT(255)", "Money DOUBLE", "BankBalance DOUBLE", "BankName TEXT", "BankOwner TEXT", "BankMembers TEXT");
+                SQL.createTable(tableName, "Player TEXT(256)", "Name TEXT(255)", "Money TEXT", "BankBalance DOUBLE", "BankName TEXT", "BankOwner TEXT", "BankMembers TEXT");
             }
         } else {
             if (SQL.isTableExists(tableName)) {
                 if (SQL.exists(tableName, "Player", player.getName())) {
                     if (SQL.get(tableName, "Money", "Player", player.getName()) != null) {
-                        return (double) SQL.get(tableName, "Money", "Player", player.getName());
+                        String bd = (String) SQL.get(tableName, "Money", "Player", player.getName());
+                        return Double.parseDouble(bd);
                     }
                 }
             } else {
-                SQL.createTable(tableName, "Player TEXT(256)", "Name TEXT(255)", "Money DOUBLE", "BankBalance DOUBLE", "BankName TEXT", "BankOwner TEXT", "BankMembers TEXT");
+                SQL.createTable(tableName, "Player TEXT(256)", "Name TEXT(255)", "Money TEXT", "BankBalance DOUBLE", "BankName TEXT", "BankOwner TEXT", "BankMembers TEXT");
             }
         }
         return 0.0D;
@@ -147,7 +153,7 @@ public class MySQLManager {
                 }
             }
         } else {
-            SQL.createTable(tableName, "Player TEXT(256)", "Name TEXT(255)", "Money DOUBLE", "BankBalance DOUBLE", "BankName TEXT", "BankOwner TEXT", "BankMembers TEXT");
+            SQL.createTable(tableName, "Player TEXT(256)", "Name TEXT(255)", "Money TEXT", "BankBalance DOUBLE", "BankName TEXT", "BankOwner TEXT", "BankMembers TEXT");
             if (isOnlineMode()) {
                 SQL.insertData(tableName, "'" + player.getUniqueId() + "','" + bankName + "','" + player.getUniqueId() + "'", "Player", "BankName", "BankOwner");
             } else {
@@ -499,6 +505,7 @@ public class MySQLManager {
 
     /**
      * Delete bank
+     *
      * @param bankName the Bank name for delete
      * @return return if success or not
      */

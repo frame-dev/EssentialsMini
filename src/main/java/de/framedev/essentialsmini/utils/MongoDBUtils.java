@@ -3,6 +3,7 @@ package de.framedev.essentialsmini.utils;
 import de.framedev.essentialsmini.database.BackendManager;
 import de.framedev.essentialsmini.database.MongoManager;
 import de.framedev.essentialsmini.main.Main;
+import lombok.Getter;
 
 import java.util.logging.Level;
 
@@ -15,10 +16,29 @@ import java.util.logging.Level;
  * Copyrighted by FrameDev
  */
 
+@Getter
 public class MongoDBUtils {
 
+    /**
+     * -- GETTER --
+     *  This Method returns if MongoDB is enabled or not
+     *
+     * @return return if MongoDB is Enabled or not
+     */
     private boolean mongoDb = false;
+    /**
+     * -- GETTER --
+     *  This Method returns the MongoManager class
+     *
+     * @return return MongoManager class
+     */
     private MongoManager mongoManager;
+    /**
+     * -- GETTER --
+     *  This Method returns the BackendManager class
+     *
+     * @return return BackendManager class
+     */
     private BackendManager backendManager;
 
     public MongoDBUtils() {
@@ -48,30 +68,4 @@ public class MongoDBUtils {
         }
     }
 
-    /**
-     * This Method returns if MongoDB is enabled or not
-     *
-     * @return return if MongoDB is Enabled or not
-     */
-    public boolean isMongoDb() {
-        return mongoDb;
-    }
-
-    /**
-     * This Method returns the MongoManager class
-     *
-     * @return return MongoManager class
-     */
-    public MongoManager getMongoManager() {
-        return mongoManager;
-    }
-
-    /**
-     * This Method returns the BackendManager class
-     *
-     * @return return BackendManager class
-     */
-    public BackendManager getBackendManager() {
-        return backendManager;
-    }
 }

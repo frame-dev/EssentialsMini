@@ -1,8 +1,8 @@
 package de.framedev.essentialsmini.commands.playercommands;
 
+import ch.framedev.simplejavautils.TextUtils;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.abstracts.CommandListenerBase;
-import de.framedev.essentialsmini.utils.TextUtils;
 import lombok.NonNull;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -46,7 +46,7 @@ public class BackCMD extends CommandListenerBase {
                         player.teleport(deaths.get(player));
                         String message = plugin.getLanguageConfig(player).getString("DeathTeleport");
                         if (message != null) {
-                            message = new TextUtils().replaceAndToParagraph(message);
+                            message = new TextUtils().replaceAndWithParagraph(message);
                         }
                         player.sendMessage(plugin.getPrefix() + message);
                         /* Death Point remove */
@@ -54,7 +54,7 @@ public class BackCMD extends CommandListenerBase {
                     } else {
                         String message = plugin.getLanguageConfig(player).getString("NoDeathLocationFound");
                         if (message != null) {
-                            message = new TextUtils().replaceAndToParagraph(message);
+                            message = new TextUtils().replaceAndWithParagraph(message);
                         }
                         player.sendMessage(plugin.getPrefix() + message);
                     }
@@ -73,7 +73,7 @@ public class BackCMD extends CommandListenerBase {
             deaths.put(player, player.getLocation());
             String message = plugin.getLanguageConfig(player).getString("DeathCommandUsage");
             if (message != null) {
-                message = new TextUtils().replaceAndToParagraph(message);
+                message = new TextUtils().replaceAndWithParagraph(message);
             }
             player.sendMessage(plugin.getPrefix() + message);
         }

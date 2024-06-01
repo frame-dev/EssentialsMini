@@ -12,9 +12,6 @@ public class UnzipUtility {
     /**
      * Extracts a zip file specified by the zipFilePath to a directory specified by
      * destDirectory (will be created if does not exists)
-     * @param zipFilePath
-     * @param destDirectory
-     * @throws IOException
      */
     public void unzip(String zipFilePath, String destDirectory) throws IOException {
         File destDir = new File(destDirectory);

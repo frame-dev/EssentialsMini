@@ -38,7 +38,7 @@ public class FuckCMD extends CommandBase {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
                     for (int i = 0; i < 12; i++) {
-                        Firework firework = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK);
+                        Firework firework = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK_ROCKET);
                         FireworkMeta fireworkMeta = firework.getFireworkMeta();
                         fireworkMeta.setPower(3);
                         FireworkEffect fireworkEffect = FireworkEffect.builder()
@@ -75,7 +75,7 @@ public class FuckCMD extends CommandBase {
                 Player target = Bukkit.getPlayer(args[0]);
                 if (target != null) {
                     for (int i = 0; i < 32; i++) {
-                        Firework firework = (Firework) target.getWorld().spawnEntity(target.getLocation(), EntityType.FIREWORK);
+                        Firework firework = (Firework) target.getWorld().spawnEntity(target.getLocation(), EntityType.FIREWORK_ROCKET);
                         FireworkMeta fireworkMeta = firework.getFireworkMeta();
                         fireworkMeta.setPower(3);
                         FireworkEffect fireworkEffect = FireworkEffect.builder()

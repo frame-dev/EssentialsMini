@@ -12,6 +12,8 @@ package de.framedev.essentialsmini.commands.playercommands;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.managers.LocationsManager;
 import de.framedev.essentialsmini.utils.AdminBroadCast;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -45,7 +47,7 @@ public class ShowLocationCMD implements CommandExecutor, TabCompleter {
                         Player player = (Player) sender;
                         Location location = player.getLocation();
                         Bukkit.getOnlinePlayers().forEach(players -> {
-                            players.sendMessage(plugin.getPrefix() + "§6" + player.getName() + " §ahat eine Location mitgeteil!");
+                            players.sendMessage(plugin.getPrefix() + "§6" + player.getName() + " §ahat eine Location mitgeteilt!");
                             players.sendMessage("§aWelt = §6" + location.getWorld().getName());
                             players.sendMessage("§aX = §6" + location.getX());
                             players.sendMessage("§aY = §6" + location.getY());
@@ -61,7 +63,7 @@ public class ShowLocationCMD implements CommandExecutor, TabCompleter {
                         message = new StringBuilder(message.toString().replace('&', '§'));
                         String finalMessage = message.toString();
                         Bukkit.getOnlinePlayers().forEach(players -> {
-                            players.sendMessage(plugin.getPrefix() + "§6" + player.getName() + " §ahat eine Location mitgeteil! §aName der Location §6" + finalMessage);
+                            players.sendMessage(plugin.getPrefix() + "§6" + player.getName() + " §ahat eine Location mitgeteilt! §aName der Location §6" + finalMessage);
                             players.sendMessage("§aWelt = §6" + location.getWorld().getName());
                             players.sendMessage("§aX = §6" + location.getX());
                             players.sendMessage("§aY = §6" + location.getY());
@@ -87,6 +89,12 @@ public class ShowLocationCMD implements CommandExecutor, TabCompleter {
                                 Bukkit.getOnlinePlayers().forEach(players -> {
                                     players.sendMessage(plugin.getPrefix() + "§6" + player.getName() + " §ahat eine Location gespeichert! §c: " + args[0] + "\n §6X§b[" + player.getLocation().getBlockX() + "] §6Y§b["
                                             + player.getLocation().getBlockY() + "] §6Z§b[" + player.getLocation().getBlockZ() + "]");
+                                    int x = player.getLocation().getBlockX();
+                                    int y = player.getLocation().getBlockY();
+                                    int z = player.getLocation().getBlockZ();
+                                    TextComponent textComponent = new TextComponent("Click here to teleport to location");
+                                    textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + x + " " + y + " " + z));
+                                    players.spigot().sendMessage(textComponent);
                                 });
                             }
                         } else {

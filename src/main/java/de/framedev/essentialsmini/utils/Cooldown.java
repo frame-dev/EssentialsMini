@@ -1,5 +1,7 @@
 package de.framedev.essentialsmini.utils;
 
+import lombok.Getter;
+
 /**
  * Cooldown Class
  * This Class is for Creating a new Cooldown examples can be found in {@link de.framedev.essentialsmini.commands.playercommands.KitCMD}
@@ -8,8 +10,10 @@ package de.framedev.essentialsmini.utils;
 public class Cooldown {
 
 	private final int seconds;
-	private long secondsLeft;
-	private long milliSeconds;
+	@Getter
+    private long secondsLeft;
+	@Getter
+    private long milliSeconds;
 	private final long actualTime;
 
 	public Cooldown(int seconds, long actualTime) {
@@ -22,19 +26,11 @@ public class Cooldown {
 		this.actualTime = System.currentTimeMillis();
 	}
 
-	public long getSecondsLeft() {
-		return secondsLeft;
-	}
-
-	public int getSeconds() {
+    public int getSeconds() {
 		return seconds;
 	}
 
-	public long getMilliSeconds() {
-		return milliSeconds;
-	}
-
-	public boolean check() {
+    public boolean check() {
 		secondsLeft = ((actualTime / 1000) + seconds) - (System.currentTimeMillis() / 1000);
 		milliSeconds = actualTime + (seconds * 1000L) - System.currentTimeMillis();
 		if (secondsLeft > 0) {

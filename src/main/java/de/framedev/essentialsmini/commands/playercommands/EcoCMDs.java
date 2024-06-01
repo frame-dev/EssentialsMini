@@ -1,11 +1,11 @@
 package de.framedev.essentialsmini.commands.playercommands;
 
+import ch.framedev.simplejavautils.TextUtils;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.abstracts.CommandBase;
 import de.framedev.essentialsmini.utils.AdminBroadCast;
 import de.framedev.essentialsmini.utils.Language;
 import de.framedev.essentialsmini.utils.ReplaceCharConfig;
-import de.framedev.essentialsmini.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -57,7 +57,7 @@ public class EcoCMDs extends CommandBase {
                                             send = send.replace("[Money]", amount + plugin.getCurrencySymbol());
                                             String got = plugin.getLanguageConfig(player).getString("Money.MSG.GotPay");
                                             if (got != null) {
-                                                got = new TextUtils().replaceAndToParagraph(got);
+                                                got = new TextUtils().replaceAndWithParagraph(got);
                                                 got = new TextUtils().replaceObject(got, "[Player]", sender.getName());
                                                 got = new TextUtils().replaceObject(got, "[Money]", amount + plugin.getCurrencySymbol());
                                             }
@@ -83,7 +83,7 @@ public class EcoCMDs extends CommandBase {
                                         send = send.replace("[Money]", amount + plugin.getCurrencySymbol());
                                         String got = plugin.getCustomMessagesConfig().getString("Money.MSG.GotPay");
                                         if (got != null) {
-                                            got = new TextUtils().replaceAndToParagraph(got);
+                                            got = new TextUtils().replaceAndWithParagraph(got);
                                             got = new TextUtils().replaceObject(got, "[Player]", sender.getName());
                                             got = new TextUtils().replaceObject(got, "[Money]", amount + plugin.getCurrencySymbol());
                                         }
@@ -126,7 +126,7 @@ public class EcoCMDs extends CommandBase {
                     if (sender instanceof Player) {
                         Player player = (Player) sender;
                         String balance = plugin.getLanguageConfig(player).getString("Money.MSG.Balance");
-                        balance = new TextUtils().replaceAndToParagraph(balance);
+                        balance = new TextUtils().replaceAndWithParagraph(balance);
                         balance = new TextUtils().replaceObject(balance, "[Money]", plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().getBalance(player)) + plugin.getCurrencySymbol());
                         player.sendMessage(plugin.getPrefix() + balance);
                     } else {
@@ -142,7 +142,7 @@ public class EcoCMDs extends CommandBase {
                     OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
                     String balance = plugin.getLanguageConfig(sender).getString("Money.MoneyBalance.Other.MSG");
                     if (balance != null) {
-                        balance = new TextUtils().replaceAndToParagraph(balance);
+                        balance = new TextUtils().replaceAndWithParagraph(balance);
                     }
                     balance = new TextUtils().replaceObject(balance, "[Target]", player.getName());
                     balance = new TextUtils().replaceObject(balance, "[Money]", plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().getBalance(player)) + plugin.getCurrencySymbol());
@@ -169,7 +169,7 @@ public class EcoCMDs extends CommandBase {
                                     plugin.getVaultManager().getEco().depositPlayer(player, amount);
                                     String set = plugin.getLanguageConfig(player).getString("Money.MSG.Set");
                                     if (set != null) {
-                                        set = new TextUtils().replaceAndToParagraph(set);
+                                        set = new TextUtils().replaceAndWithParagraph(set);
                                         set = new TextUtils().replaceObject(set, "[Money]", plugin.getVaultManager().getEco().getBalance(player) + plugin.getCurrencySymbol());
                                     }
                                     player.sendMessage(plugin.getPrefix() + set);
@@ -191,13 +191,13 @@ public class EcoCMDs extends CommandBase {
                                 plugin.getVaultManager().getEco().depositPlayer(player, amount);
                                 String setOther = plugin.getLanguageConfig(sender).getString("Money.MoneySet.Other.MSG");
                                 if (setOther != null) {
-                                    setOther = new TextUtils().replaceAndToParagraph(setOther);
+                                    setOther = new TextUtils().replaceAndWithParagraph(setOther);
                                     setOther = new TextUtils().replaceObject(setOther, "[Target]", player.getName());
                                     setOther = new TextUtils().replaceObject(setOther, "[Money]", plugin.getVaultManager().getEco().getBalance(player) + plugin.getCurrencySymbol());
                                 }
                                 String set = plugin.getCustomMessagesConfig().getString("Money.MSG.Set");
                                 if (set != null) {
-                                    set = new TextUtils().replaceAndToParagraph(set);
+                                    set = new TextUtils().replaceAndWithParagraph(set);
                                     set = new TextUtils().replaceObject(set, "[Money]", amount + plugin.getCurrencySymbol());
                                 }
                                 sender.sendMessage(plugin.getPrefix() + setOther);
@@ -225,7 +225,7 @@ public class EcoCMDs extends CommandBase {
                                     plugin.getVaultManager().getEco().withdrawPlayer(player, amount);
                                     String set = plugin.getLanguageConfig(player).getString("Money.MSG.Set");
                                     if (set != null) {
-                                        set = new TextUtils().replaceAndToParagraph(set);
+                                        set = new TextUtils().replaceAndWithParagraph(set);
                                         set = new TextUtils().replaceObject(set, "[Money]", plugin.getVaultManager().getEco().getBalance(player) + plugin.getCurrencySymbol());
                                     }
                                     player.sendMessage(plugin.getPrefix() + set);
@@ -247,13 +247,13 @@ public class EcoCMDs extends CommandBase {
                                 plugin.getVaultManager().getEco().depositPlayer(player, amount);
                                 String setOther = plugin.getLanguageConfig(sender).getString("Money.MoneySet.Other.MSG");
                                 if (setOther != null) {
-                                    setOther = new TextUtils().replaceAndToParagraph(setOther);
+                                    setOther = new TextUtils().replaceAndWithParagraph(setOther);
                                     setOther = new TextUtils().replaceObject(setOther, "[Target]", player.getName());
                                     setOther = new TextUtils().replaceObject(setOther, "[Money]", plugin.getVaultManager().getEco().getBalance(player) + plugin.getCurrencySymbol());
                                 }
                                 String set = plugin.getCustomMessagesConfig().getString("Money.MSG.Set");
                                 if (set != null) {
-                                    set = new TextUtils().replaceAndToParagraph(set);
+                                    set = new TextUtils().replaceAndWithParagraph(set);
                                     set = new TextUtils().replaceObject(set, "[Money]", amount + plugin.getCurrencySymbol());
                                 }
                                 sender.sendMessage(plugin.getPrefix() + setOther);
@@ -282,7 +282,7 @@ public class EcoCMDs extends CommandBase {
                                     plugin.getVaultManager().getEco().depositPlayer(player, amount);
                                     String set = plugin.getLanguageConfig(player).getString("Money.MSG.Set");
                                     if (set != null) {
-                                        set = new TextUtils().replaceAndToParagraph(set);
+                                        set = new TextUtils().replaceAndWithParagraph(set);
                                         set = new TextUtils().replaceObject(set, "[Money]", amount + plugin.getCurrencySymbol());
                                     }
                                     player.sendMessage(plugin.getPrefix() + set);
@@ -305,13 +305,13 @@ public class EcoCMDs extends CommandBase {
                                 plugin.getVaultManager().getEco().depositPlayer(player, amount);
                                 String setOther = plugin.getLanguageConfig(sender).getString("Money.MoneySet.Other.MSG");
                                 if (setOther != null) {
-                                    setOther = new TextUtils().replaceAndToParagraph(setOther);
+                                    setOther = new TextUtils().replaceAndWithParagraph(setOther);
                                     setOther = new TextUtils().replaceObject(setOther, "[Target]", player.getName());
                                     setOther = new TextUtils().replaceObject(setOther, "[Money]", amount + plugin.getCurrencySymbol());
                                 }
                                 String set = plugin.getCustomMessagesConfig().getString("Money.MSG.Set");
                                 if (set != null) {
-                                    set = new TextUtils().replaceAndToParagraph(set);
+                                    set = new TextUtils().replaceAndWithParagraph(set);
                                     set = new TextUtils().replaceObject(set, "[Money]", amount + plugin.getCurrencySymbol());
                                 }
                                 sender.sendMessage(plugin.getPrefix() + setOther);

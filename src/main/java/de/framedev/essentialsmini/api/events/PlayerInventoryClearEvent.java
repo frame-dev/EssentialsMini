@@ -1,5 +1,6 @@
 package de.framedev.essentialsmini.api.events;
 
+import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -18,7 +19,9 @@ import org.jetbrains.annotations.NotNull;
 public class PlayerInventoryClearEvent extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
 
+    @Getter
     private final Player player;
+    @Getter
     private final Inventory inventory;
 
     private boolean isCancelled;
@@ -37,11 +40,4 @@ public class PlayerInventoryClearEvent extends Event {
         return HANDLERS;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
-    public Inventory getInventory() {
-        return inventory;
-    }
 }

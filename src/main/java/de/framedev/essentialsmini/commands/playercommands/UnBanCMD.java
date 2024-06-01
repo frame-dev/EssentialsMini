@@ -19,7 +19,7 @@ public class UnBanCMD extends CommandBase {
 		if(sender.hasPermission(getPlugin().getPermissionName() + "unban")) {
 			if(args.length == 1) {
 				if(getPlugin().isMysql() || getPlugin().isSQL()) {
-					new BanMuteManager().setPermaBan(Bukkit.getOfflinePlayer(args[0]), BanCMD.BanType.HACKING, false);
+					new BanMuteManager().setPermBan(Bukkit.getOfflinePlayer(args[0]), BanCMD.BanType.HACKING, false);
 				} else {
 					BanFile.unBanPlayer(args[0]);
 				}

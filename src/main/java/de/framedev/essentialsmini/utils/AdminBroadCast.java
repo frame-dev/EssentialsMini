@@ -18,11 +18,11 @@ import java.util.List;
 
 public class AdminBroadCast implements Serializable {
 
-    private static List<AdminBroadCast> adminBroadCasts = new ArrayList<>();
+    private final List<AdminBroadCast> adminBroadCasts = new ArrayList<>();
 
-    private String command;
-    private String message;
-    private String commandSender;
+    private final String command;
+    private final String message;
+    private final String commandSender;
     private boolean send;
 
     public AdminBroadCast(String command, String message, CommandSender commandSender) {

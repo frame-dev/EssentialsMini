@@ -265,7 +265,7 @@ public class BackendManager {
         ArrayList<OfflinePlayer> players = new ArrayList<>();
         if (existsCollection(collection)) {
             MongoCollection<Document> collections = this.plugin.getMongoManager().getDatabase().getCollection(collection);
-            collections.find(new Document("offline", true)).forEach((Block<? super Document>) document -> {
+            collections.find(new Document("offline", true)).forEach(document -> {
                 if (document != null) {
                     UUID uuid = UUID.fromString(document.getString("uuid"));
                     players.add(Bukkit.getOfflinePlayer(uuid));
@@ -280,7 +280,7 @@ public class BackendManager {
         ArrayList<Object> players = new ArrayList<>();
         if (existsCollection(collection)) {
             MongoCollection<Document> collections = this.plugin.getMongoManager().getDatabase().getCollection(collection);
-            collections.find(new Document(where,data)).forEach((Block<? super Document>) document -> {
+            collections.find(new Document(where,data)).forEach( document -> {
                 if (document != null) {
                     players.add(document.get(selected));
                 }

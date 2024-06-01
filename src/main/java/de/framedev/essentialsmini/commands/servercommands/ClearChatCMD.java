@@ -1,8 +1,8 @@
 package de.framedev.essentialsmini.commands.servercommands;
 
+import ch.framedev.simplejavautils.TextUtils;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.abstracts.CommandBase;
-import de.framedev.essentialsmini.utils.TextUtils;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -41,7 +41,7 @@ public class ClearChatCMD extends CommandBase {
         }
         String message = plugin.getLanguageConfig(sender).getString("ChatClear");
         if (message != null) {
-            message = new TextUtils().replaceAndToParagraph(message);
+            message = new TextUtils().replaceAndWithParagraph(message);
             message = new TextUtils().replaceObject(message, "%Player%", sender.getName());
         }
         Bukkit.broadcastMessage(plugin.getPrefix() + message);

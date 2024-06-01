@@ -1,11 +1,11 @@
 package de.framedev.essentialsmini.commands.playercommands;
 
+import ch.framedev.simplejavautils.TextUtils;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.abstracts.CommandBase;
 import de.framedev.essentialsmini.managers.KitManager;
 import de.framedev.essentialsmini.utils.Cooldown;
 import de.framedev.essentialsmini.utils.ReplaceCharConfig;
-import de.framedev.essentialsmini.utils.TextUtils;
 import de.framedev.essentialsmini.utils.Variables;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -75,8 +75,8 @@ public class KitCMD extends CommandBase {
                                     if (eco) {
                                         if (kit.getCooldown(name) == 0) {
                                             if (!plugin.getVaultManager().getEconomy().has(p, kit.getCost(name))) {
-                                                String notEnough = plugin.getLanguageConfig(sender).getString(Variables.MONEYMESSAGE + ".MSG.NotEnough");
-                                                notEnough = new TextUtils().replaceAndToParagraph(notEnough);
+                                                String notEnough = plugin.getLanguageConfig(sender).getString(Variables.MONEY_MESSAGE + ".MSG.NotEnough");
+                                                notEnough = new TextUtils().replaceAndWithParagraph(notEnough);
                                                 notEnough = ReplaceCharConfig.replaceObjectWithData(notEnough, "%Money%", plugin.getVaultManager().getEco().getBalance((Player) sender) + plugin.getCurrencySymbol());
                                                 p.sendMessage(plugin.getPrefix() + notEnough);
                                                 return true;
@@ -98,8 +98,8 @@ public class KitCMD extends CommandBase {
                                                     }
                                             }
                                             if (!plugin.getVaultManager().getEconomy().has(p, kit.getCost(name))) {
-                                                String notEnough = plugin.getLanguageConfig(sender).getString(Variables.MONEYMESSAGE + ".MSG.NotEnough");
-                                                notEnough = new TextUtils().replaceAndToParagraph(notEnough);
+                                                String notEnough = plugin.getLanguageConfig(sender).getString(Variables.MONEY_MESSAGE + ".MSG.NotEnough");
+                                                notEnough = new TextUtils().replaceAndWithParagraph(notEnough);
                                                 notEnough = ReplaceCharConfig.replaceObjectWithData(notEnough, "%Money%", plugin.getVaultManager().getEco().getBalance((Player) sender) + plugin.getCurrencySymbol());
                                                 p.sendMessage(plugin.getPrefix() + notEnough);
                                                 return true;

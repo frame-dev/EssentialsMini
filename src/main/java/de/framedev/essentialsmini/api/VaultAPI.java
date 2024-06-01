@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * This Plugin was Created by FrameDev
- * Package : de.framedev.essentialsmin.api
+ * Package : de.framedev.essentialsmini.api
  * Date: 22.11.2020
  * Project: EssentialsMini
  * Copyrighted by FrameDev
@@ -36,7 +36,7 @@ public class VaultAPI extends AbstractEconomy {
 
     @Override
     public boolean hasBankSupport() {
-        return true;
+        return Main.getInstance().getConfig().getBoolean("Bank");
     }
 
     @Override
@@ -46,7 +46,7 @@ public class VaultAPI extends AbstractEconomy {
 
     @Override
     public String format(double amount) {
-        return String.format("%.4f", amount);
+        return String.format("%.2f", amount);
     }
 
     public double formatToDouble(double amount) {

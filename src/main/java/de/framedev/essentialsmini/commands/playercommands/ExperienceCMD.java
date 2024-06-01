@@ -1,9 +1,9 @@
 package de.framedev.essentialsmini.commands.playercommands;
 
+import ch.framedev.simplejavautils.TextUtils;
 import de.framedev.essentialsmini.main.Main;
 import de.framedev.essentialsmini.abstracts.CommandBase;
 import de.framedev.essentialsmini.utils.AdminBroadCast;
-import de.framedev.essentialsmini.utils.TextUtils;
 import de.framedev.essentialsmini.utils.Variables;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -54,10 +54,10 @@ public class ExperienceCMD extends CommandBase {
                     return true;
                 }
                 String xpMessage = getPlugin().getCustomMessagesConfig().getString(Variables.EXPERIENCE + ".Self.XP");
-                xpMessage = textUtils.replaceAndToParagraph(xpMessage);
+                xpMessage = textUtils.replaceAndWithParagraph(xpMessage);
                 xpMessage = textUtils.replaceObject(xpMessage, "%XP%", amount + "");
                 String levelMessage = getPlugin().getCustomMessagesConfig().getString(Variables.EXPERIENCE + ".Self.Level");
-                levelMessage = textUtils.replaceAndToParagraph(levelMessage);
+                levelMessage = textUtils.replaceAndWithParagraph(levelMessage);
                 levelMessage = textUtils.replaceObject(levelMessage, "%Level%", amount + "");
                 if (args[3].equalsIgnoreCase("level")) {
                     assert amount instanceof Integer;
@@ -79,10 +79,10 @@ public class ExperienceCMD extends CommandBase {
                 int level = player.getLevel();
                 level += amount;
                 String xpMessage = getPlugin().getCustomMessagesConfig().getString(Variables.EXPERIENCE + ".Self.XP");
-                xpMessage = textUtils.replaceAndToParagraph(xpMessage);
+                xpMessage = textUtils.replaceAndWithParagraph(xpMessage);
                 xpMessage = textUtils.replaceObject(xpMessage, "%XP%", player.getTotalExperience() + amount + "");
                 String levelMessage = getPlugin().getCustomMessagesConfig().getString(Variables.EXPERIENCE + ".Self.Level");
-                levelMessage = textUtils.replaceAndToParagraph(levelMessage);
+                levelMessage = textUtils.replaceAndWithParagraph(levelMessage);
                 levelMessage = textUtils.replaceObject(levelMessage, "%Level%", level + "");
                 if (args[3].equalsIgnoreCase("level")) {
                     player.setLevel(level);
@@ -104,10 +104,10 @@ public class ExperienceCMD extends CommandBase {
                 int xp = player.getTotalExperience();
                 xp -= amount;
                 String xpMessage = getPlugin().getCustomMessagesConfig().getString(Variables.EXPERIENCE + ".Self.XP");
-                xpMessage = textUtils.replaceAndToParagraph(xpMessage);
+                xpMessage = textUtils.replaceAndWithParagraph(xpMessage);
                 xpMessage = textUtils.replaceObject(xpMessage, "%XP%", xp + "");
                 String levelMessage = getPlugin().getCustomMessagesConfig().getString(Variables.EXPERIENCE + ".Self.Level");
-                levelMessage = textUtils.replaceAndToParagraph(levelMessage);
+                levelMessage = textUtils.replaceAndWithParagraph(levelMessage);
                 levelMessage = textUtils.replaceObject(levelMessage, "%Level%", level + "");
                 if (args[3].equalsIgnoreCase("level")) {
                     player.setLevel(level);
@@ -130,10 +130,10 @@ public class ExperienceCMD extends CommandBase {
                 int xp = target.getTotalExperience();
                 xp += amount;
                 String xpMessage = getPlugin().getCustomMessagesConfig().getString(Variables.EXPERIENCE + ".Self.XP");
-                xpMessage = textUtils.replaceAndToParagraph(xpMessage);
+                xpMessage = textUtils.replaceAndWithParagraph(xpMessage);
                 xpMessage = textUtils.replaceObject(xpMessage, "%XP%", xp + "");
                 String levelMessage = getPlugin().getCustomMessagesConfig().getString(Variables.EXPERIENCE + ".Self.Level");
-                levelMessage = textUtils.replaceAndToParagraph(levelMessage);
+                levelMessage = textUtils.replaceAndWithParagraph(levelMessage);
                 levelMessage = textUtils.replaceObject(levelMessage, "%Level%", level + "");
                 if (args[3].equalsIgnoreCase("level")) {
                     target.setLevel(level);

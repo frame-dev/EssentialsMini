@@ -51,9 +51,9 @@ public class BanListener extends ListenerBase {
             }
         }
         if (getPlugin().isMysql() || getPlugin().isSQL()) {
-            if (new BanMuteManager().isPermaBan(Bukkit.getOfflinePlayer(e.getUniqueId()))) {
+            if (new BanMuteManager().isPermBan(Bukkit.getOfflinePlayer(e.getUniqueId()))) {
                 e.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_OTHER);
-                e.setKickMessage(ChatColor.RED + "You are Banned while " + ChatColor.GOLD + new BanMuteManager().getPermaBanReason(Bukkit.getOfflinePlayer(e.getUniqueId())));
+                e.setKickMessage(ChatColor.RED + "You are Banned while " + ChatColor.GOLD + new BanMuteManager().getPermBanReason(Bukkit.getOfflinePlayer(e.getUniqueId())));
             }
         } else {
             if (BanFile.cfg.getBoolean(e.getName() + ".isBanned")) {

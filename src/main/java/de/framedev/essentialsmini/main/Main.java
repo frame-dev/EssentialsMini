@@ -1,5 +1,6 @@
 package de.framedev.essentialsmini.main;
 
+import ch.framedev.simplejavautils.SimpleJavaUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import de.framedev.essentialsmini.commands.playercommands.BackpackCMD;
@@ -10,6 +11,7 @@ import de.framedev.essentialsmini.commands.servercommands.LagCMD;
 import de.framedev.essentialsmini.database.*;
 import de.framedev.essentialsmini.managers.*;
 import de.framedev.essentialsmini.utils.*;
+import lombok.Getter;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -35,6 +37,7 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
 
@@ -46,61 +49,156 @@ import java.util.*;
 public class Main extends JavaPlugin {
 
     private Utilities utilities;
+    /**
+     * -- GETTER --
+     *  Return all Players there are Silent
+     *
+     */
+    @Getter
     private static ArrayList<String> silent;
+    /**
+     * -- GETTER --
+     *  Return the Thread where the Schedulers are running
+     *
+     */
+    @Getter
     private Thread thread;
 
+    /**
+     * -- GETTER --
+     *
+     */
     /* Commands, TabCompleters and Listeners List */
     // Register Commands HashMap
+    @Getter
     private HashMap<String, CommandExecutor> commands;
+    /**
+     * -- GETTER --
+     *
+     */
     // Register TabCompleter HashMap
+    @Getter
     private HashMap<String, TabCompleter> tabCompleters;
+    /**
+     * -- GETTER --
+     *
+     */
     // Register Listener List
+    @Getter
     private ArrayList<Listener> listeners;
 
     private Map<String, Object> limitedHomesPermission;
 
     /* Json Config.json */
+    @Getter
     private JsonConfig jsonConfig;
 
+    @Getter
     private boolean homeTP = false;
 
     /* Material Manager */
+    @Getter
     private MaterialManager materialManager;
+    /**
+     * -- GETTER --
+     *  Diese Methode gibt die Klasse Variables zurück
+     *
+     */
     // Variables
+    @Getter
     private Variables variables;
+    /**
+     * -- GETTER --
+     *  This Methods return the KeyGenerator
+     *
+     */
+    @Getter
     private KeyGenerator keyGenerator;
 
+    /**
+     * -- GETTER --
+     *  This Method returns the VaultManager class
+     *  This Method can return a Null Object Surround it with a Not null Check!
+     *
+     */
     // VaultManager Require Vault
+    @Getter
     private VaultManager vaultManager;
     /* Custom Config File */
+    @Getter
     private File customConfigFile;
+    @Getter
     private FileConfiguration customConfig;
 
+    /**
+     * -- GETTER --
+     *  This is used for returning the SpigotTimer for the Lag Command
+     *
+     */
+    @Getter
     private LagCMD.SpigotTimer spigotTimer;
 
+    /**
+     * -- GETTER --
+     *  Return a list of all OfflinePlayers
+     *
+     */
+    @Getter
     public ArrayList<String> players;
 
+    /**
+     * -- GETTER --
+     *
+     */
     /* Singleton */
+    @Getter
     private static Main instance;
 
     // RegisterManager
+    @Getter
     private RegisterManager registerManager;
 
     private Map<String, Object> limitedHomes;
 
     // Variables for DataBases
+    @Getter
     private boolean mysql;
     private boolean sql;
 
+    /**
+     * -- GETTER --
+     *  This Method returns the Currency Symbol from the Config
+     *
+     */
+    @Getter
     private String currencySymbol;
 
+    /**
+     * -- GETTER --
+     *  Return all OfflinePlayers
+     *
+     */
+    @Getter
     private ArrayList<String> offlinePlayers;
     private File infoFile;
+    /**
+     * -- GETTER --
+     *  Return the Info File for this Plugin
+     *
+     */
+    @Getter
     private FileConfiguration infoCfg;
 
     private MongoDBUtils mongoDbUtils;
+    /**
+     * -- GETTER --
+     *  Return the Config version
+     *
+     */
+    @Getter
     private String configVersion;
     private File settingsFile;
+    @Getter
     private FileConfiguration settingsCfg;
 
     @Override
@@ -128,7 +226,7 @@ public class Main extends JavaPlugin {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        getConfig().options().header("MySQL and SQLite uses MySQLAPI[https://framedev.ch/sites/downloads/mysqlapi] \n" +
+        getConfig().options().header(
                 "Position activates /position <LocationName> or /pos <LocationName> Command\n" +
                 "SkipNight activates skipnight. This means that only one Player need to lay in bed!\n" +
                 "LocationsBackup Activates creating Backup from all Homes \n" +
@@ -156,6 +254,18 @@ public class Main extends JavaPlugin {
                 throw new RuntimeException(e);
             }
             new File("plugins/EssentialsMini/Config_Examples.zip").delete();
+        }
+        if(!new File(getDataFolder() + "/messages-examples").exists())
+            new File(getDataFolder() + "/messages-examples").mkdir();
+        try {
+            Files.copy(new SimpleJavaUtils().getFromResourceFile("messages_de-DE-examples.yml", Main.class).toPath(),
+                    new File(getDataFolder() + "/messages-examples/messages-de-DE-examples.yml").toPath(), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(new SimpleJavaUtils().getFromResourceFile("messages_en-EN-examples.yml", Main.class).toPath(),
+                    new File(getDataFolder() + "/messages-examples/messages_en-EN-examples.yml").toPath(), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(new SimpleJavaUtils().getFromResourceFile("messages_fr-FR-examples.yml", Main.class).toPath(),
+                    new File(getDataFolder() + "/messages-examples/messages_fr-FR-examples.yml").toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         try {
             this.settingsCfg.save(settingsFile);
@@ -220,8 +330,7 @@ public class Main extends JavaPlugin {
         }
         cfg.set("players", players);
         saveCfg();*/
-
-        if (Bukkit.getServer().getPluginManager().getPlugin("MDBConnection") != null) {
+        if (getConfig().getBoolean("MongoDB.Boolean") || getConfig().getBoolean("MongoDB.LocalHost")) {
             this.mongoDbUtils = new MongoDBUtils();
             if (isMongoDB()) {
                 for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
@@ -253,7 +362,7 @@ public class Main extends JavaPlugin {
         }
 
         // LimitedHomes Init
-        HashMap<String, Integer> limitedHomes = new HashMap<>();
+        limitedHomes = new HashMap<>();
         ConfigurationSection cs = getConfig().getConfigurationSection("LimitedHomes");
         if (cs != null) {
             for (String s : cs.getKeys(false)) {
@@ -343,15 +452,25 @@ public class Main extends JavaPlugin {
             e.printStackTrace();
         }
         matchConfig(customConfig, customConfigFile);
-        try {
-            this.limitedHomesPermission = getJsonConfig().getHashMap("LimitedHomesPermission");
-            this.limitedHomes = getJsonConfig().getHashMap("LimitedHomes");
-        } catch (Exception ignored) {
-            getServer().reload();
-        }
-        if (getConfig().getBoolean("SendPlayerUpdateMessage")) {
-            Bukkit.getOnlinePlayers().forEach(this::hasNewUpdate);
-        }
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    limitedHomesPermission = getJsonConfig().getHashMap("LimitedHomesPermission");
+                    limitedHomes = getJsonConfig().getHashMap("LimitedHomes");
+                } catch (Exception ignored) {
+                    Bukkit.broadcastMessage("RELOAD!");
+                    getServer().reload();
+                }
+            }
+        }.runTaskLater(this, 320);
+
+        /**
+        * if (getConfig().getBoolean("SendPlayerUpdateMessage")) {
+        *     Bukkit.getOnlinePlayers().forEach(this::hasNewUpdate);
+        * }
+         */
 
         /* OfflinePlayer Register */
         this.offlinePlayers = new ArrayList<>();
@@ -363,27 +482,32 @@ public class Main extends JavaPlugin {
             savePlayers();
         }
 
-        if (isMysql() || isSQL() && getConfig().getBoolean("PlayerInfoSave")) {
-            if (!SQL.isTableExists(getName().toLowerCase() + "_data")) {
-                SQL.createTable(getName().toLowerCase() + "_data",
-                        "playeruuid VARCHAR(1200)",
-                        "playername TEXT(120)",
-                        "sleeptimes INT",
-                        "damage DOUBLE",
-                        "playerkills INT",
-                        "entitykills INT",
-                        "deaths INT",
-                        "blocksbroken INT",
-                        "blocksplacen INT",
-                        "lastlogin LONG",
-                        "lastlogout LONG",
-                        "commandsused INT",
-                        "blocksBrokenList TEXT",
-                        "blocksPlacenList TEXT",
-                        "entityTypes TEXT");
-                Bukkit.getConsoleSender().sendMessage(getPrefix() + "§aMySQL Table Created!");
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (isMysql() || isSQL() && getConfig().getBoolean("PlayerInfoSave")) {
+                    if (!SQL.isTableExists(getName().toLowerCase() + "_data")) {
+                        SQL.createTable(getName().toLowerCase() + "_data",
+                                "playeruuid VARCHAR(1200)",
+                                "playername TEXT(120)",
+                                "sleeptimes INT",
+                                "damage DOUBLE",
+                                "playerkills INT",
+                                "entitykills INT",
+                                "deaths INT",
+                                "blocksbroken INT",
+                                "blocksplacen INT",
+                                "lastlogin LONG",
+                                "lastlogout LONG",
+                                "commandsused INT",
+                                "blocksBrokenList TEXT",
+                                "blocksPlacenList TEXT",
+                                "entityTypes TEXT");
+                        Bukkit.getConsoleSender().sendMessage(getPrefix() + "§aMySQL Table Created!");
+                    }
+                }
             }
-        }
+        }.runTaskAsynchronously(this);
 
         Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cSome Settings have been moved to the settings.yml in §6'plugins/EssentialsMini/settings.yml'§4§l!");
 
@@ -394,10 +518,10 @@ public class Main extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(getPrefix() + "§aEnabled!");
 
         // Checking for Update and when enabled Download the Latest Version automatically
-        checkUpdate(getConfig().getBoolean("AutoDownload"));
-        if (new UpdateChecker().isOldVersionPreRelease()) {
-            Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cYour Version is a Pre-Release. §6§lThere can be Errors!");
-        }
+        // checkUpdate(getConfig().getBoolean("AutoDownload"));
+        // if (new UpdateChecker().isOldVersionPreRelease()) {
+        //     Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cYour Version is a Pre-Release. §6§lThere can be Errors!");
+        // }
 
         infoCfg.set("PluginName", this.getDescription().getName());
         infoCfg.set("PluginVersion", this.getVariables().getVersion());
@@ -423,6 +547,7 @@ public class Main extends JavaPlugin {
         if (utilities.isDev()) {
             Bukkit.getConsoleSender().sendMessage(getPrefix() + "§c§lYou running a Dev Build, §r§cErrors can be happening!");
         }
+        Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cUpdater disabled. §6Website not Online!");
     }
 
     public void configUpdater() {
@@ -434,17 +559,17 @@ public class Main extends JavaPlugin {
         new BukkitRunnable() {
             @Override
             public void run() {
-                getConfig().options().header("MySQL and SQLite uses MySQLAPI[https://framedev.ch/sites/downloads/mysqlapi] \n" +
-                        "Position activates /position <LocationName> or /pos <LocationName> Command\n" +
-                        "SkipNight activates skipnight. This means that only one Player need to lay in bed!\n" +
-                        "LocationsBackup Activates creating Backup from all Homes \n" +
-                        "OnlyEssentialsFeatures if its deactivated only Commands and Economy can be used when is activated the PlayerData will be saved \n" +
-                        "Economy.Activate activates the integration of the Vault API use for Economy \n" +
-                        "PlayerShop is that Players can create their own Shop \n" +
-                        "PlayerEvents also named as PlayerData events \n" +
-                        "Only 3 Limited Homes Group can be created. Please do not rename the Groups! \n" +
-                        "TeleportDelay is the Time you have to wait befor you got Teleported!\n" +
-                        "MySQL, MongoDB and SQLite can now be added in the config.yml MySQLAPI Plugin is no longer required!");
+                getConfig().options().setHeader(
+                        Collections.singletonList("Position activates /position <LocationName> or /pos <LocationName> Command\n" +
+                                "SkipNight activates skipnight. This means that only one Player need to lay in bed!\n" +
+                                "LocationsBackup Activates creating Backup from all Homes \n" +
+                                "OnlyEssentialsFeatures if its deactivated only Commands and Economy can be used when is activated the PlayerData will be saved \n" +
+                                "Economy.Activate activates the integration of the Vault API use for Economy \n" +
+                                "PlayerShop is that Players can create their own Shop \n" +
+                                "PlayerEvents also named as PlayerData events \n" +
+                                "Only 3 Limited Homes Group can be created. Please do not rename the Groups! \n" +
+                                "TeleportDelay is the Time you have to wait befor you got Teleported!\n" +
+                                "MySQL, MongoDB and SQLite can now be added in the config.yml MySQLAPI Plugin is no longer required!"));
                 getConfig().options().copyHeader(true);
                 getConfig().options().copyDefaults(true);
                 saveDefaultConfig();
@@ -454,7 +579,7 @@ public class Main extends JavaPlugin {
                 Bukkit.getServer().reload();
                 Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cConfig Replaced! Please edit your Config Sections!");
             }
-        }.runTaskLater(this, 60);
+        }.runTaskLaterAsynchronously(this, 60);
         Config.saveDefaultConfigValues("messages_en-EN");
         Config.saveDefaultConfigValues("messages_de-DE");
     }
@@ -540,30 +665,12 @@ public class Main extends JavaPlugin {
     }
 
     /**
-     * Return all Players there are Silent
-     *
-     * @return the List of PlayerNames they are set to Silent
-     */
-    public static ArrayList<String> getSilent() {
-        return silent;
-    }
-
-    /**
      * Debug a Object
      *
      * @param data the Data to Debugging
      */
     public void debug(String data) {
         getLogger().info(data);
-    }
-
-    /**
-     * Return all OfflinePlayers
-     *
-     * @return returns all OfflinePlayers
-     */
-    public ArrayList<String> getOfflinePlayers() {
-        return offlinePlayers;
     }
 
     public void savePlayers() {
@@ -585,15 +692,6 @@ public class Main extends JavaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Return the Info File for this Plugin
-     *
-     * @return returns the Info Config
-     */
-    public FileConfiguration getInfoCfg() {
-        return infoCfg;
     }
 
     protected void matchConfig(FileConfiguration config, File file) {
@@ -630,34 +728,6 @@ public class Main extends JavaPlugin {
     }
 
     /**
-     * This Methods return the KeyGenerator
-     *
-     * @return return KeyGenerator class
-     */
-    public KeyGenerator getKeyGenerator() {
-        return keyGenerator;
-    }
-
-    /**
-     * This Method returns the VaultManager class
-     * This Method can return a Null Object Surround it with a Not null Check!
-     *
-     * @return return VaultManager class
-     */
-    public VaultManager getVaultManager() {
-        return vaultManager;
-    }
-
-    /**
-     * This Method returns the Currency Symbol from the Config
-     *
-     * @return return the Currency Symbol from the Config
-     */
-    public String getCurrencySymbol() {
-        return currencySymbol;
-    }
-
-    /**
      * This Method returns if MongoDB is enabled or not
      *
      * @return return if MongoDB is enabled or not
@@ -665,10 +735,6 @@ public class Main extends JavaPlugin {
     public boolean isMongoDB() {
         if (mongoDbUtils == null) return false;
         return this.mongoDbUtils.isMongoDb();
-    }
-
-    public boolean isMysql() {
-        return mysql;
     }
 
     public void addOfflinePlayer(OfflinePlayer player) {
@@ -679,32 +745,6 @@ public class Main extends JavaPlugin {
     public void removeOfflinePlayer(OfflinePlayer player) {
         if (getOfflinePlayers().contains(player.getName()))
             offlinePlayers.remove(player.getName());
-    }
-
-    /**
-     * Return a list of all OfflinePlayers
-     *
-     * @return return a list of all OfflinePlayers
-     */
-    public ArrayList<String> getPlayers() {
-        return players;
-    }
-
-    /**
-     * Return the Thread where the Schedulers are running
-     *
-     * @return return the Thread
-     */
-    public Thread getThread() {
-        return thread;
-    }
-
-    public File getCustomConfigFile() {
-        return customConfigFile;
-    }
-
-    public FileConfiguration getCustomConfig() {
-        return customConfig;
     }
 
     public MongoManager getMongoManager() {
@@ -721,10 +761,6 @@ public class Main extends JavaPlugin {
         return customConfig;
     }
 
-    public JsonConfig getJsonConfig() {
-        return jsonConfig;
-    }
-
     public void createCustomMessagesConfig() {
         customConfigFile = new File(Main.getInstance().getDataFolder(), "messages_en-EN.yml");
         if (!customConfigFile.exists()) {
@@ -738,15 +774,6 @@ public class Main extends JavaPlugin {
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Diese Methode gibt die Klasse Variables zurück
-     *
-     * @return die Variablen die gespeichert wurden verfügbar mit dem Getter
-     */
-    public Variables getVariables() {
-        return variables;
     }
 
     public String getOnlyPlayer() {
@@ -794,10 +821,6 @@ public class Main extends JavaPlugin {
         if (permission == null) return "";
         permission = permission.replace('&', '§');
         return permission;
-    }
-
-    public boolean isHomeTP() {
-        return homeTP;
     }
 
     /**
@@ -850,35 +873,10 @@ public class Main extends JavaPlugin {
         new UpdateChecker().download("https://framedev.ch/downloads/EssentialsMini-Latest.jar", getServer().getUpdateFolder(), "EssentialsMini.jar");
     }
 
-    public MaterialManager getMaterialManager() {
-        return materialManager;
-    }
-
     public String getPermissionName() {
         return "essentialsmini.";
     }
 
-
-    /**
-     * @return the TabCompleters
-     */
-    public HashMap<String, TabCompleter> getTabCompleters() {
-        return tabCompleters;
-    }
-
-    /**
-     * @return the commands
-     */
-    public HashMap<String, CommandExecutor> getCommands() {
-        return commands;
-    }
-
-    /**
-     * @return the Listeners
-     */
-    public ArrayList<Listener> getListeners() {
-        return listeners;
-    }
 
     /**
      * @return the Prefix
@@ -921,17 +919,6 @@ public class Main extends JavaPlugin {
         }
     }
 
-    /**
-     * @return the Singleton of this Class (this Plugin)
-     */
-    public static Main getInstance() {
-        return instance;
-    }
-
-    public RegisterManager getRegisterManager() {
-        return registerManager;
-    }
-
     public Map<String, String> getLimitedHomesPermission() {
         Map<String, String> limited = new HashMap<>();
         for (Map.Entry<String, Object> entry : limitedHomesPermission.entrySet()) {
@@ -948,30 +935,8 @@ public class Main extends JavaPlugin {
         return limited;
     }
 
-    /**
-     * This is used for returning the SpigotTimer for the Lag Command
-     *
-     * @return returns the Lag Timer
-     */
-    public LagCMD.SpigotTimer getSpigotTimer() {
-        return spigotTimer;
-    }
-
     public String getCurrencySymbolMulti() {
         return getConfig().getString("Currency.Multi");
-    }
-
-    /**
-     * Return the Config version
-     *
-     * @return return the Config Version
-     */
-    public String getConfigVersion() {
-        return configVersion;
-    }
-
-    public FileConfiguration getSettingsCfg() {
-        return settingsCfg;
     }
 
     public void saveSettings() {
