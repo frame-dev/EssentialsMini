@@ -51,7 +51,7 @@ public class LagCMD extends CommandBase {
             }
 
             sender.sendMessage("§auptime §6" + formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime()));
-            sender.sendMessage("§atps " + "" + color + tps);
+            sender.sendMessage("§atps " + color + tps);
             sender.sendMessage("§agcmax §6" + Runtime.getRuntime().maxMemory() / 1024 / 1024);
             sender.sendMessage("§agctotal §6" + Runtime.getRuntime().totalMemory() / 1024 / 1024);
             sender.sendMessage("§agcfree §6" + Runtime.getRuntime().freeMemory() / 1024 / 1024);

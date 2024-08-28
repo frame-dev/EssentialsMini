@@ -148,7 +148,7 @@ commands:
   heal:
     aliases:
       - healme
-    description: Heal you or a Player
+    description: Heal you or another Player
   trash:
     description: opens an Trash Inventory
   feed:

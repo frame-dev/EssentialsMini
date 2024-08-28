@@ -57,18 +57,16 @@ public class TeleportCMD implements CommandExecutor, Listener {
     @Override
     public boolean onCommand(@NonNull CommandSender sender, Command command, @NonNull String label, @NonNull String[] args) {
         if (command.getName().equalsIgnoreCase("tptoggle")) {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
+            if (sender instanceof Player player) {
                 if (player.hasPermission(plugin.getPermissionName() + "tptoggle")) {
                     if (tpToggle.contains(player)) {
                         tpToggle.remove(player);
                         player.sendMessage(plugin.getPrefix() + "§aPlayers can now Teleport to you or send you a Tpa Request!");
-                        return true;
                     } else {
                         tpToggle.add(player);
                         player.sendMessage(plugin.getPrefix() + "§6Players §ccan no more Teleporting to you or Send a Tpa Request");
-                        return true;
                     }
+                    return true;
                 } else {
                     player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     new AdminBroadCast("tptoggle","§cNo Permissions!", sender);
@@ -146,8 +144,7 @@ public class TeleportCMD implements CommandExecutor, Listener {
             }
         }
         if (command.getName().equalsIgnoreCase("tpaaccept")) {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
+            if (sender instanceof Player player) {
                 if (tpRequest.containsKey(player)) {
                     if (plugin.getConfig().getBoolean("TeleportInOtherWorld")) {
                         queue.add(tpRequest.get(player));
@@ -215,9 +212,8 @@ public class TeleportCMD implements CommandExecutor, Listener {
             }
         }
         if (command.getName().equalsIgnoreCase("tpahere")) {
-            if (sender instanceof Player) {
+            if (sender instanceof Player player) {
                 Player target = Bukkit.getPlayer(args[0]);
-                Player player = (Player) sender;
                 if (target != null) {
                     if (!tpToggle.contains(target)) {
                         tpHereRequest.put(target, player);
@@ -268,8 +264,7 @@ public class TeleportCMD implements CommandExecutor, Listener {
             }
         }
         if (command.getName().equalsIgnoreCase("tpaheredeny")) {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
+            if (sender instanceof Player player) {
                 if (!tpHereRequest.isEmpty() && tpHereRequest.containsKey(player)) {
                     String deny = plugin.getLanguageConfig(player).getString("TpaMessages.TpaHereDeny");
                     deny = new TextUtils().replaceAndWithParagraph(deny);
@@ -288,8 +283,7 @@ public class TeleportCMD implements CommandExecutor, Listener {
         }
         if (command.getName().equalsIgnoreCase("tpahereaccept")) {
             if (sender instanceof Player) {
-                final Player[] player = new Player[1];
-                player[0] = (Player) sender;
+                final Player[] player = {(Player) sender};
                 if (!tpHereRequest.isEmpty() && tpHereRequest.containsKey(player[0])) {
                     if (plugin.getConfig().getBoolean("TeleportInOtherWorld")) {
                         queue.add(player[0]);
@@ -329,8 +323,7 @@ public class TeleportCMD implements CommandExecutor, Listener {
             }
         }
         if (command.getName().equalsIgnoreCase("tphereall")) {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
+            if (sender instanceof Player player) {
                 if (player.hasPermission("essentialsmini.tphereall")) {
                     Bukkit.getOnlinePlayers().forEach(players -> players.teleport(player.getLocation()));
                 } else {

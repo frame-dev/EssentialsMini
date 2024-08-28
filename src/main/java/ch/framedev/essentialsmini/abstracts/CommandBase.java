@@ -110,7 +110,7 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
      * @param executor the Executor who executes the Command
      */
     public void setup(@NonNull CommandExecutor executor) {
-        if (cmdName == null) return;
+        if (cmdName == null) throw new IllegalArgumentException("Command name cannot be null");
         plugin.getCommands().put(cmdName, executor);
     }
 
@@ -120,7 +120,7 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
      * @param tabCompleter the TabCompleter who used for the Command
      */
     public void setupTabCompleter(@NonNull TabCompleter tabCompleter) {
-        if (cmdName == null) return;
+        if (cmdName == null) throw new IllegalArgumentException("Command name cannot be null");
         plugin.getTabCompleters().put(cmdName, tabCompleter);
     }
 

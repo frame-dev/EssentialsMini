@@ -3,7 +3,7 @@ Go back to README.md <br>
 <br><br>
 ---
 
-Version of the Documentation ```0.1-Beta```
+Version of the Documentation ```0.2-Beta```
 
 ---
 

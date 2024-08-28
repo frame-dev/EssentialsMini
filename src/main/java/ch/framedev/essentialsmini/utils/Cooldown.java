@@ -34,10 +34,7 @@ public class Cooldown {
     public boolean check() {
 		secondsLeft = ((actualTime / 1000) + seconds) - (System.currentTimeMillis() / 1000);
 		milliSeconds = actualTime + (seconds * 1000L) - System.currentTimeMillis();
-		if (secondsLeft > 0) {
-			return false;
-		}
-		return true;
-	}
+        return secondsLeft <= 0;
+    }
 
 }

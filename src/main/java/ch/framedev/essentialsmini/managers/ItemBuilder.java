@@ -2,7 +2,7 @@ package ch.framedev.essentialsmini.managers;
 
 
 /*
- * de.framedev.essentialsmin.utils
+ * de.framedev.essentialsmini.utils
  * ===================================================
  * This File was Created by FrameDev
  * Please do not change anything without my consent!
@@ -91,6 +91,22 @@ public class ItemBuilder {
                 lore = new ArrayList<>();
             }
             lore.add(stringLore);
+            this.itemMeta.setLore(lore);
+        }
+        return this;
+    }
+
+    public ItemBuilder addLore(String... stringLore) {
+        if (this.itemMeta == null) return null;
+        if (!this.itemMeta.hasLore()) {
+            List<String> lore = new ArrayList<>(Arrays.asList(stringLore));
+            this.itemMeta.setLore(lore);
+        } else {
+            List<String> lore = this.itemMeta.getLore();
+            if (lore == null) {
+                lore = new ArrayList<>();
+            }
+            lore.addAll(Arrays.asList(stringLore));
             this.itemMeta.setLore(lore);
         }
         return this;

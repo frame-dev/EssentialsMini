@@ -53,24 +53,40 @@ public class MySQLManager {
                 if (SQL.exists(tableName, "Player", player.getUniqueId().toString())) {
                     SQL.updateData(tableName, "Money", "'" + amount + "'", "Player = '" + player.getUniqueId() + "'");
                 } else {
-                    SQL.insertData(tableName, "'" + player.getUniqueId() + "','" + player.getName() + "','" + amount + "'", "Player", "Name", "Money");
+                    String[] data = {"" + player.getUniqueId(), player.getName(), "" + amount};
+                    SQL.insertData(tableName, data, "Player", "Name", "Money");
                 }
             } else {
                 SQL.createTable(tableName, "Player TEXT(256)", "Name TEXT(255)", "Money TEXT", "BankBalance DOUBLE", "BankName TEXT", "BankOwner TEXT", "BankMembers TEXT");
-                SQL.insertData(tableName, "'" + player.getUniqueId() + "','" + player.getName() + "','" + amount + "'", "Player", "Name", "Money");
+                // Correct and safe way to insert data using the existing insertData method
+                SQL.insertData(
+                        tableName,
+                        new String[]{player.getUniqueId().toString(), player.getName(), String.valueOf(amount)},
+                        "Player", "Name", "Money"
+                );
             }
         } else {
             if (SQL.isTableExists(tableName)) {
                 if (SQL.exists(tableName, "Player", player.getName())) {
                     SQL.updateData(tableName, "Money", "'" + amount + "'", "Player = '" + player.getName() + "'");
                 } else {
-                    SQL.insertData(tableName, "'" + player.getName() + "','" + amount + "'", "Player", "Money");
+                    // Correct and safe way to insert data using the insertData method
+                    SQL.insertData(
+                            tableName,
+                            new String[]{player.getName(), String.valueOf(amount)},
+                            "Player", "Money"
+                    );
                 }
             } else {
                 BigDecimal bd = new BigDecimal(amount);
                 int packedInt = bd.scaleByPowerOfTen(4).intValue();
                 SQL.createTable(tableName, "Player TEXT(256)", "Name TEXT(255)", "Money TEXT", "BankBalance DOUBLE", "BankName TEXT", "BankOwner TEXT", "BankMembers TEXT");
-                SQL.insertData(tableName, "'" + player.getName() + "','" + packedInt + "'", "Player", "Money");
+                // Safe insertion of data using the correct method
+                SQL.insertData(
+                        tableName,
+                        new String[]{player.getName(), String.valueOf(packedInt)},
+                        "Player", "Money"
+                );
             }
         }
     }
@@ -123,35 +139,22 @@ public class MySQLManager {
      * @param bankName the BankName
      */
     protected void createBank(OfflinePlayer player, String bankName) {
-        if (SQL.isTableExists(tableName)) {
-            if (isOnlineMode()) {
-                if (SQL.exists(tableName, "Player", player.getUniqueId().toString())) {
-                    if (SQL.get(tableName, "BankName", "Player", player.getUniqueId().toString()) == null) {
-                        SQL.updateData(tableName, "BankName", "'" + bankName + "'", "Player = '" + player.getUniqueId() + "'");
-                        SQL.updateData(tableName, "BankOwner", "'" + player.getUniqueId() + "'", "Player = '" + player.getUniqueId() + "'");
-                    }
-                } else {
-                    SQL.insertData(tableName, "'" + player.getUniqueId() + "','" + bankName + "','" + player.getUniqueId() + "'", "Player", "BankName", "BankOwner");
-                }
-            } else {
-                if (SQL.exists(tableName, "Player", player.getName())) {
-                    if (SQL.get(tableName, "BankName", "Player", player.getName()) != null) {
-                        SQL.updateData(tableName, "BankName", "'" + bankName + "'", "Player = '" + player.getName() + "'");
-                        SQL.updateData(tableName, "BankOwner", "'" + player.getName() + "'", "Player = '" + player.getName() + "'");
-                    }
-                } else {
-                    SQL.insertData(tableName, "'" + player.getName() + "','" + bankName + "','" + player.getName() + "'", "Player", "BankName", "BankOwner");
-                }
+        String playerId = isOnlineMode() ? player.getUniqueId().toString() : player.getName();
+        boolean tableExists = SQL.isTableExists(tableName);
+
+        if (tableExists && SQL.exists(tableName, "Player", playerId)) {
+            if (SQL.get(tableName, "BankName", "Player", playerId) == null) {
+                SQL.updateData(tableName, "BankName", bankName, "Player = ?", playerId);
+                SQL.updateData(tableName, "BankOwner", playerId, "Player = ?", playerId);
             }
         } else {
-            SQL.createTable(tableName, "Player TEXT(256)", "Name TEXT(255)", "Money TEXT", "BankBalance DOUBLE", "BankName TEXT", "BankOwner TEXT", "BankMembers TEXT");
-            if (isOnlineMode()) {
-                SQL.insertData(tableName, "'" + player.getUniqueId() + "','" + bankName + "','" + player.getUniqueId() + "'", "Player", "BankName", "BankOwner");
-            } else {
-                SQL.insertData(tableName, "'" + player.getName() + "','" + bankName + "','" + player.getName() + "'", "Player", "BankName", "BankOwner");
+            if (!tableExists) {
+                SQL.createTable(tableName, "Player TEXT(256)", "Name TEXT(255)", "Money TEXT", "BankBalance DOUBLE", "BankName TEXT", "BankOwner TEXT", "BankMembers TEXT");
             }
+            SQL.insertData(tableName, new String[]{playerId, bankName, playerId}, "Player", "BankName", "BankOwner");
         }
     }
+
 
     /**
      * set the Bank Money
@@ -422,11 +425,19 @@ public class MySQLManager {
         }
         if (isOnlineMode()) {
             if (!SQL.exists("essentialsmini_accounts", "uuid", "" + player.getUniqueId())) {
-                SQL.insertData("essentialsmini_accounts", "'" + player.getName() + "','" + player.getUniqueId() + "'", "name", "uuid");
+                SQL.insertData(
+                        "essentialsmini_accounts",
+                        new String[]{player.getName(), player.getUniqueId().toString()},
+                        "name", "uuid"
+                );
             }
         } else {
             if (!SQL.exists("essentialsmini_accounts", "name", "" + player.getName())) {
-                SQL.insertData("essentialsmini_accounts", "'" + player.getName() + "'", "name");
+                SQL.insertData(
+                        "essentialsmini_accounts",
+                        new String[]{player.getName()},
+                        "name"
+                );
             }
         }
     }

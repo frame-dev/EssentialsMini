@@ -114,8 +114,8 @@ VanishOff:
 Repair:
   Success: '&aThe item &6: %Item% &ahas been repaired!'
   Failed: "&cThe item &6: %Item% &cdoesn't need to be repaired!"
-  AirRepair: "&cair can't be repaired!"
-  OtherSuccess: '&athe item &6: %Item% &afrom &6: %Player% &ahas been repaired!'
+  AirRepair: "&cAir can't be repaired!"
+  OtherSuccess: '&aThe item &6: %Item% &afrom &6: %Player% &ahas been repaired!'
   OtherFailed: "&cThe item &6: %Item% &cfrom &6: %Player% &cdoesn't have to be repaired!"
   Irreparable: "&cThe Item &6: %Item% &cfrom &6: %Player% &ccan't be repaired"
 

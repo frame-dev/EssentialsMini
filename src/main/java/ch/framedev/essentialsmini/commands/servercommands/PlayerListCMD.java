@@ -19,13 +19,13 @@ import java.util.Arrays;
  * ===================================================
  * This Class was created at 17.07.2020 22:52
  */
-public class OnlinePlayerListCMD implements CommandExecutor {
+public class PlayerListCMD implements CommandExecutor {
 
     private final Main plugin;
 
     private final ArrayList<String> players = new ArrayList<>();
 
-    public OnlinePlayerListCMD(Main plugin) {
+    public PlayerListCMD(Main plugin) {
         this.plugin = plugin;
         plugin.getCommands().put("online", this);
         plugin.getCommands().put("offline", this);

@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class Config {
     public static void loadConfig() {
-        Main.getInstance().getConfig().options().copyHeader(true);
+        Main.getInstance().getConfig().options().parseComments(true);
         Objects.requireNonNull(Main.getInstance().getConfig().getDefaults()).options().copyDefaults(true);
         Main.getInstance().getConfig().options().copyDefaults(true);
         Main.getInstance().saveDefaultConfig();

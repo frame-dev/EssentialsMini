@@ -2,7 +2,7 @@ package ch.framedev.essentialsmini.managers;
 
 
 /*
- * de.framedev.essentialsmin.managers
+ * de.framedev.essentialsmini.managers
  * ===================================================
  * This File was Created by FrameDev
  * Please do not change anything without my consent!

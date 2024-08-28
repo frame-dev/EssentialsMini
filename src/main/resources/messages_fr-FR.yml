@@ -8,10 +8,11 @@ PlayerNameNotOnline: '&cThis Player is not online! &6%Player%'
 FeedSet: '&aYour hunger has been saturated!!'
 FeedOtherSet: "&6%Player% &a's hunger has been saturated!"
 
-FlySelfOn: '&aYou can fly now!'
-FlySelfOff: "&cYou can't fly anymore!"
-FlyOtherOn: '&6%Player% &acan fly now!'
-FlyOtherOff: "&6%Player% &ccan't fly anymore!"
+Fly:
+  SelfOn: '&aYou can fly now!'
+  SelfOff: "&cYou can't fly anymore!"
+  OtherOn: '&6%Player% &acan fly now!'
+  OtherOff: "&6%Player% &ccan't fly anymore!"
 
 GameModeChanged: '&aYour Gamemode has been set to &6%GameMode%!'
 GameModeOtherChanged: "&6%Player%&a's Gamemode has been set to &6%GameMode%"

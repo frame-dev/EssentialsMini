@@ -95,7 +95,7 @@ public class WarpCMD extends CommandListenerBase {
                                         sender.sendMessage(plugin.getPrefix() + "§cNot enought §6" + plugin.getVaultManager().getEconomy().currencyNamePlural());
                                         return true;
                                     }
-                            player.teleport(new LocationsManager().getLocation("warps." + name.toLowerCase()));
+                            player.teleport(new LocationsManager().getWarp(name.toLowerCase()));
                             String message = plugin.getLanguageConfig(player).getString(Variables.WARP_MESSAGE + ".Teleport");
                             if (message.contains("&"))
                                 message = message.replace('&', '§');

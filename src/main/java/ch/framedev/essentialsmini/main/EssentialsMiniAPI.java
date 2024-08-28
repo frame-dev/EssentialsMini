@@ -372,7 +372,7 @@ public class EssentialsMiniAPI {
      */
     public HashMap<String, String> getTempMuteReasonAndExpireDateFromPlayer(OfflinePlayer player) {
         if (plugin.isMysql() || plugin.isSQL()) {
-            return new BanMuteManager().getTempMute(player);
+            return (HashMap<String, String>) new BanMuteManager().getTempMute(player);
         }
         HashMap<String, String> hash = new HashMap<>();
         hash.put(MuteCMD.cfg.getString(player.getName() + ".expire"), MuteCMD.cfg.getString(player.getName() + ".reason"));
@@ -387,7 +387,7 @@ public class EssentialsMiniAPI {
      */
     public HashMap<String, String> getTempBanReasonAndExpireDateFromPlayer(OfflinePlayer player) {
         if (plugin.isMysql() || plugin.isSQL()) {
-            return new BanMuteManager().getTempBan(player);
+            return (HashMap<String, String>) new BanMuteManager().getTempBan(player);
         }
         HashMap<String, String> hash = new HashMap<>();
         String date = new SimpleDateFormat("dd.MM.yyyy | HH:mm:ss").format(Objects.requireNonNull(Bukkit.getServer().getBanList(BanList.Type.NAME).getBanEntry(Objects.requireNonNull(player.getName()))).getExpiration());

@@ -38,8 +38,8 @@ public class UUIDFetcher {
     private static final String UUID_URL = "https://api.mojang.com/users/profiles/minecraft/%s?at=%d";
     private static final String NAME_URL = "https://api.mojang.com/user/profiles/%s/names";
 
-    private static final Map<String, UUID> uuidCache = new HashMap<String, UUID>();
-    private static final Map<UUID, String> nameCache = new HashMap<UUID, String>();
+    private static final Map<String, UUID> uuidCache = new HashMap<>();
+    private static final Map<UUID, String> nameCache = new HashMap<>();
 
     private static final ExecutorService pool = Executors.newCachedThreadPool();
 

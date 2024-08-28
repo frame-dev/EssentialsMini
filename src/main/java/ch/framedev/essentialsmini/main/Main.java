@@ -507,16 +507,19 @@ public class Main extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cSome Settings have been moved to the settings.yml in §6'plugins/EssentialsMini/settings.yml'§4§l!");
 
         // Write permissions.txt File
-        writePermissions();
+        writePermissionsAndCommands();
         Bukkit.getConsoleSender().sendMessage(getPrefix() + "§aPermissions can be viewed in the File §6'plugins/EssentialsMini/permissions.txt'");
 
         Bukkit.getConsoleSender().sendMessage(getPrefix() + "§aEnabled!");
 
         // Checking for Update and when enabled Download the Latest Version automatically
-        // checkUpdate(getConfig().getBoolean("AutoDownload"));
-        // if (new UpdateChecker().isOldVersionPreRelease()) {
-        //     Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cYour Version is a Pre-Release. §6§lThere can be Errors!");
-        // }
+        if (!checkUpdate(getConfig().getBoolean("AutoDownload"))) {
+            Bukkit.getConsoleSender().sendMessage(getPrefix() + "§c§lThere was an error downloading or retrieving the new version.");
+
+            if (!new SimpleJavaUtils().isOnline("https://framedev.ch", 444)) {
+                Bukkit.getConsoleSender().sendMessage(getPrefix() + "§c§lPlease check your internet connection.");
+            }
+        }
 
         infoCfg.set("PluginName", this.getDescription().getName());
         infoCfg.set("PluginVersion", this.getVariables().getVersion());
@@ -536,12 +539,17 @@ public class Main extends JavaPlugin {
         }
 
         if (utilities.get().isDev()) {
-            Bukkit.getConsoleSender().sendMessage(getPrefix() + "§c§lYou running a Dev Build, §r§cErrors can be happening!");
+            Bukkit.getConsoleSender().sendMessage(
+                    getPrefix() + "§c§lYou running a Dev Build, §r§cErrors can be happening!");
+        }
+        if(utilities.get().isPreRelease()) {
+            Bukkit.getConsoleSender().sendMessage(
+                    getPrefix() + "§c§lYou are running a Pre-Release. §r§cErrors may occur! Make sure to update to a stable version as soon as possible.");
         }
         if (!configVersion.equalsIgnoreCase("1.0.1")) {
             configUpdater();
         }
-        Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cUpdater disabled. §6Website not Online!");
+        // Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cUpdater disabled. §6Website not Online!");
     }
 
     private @NotNull List<String> getComments() {
@@ -944,24 +952,44 @@ public class Main extends JavaPlugin {
         }
     }
 
-    protected void writePermissions() {
+    protected void writePermissionsAndCommands() {
         File file = new File(getDataFolder(), "permissions.txt");
         File commandsFile = new File(getDataFolder(), "commands.txt");
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        File commandsAndPermissions = new File(getDataFolder(), "commands-permissions.txt");
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+             BufferedWriter writerCommands = new BufferedWriter(new FileWriter(commandsFile));
+             BufferedWriter writerCommandsPermissions = new BufferedWriter(new FileWriter(commandsAndPermissions))) {
+
+            // Writing permissions to the permissions.txt file
             for (Permission permission : getDescription().getPermissions()) {
-                writer.append(permission.getName()).append("\n");
+                writer.append(permission.getName()).append(System.lineSeparator());
             }
-            writer.flush();
-            writer.close();
-            BufferedWriter writerCommands = new BufferedWriter(new FileWriter(commandsFile));
+
+            // Writing commands to the commands.txt file
             for (String command : getCommands().keySet()) {
-                writerCommands.append("/").append(command).append("\n");
+                writerCommands.append("/").append(command).append(System.lineSeparator());
             }
-            writerCommands.flush();
-            writerCommands.close();
-        } catch (Exception ex) {
-            Main.getInstance().getLogger4J().log(Level.ERROR, "Error", ex);
+
+            // Writing commands and their associated permissions to the commands-permissions.txt file
+            Map<String, Map<String, Object>> commands = getDescription().getCommands();
+
+            for (String command : commands.keySet()) {
+                writerCommandsPermissions.append("/").append(command);
+
+                // Get the permission associated with the command, if any
+                Object permissionObj = commands.get(command).get("permission");
+                if (permissionObj != null) {
+                    writerCommandsPermissions.append(" - Permission: ").append(permissionObj.toString());
+                } else {
+                    writerCommandsPermissions.append(" - Permission: None");
+                }
+
+                writerCommandsPermissions.append(System.lineSeparator());
+            }
+
+        } catch (IOException ex) {
+            Main.getInstance().getLogger4J().log(Level.ERROR, "Failed to write permissions or commands to file", ex);
         }
     }
 

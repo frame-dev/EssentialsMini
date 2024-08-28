@@ -189,9 +189,9 @@ public class HomeCMD extends CommandListenerBase {
                         return true;
                     }
 
-                    Map<String, String> limitedHomepermissions = plugin.getLimitedHomesPermission();
+                    Map<String, String> limitedHomePermissions = plugin.getLimitedHomesPermission();
                     ArrayList<String> limited = new ArrayList<>();
-                    if (sender.hasPermission(new Permission(limitedHomepermissions.get("Default"), PermissionDefault.OP))) {
+                    if (sender.hasPermission(new Permission(limitedHomePermissions.get("Default"), PermissionDefault.OP))) {
                         if (!sender.isOp()) {
                             if (new LocationsManager().getCfg().contains(sender.getName() + ".home")) {
                                 ConfigurationSection cs = new LocationsManager().getCfg().getConfigurationSection(sender.getName() + ".home");
@@ -303,7 +303,7 @@ public class HomeCMD extends CommandListenerBase {
                                 homes.clear();
                             }
                         }
-                    } else if (sender.hasPermission(new Permission(limitedHomepermissions.get("Medium"), PermissionDefault.OP))) {
+                    } else if (sender.hasPermission(new Permission(limitedHomePermissions.get("Medium"), PermissionDefault.OP))) {
                         if (!sender.isOp()) {
                             if (new LocationsManager().getCfg().contains(sender.getName() + ".home")) {
                                 ConfigurationSection cs = new LocationsManager().getCfg().getConfigurationSection(sender.getName() + ".home");
@@ -415,7 +415,7 @@ public class HomeCMD extends CommandListenerBase {
                                 homes.clear();
                             }
                         }
-                    } else if (sender.hasPermission(new Permission(limitedHomepermissions.get("Admin"), PermissionDefault.OP))) {
+                    } else if (sender.hasPermission(new Permission(limitedHomePermissions.get("Admin"), PermissionDefault.OP))) {
                         if (new LocationsManager().getCfg().contains(sender.getName() + ".home")) {
                             ConfigurationSection cs = new LocationsManager().getCfg().getConfigurationSection(sender.getName() + ".home");
                             if (cs != null) {

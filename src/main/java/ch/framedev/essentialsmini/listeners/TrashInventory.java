@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.inventory.Inventory;
 
 public class TrashInventory implements CommandExecutor, Listener {
@@ -47,6 +48,14 @@ public class TrashInventory implements CommandExecutor, Listener {
     public void onSwitchItem(InventoryCloseEvent event) {
         if (event.getInventory().equals(inventory)) {
             event.getInventory().clear();
+        }
+    }
+
+    @EventHandler
+    public void onMoveItem(InventoryEvent event) {
+        if(event.getView().getTitle().equalsIgnoreCase("Trash")) {
+            Inventory inventory1 = event.getInventory();
+            inventory1.clear();
         }
     }
 }

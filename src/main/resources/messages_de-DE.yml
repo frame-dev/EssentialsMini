@@ -8,10 +8,11 @@ PlayerNameNotOnline: '&cDieser Spieler ist nicht Online! &6%Player%'
 FeedSet: '&aDein Hunger wurde gestillt!!'
 FeedOtherSet: '&6%Player% &asein Hunger wurde gestillt!'
 
-FlySelfOn: '&aDu kannst nun Fliegen!'
-FlySelfOff: '&cDu kannst nun nicht mehr Fliegen!'
-FlyOtherOn: '&6%Player% &akann nun Fliegen!'
-FlyOtherOff: '&6%Player% &ckann nun nicht mehr Fliegen!'
+Fly:
+  SelfOn: '&aDu kannst nun Fliegen!'
+  SelfOff: '&cDu kannst nun nicht mehr Fliegen!'
+  OtherOn: '&6%Player% &akann nun Fliegen!'
+  OtherOff: '&6%Player% &ckann nun nicht mehr Fliegen!'
 
 GameModeChanged: '&aDein SpielModus wurde gesetzt auf &6%GameMode%!'
 GameModeOtherChanged: '&aDenn SpielModus von &6%Player% &awurde auf &6%GameMode% &agesetzt'
@@ -32,12 +33,12 @@ HomeSet: '&aDein Home wurde gesetzt'
 HomeSetOther: '&aDein Home mit dem Namen &6%Name% &awurde gesetzt!'
 HomeTeleport: '&aDu wurdest zu deinem Home Teleportiert'
 HomeTeleportOther: '&aDu wurdest zu deinem Home mit dem Namen &6%Name% &aTeleportiert'
-HomeDelete: '&cDein Home wurde gel�scht!'
+HomeDelete: '&cDein Home wurde geloescht!'
 HomeDeleteOther: '&cDein Home mit dem Namen &6%Name% &cwurde gel�scht!'
 HomeNotExist: '&cDieses Home existiert nocht nicht!'
 HomeExist: '&cDieses Home existiert schon!'
 NoMoreHomesSet: '&cDu kannst keine weitern Homes setzen!'
-HomeButton: '&aHome setzen? &6Klick hier und dr�cke Enter'
+HomeButton: '&aHome setzen? &6Klick hier und druecke Enter'
 ShowTextHover: '&6Home setzen?'
 ShowTextHoverOther: '&6Home %Home% setzen?'
 SpyMessage: '&6%Player% &ahat eine Nachricht an &6%Target% &agesendet mit dem Text &6:&c%Message%'
@@ -137,7 +138,7 @@ MsgToggle:
   Deactivated: '&aDir werden Nachrichten wieder geschickt!'
   Message: "&cDieser Spieler erlaubt keine Nachrichten!"
 
-SkipNight: '&6%Player% &ahat die Nacht �bersprungen!'
+SkipNight: '&6%Player% &ahat die Nacht uebersprungen!'
 
 Experience:
   Self:
@@ -150,7 +151,7 @@ Experience:
 Bank:
   NotFound: "&cdiese Bank exestiert nicht!"
   Created: '&aBank erfolgreich erstellt!'
-  Deleted: '&cBank erfolgreich gel�scht!'
+  Deleted: '&cBank erfolgreich geloescht!'
   Error: '&cError while &6%Reason% %Error%'
   Deposit: '&6%Amount% &awurde erfolgreich auf der bank tranferiert!'
   Withdraw: '&aDu hast &6%Amount% &aerfolgreich von der Bank bezogen!'

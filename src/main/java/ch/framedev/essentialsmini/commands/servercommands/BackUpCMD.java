@@ -155,11 +155,11 @@ public class BackUpCMD extends CommandBase {
             destinationDirectory.mkdir();
         }
         for (String f : Objects.requireNonNull(sourceDirectory.list())) {
-            copyDirectoryCompatibityMode(new File(sourceDirectory, f), new File(destinationDirectory, f));
+            copyDirectoryCompatibilityMode(new File(sourceDirectory, f), new File(destinationDirectory, f));
         }
     }
 
-    public static void copyDirectoryCompatibityMode(File source, File destination) throws IOException {
+    public static void copyDirectoryCompatibilityMode(File source, File destination) throws IOException {
         if (source.isDirectory()) {
             copyDirectory(source, destination);
         } else {

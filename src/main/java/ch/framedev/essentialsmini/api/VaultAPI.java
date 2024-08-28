@@ -2,6 +2,7 @@ package ch.framedev.essentialsmini.api;
 
 import ch.framedev.essentialsmini.main.Main;
 import ch.framedev.essentialsmini.managers.FileManager;
+import ch.framedev.essentialsmini.utils.UUIDFetcher;
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.apache.log4j.Level;
@@ -10,7 +11,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
@@ -223,6 +223,7 @@ public class VaultAPI extends AbstractEconomy {
             File file = new File(Main.getInstance().getDataFolder() + "/money", "eco.yml");
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
             cfg.set("Banks." + name + ".Owner", player);
+            cfg.set("Banks." + name + ".balance", 0.0);
             save(file, cfg);
         }
         return new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.SUCCESS, "");
@@ -231,9 +232,6 @@ public class VaultAPI extends AbstractEconomy {
     @Override
     public EconomyResponse deleteBank(String name) {
         final EconomyResponse[] economyResponse = {null};
-        new BukkitRunnable() {
-            @Override
-            public void run() {
                 if (Main.getInstance().isMysql() || Main.getInstance().isSQL()) {
                     if (new MySQLManager().removeBank(name))
                         economyResponse[0] = new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.SUCCESS, "");
@@ -247,30 +245,26 @@ public class VaultAPI extends AbstractEconomy {
                     save(file, cfg);
                     economyResponse[0] = new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.SUCCESS, "");
                 }
-            }
-        }.runTaskAsynchronously(Main.getInstance());
         return economyResponse[0];
     }
 
     @Override
     public EconomyResponse bankBalance(String name) {
         final EconomyResponse[] economyResponse = {null};
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (Main.getInstance().isMysql() || Main.getInstance().isSQL()) {
-                    economyResponse[0] = new EconomyResponse(new MySQLManager().getBankMoney(name), new MySQLManager().getBankMoney(name), EconomyResponse.ResponseType.SUCCESS, "");
-                } else if (Main.getInstance().isMongoDB()) {
-                    economyResponse[0] = new EconomyResponse((double) Main.getInstance().getBackendManager().getObject("bankname", name, "bank", "essentialsmini_data"), (double) Main.getInstance().getBackendManager().getObject("bankname", name, "bank", "essentialsmini_data"), EconomyResponse.ResponseType.SUCCESS, "");
-                } else {
-                    File file = new File(Main.getInstance().getDataFolder() + "/money", "eco.yml");
-                    FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
-                    if (!cfg.contains("Banks." + name))
-                        economyResponse[0] = new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "Bank doesn't exists!");
-                    economyResponse[0] = new EconomyResponse(cfg.getDouble("Banks." + name + ".balance"), cfg.getDouble("Banks." + name + ".balance"), EconomyResponse.ResponseType.SUCCESS, "");
-                }
-            }
-        }.runTaskAsynchronously(Main.getInstance());
+        if (Main.getInstance().isMysql() || Main.getInstance().isSQL()) {
+            economyResponse[0] = new EconomyResponse(new MySQLManager().getBankMoney(name), new MySQLManager().getBankMoney(name), EconomyResponse.ResponseType.SUCCESS, "");
+        } else if (Main.getInstance().isMongoDB()) {
+            economyResponse[0] = new EconomyResponse((double) Main.getInstance().getBackendManager().getObject("bankname", name, "bank", "essentialsmini_data"), (double) Main.getInstance().getBackendManager().getObject("bankname", name, "bank", "essentialsmini_data"), EconomyResponse.ResponseType.SUCCESS, "");
+        } else {
+            File file = new File(Main.getInstance().getDataFolder() + "/money", "eco.yml");
+            FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
+            if (!cfg.contains("Banks." + name))
+                economyResponse[0] = new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.FAILURE, "Bank doesn't exists!");
+            if (cfg.contains("Banks." + name + ".balance"))
+                economyResponse[0] = new EconomyResponse(cfg.getDouble("Banks." + name + ".balance"), cfg.getDouble("Banks." + name + ".balance"), EconomyResponse.ResponseType.SUCCESS, "");
+            else
+                economyResponse[0] = new EconomyResponse(0.0D, 0.0D, EconomyResponse.ResponseType.SUCCESS, "");
+        }
         return economyResponse[0];
     }
 
@@ -285,32 +279,27 @@ public class VaultAPI extends AbstractEconomy {
     @Override
     public EconomyResponse bankWithdraw(String name, double amount) {
         final EconomyResponse[] economyResponses = {null};
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                double balance = bankBalance(name).amount;
-                if (Main.getInstance().isMysql() || Main.getInstance().isSQL()) {
-                    balance -= amount;
-                    if (!bankHas(name, amount).transactionSuccess())
-                        economyResponses[0] = new EconomyResponse(amount, balance, EconomyResponse.ResponseType.FAILURE, "Not enought Money");
-                    new MySQLManager().setBankMoney(name, balance);
-                } else if (Main.getInstance().isMongoDB()) {
-                    balance -= amount;
-                    if (!bankHas(name, amount).transactionSuccess())
-                        economyResponses[0] = new EconomyResponse(amount, balance, EconomyResponse.ResponseType.FAILURE, "Not enought Money");
-                    Main.getInstance().getBackendManager().updataData("bankname", name, "bank", balance, "essentialsmini_data");
-                } else {
-                    File file = new File(Main.getInstance().getDataFolder() + "/money", "eco.yml");
-                    FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
-                    if (!bankHas(name, amount).transactionSuccess())
-                        economyResponses[0] = new EconomyResponse(amount, balance, EconomyResponse.ResponseType.FAILURE, "Not enought Money");
-                    balance -= amount;
-                    cfg.set("Banks." + name + ".balance", balance);
-                    save(file, cfg);
-                }
-                economyResponses[0] = new EconomyResponse(amount, balance, EconomyResponse.ResponseType.SUCCESS, "");
-            }
-        }.runTaskAsynchronously(Main.getInstance());
+        double balance = bankBalance(name).amount;
+        if (Main.getInstance().isMysql() || Main.getInstance().isSQL()) {
+            balance -= amount;
+            if (!bankHas(name, amount).transactionSuccess())
+                economyResponses[0] = new EconomyResponse(amount, balance, EconomyResponse.ResponseType.FAILURE, "Not enought Money");
+            new MySQLManager().setBankMoney(name, balance);
+        } else if (Main.getInstance().isMongoDB()) {
+            balance -= amount;
+            if (!bankHas(name, amount).transactionSuccess())
+                economyResponses[0] = new EconomyResponse(amount, balance, EconomyResponse.ResponseType.FAILURE, "Not enought Money");
+            Main.getInstance().getBackendManager().updataData("bankname", name, "bank", balance, "essentialsmini_data");
+        } else {
+            File file = new File(Main.getInstance().getDataFolder() + "/money", "eco.yml");
+            FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
+            if (!bankHas(name, amount).transactionSuccess())
+                economyResponses[0] = new EconomyResponse(amount, balance, EconomyResponse.ResponseType.FAILURE, "Not enought Money");
+            balance -= amount;
+            cfg.set("Banks." + name + ".balance", balance);
+            save(file, cfg);
+        }
+        economyResponses[0] = new EconomyResponse(amount, balance, EconomyResponse.ResponseType.SUCCESS, "");
         return economyResponses[0];
     }
 
@@ -340,10 +329,10 @@ public class VaultAPI extends AbstractEconomy {
     @Override
     public EconomyResponse isBankOwner(String name, String player) {
         if (Main.getInstance().isMysql() || Main.getInstance().isSQL()) {
-            if (!new MySQLManager().isBankOwner(name, Bukkit.getOfflinePlayer(player)))
+            if (!new MySQLManager().isBankOwner(name, Bukkit.getOfflinePlayer(UUIDFetcher.getUUID(player))))
                 return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.FAILURE, "Isn't the Owner");
         } else if (Main.getInstance().isMongoDB()) {
-            if (!((String) Main.getInstance().getBackendManager().get(Bukkit.getOfflinePlayer(player), "bankowner", "essentialsmini_data")).equalsIgnoreCase(Bukkit.getOfflinePlayer(player).getUniqueId().toString()))
+            if (!((String) Main.getInstance().getBackendManager().get(Bukkit.getOfflinePlayer(UUIDFetcher.getUUID(player)), "bankowner", "essentialsmini_data")).equalsIgnoreCase(Bukkit.getOfflinePlayer(player).getUniqueId().toString()))
                 return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.FAILURE, "Isn't the Owner");
         } else {
             File file = new File(Main.getInstance().getDataFolder() + "/money", "eco.yml");
@@ -359,7 +348,7 @@ public class VaultAPI extends AbstractEconomy {
     @Override
     public EconomyResponse isBankMember(String name, String player) {
         if (Main.getInstance().isMysql() || Main.getInstance().isSQL()) {
-            if (!new MySQLManager().isBankMember(name, Bukkit.getOfflinePlayer(player)))
+            if (!new MySQLManager().isBankMember(name, Bukkit.getOfflinePlayer(UUIDFetcher.getUUID(player))))
                 return new EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.FAILURE, "Isn't a member");
         } else if (Main.getInstance().isMongoDB()) {
             if (!Main.getInstance().getVaultManager().getBankMembers(name).contains(player))
@@ -410,10 +399,10 @@ public class VaultAPI extends AbstractEconomy {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
             if (Bukkit.getServer().getOnlineMode()) {
                 if (Main.getInstance().isMysql() || Main.getInstance().isSQL()) {
-                    new MySQLManager().createAccount(Bukkit.getOfflinePlayer(playerName));
+                    new MySQLManager().createAccount(Bukkit.getOfflinePlayer(UUIDFetcher.getUUID(playerName)));
                 } else {
                     List<String> accounts = cfg.getStringList("accounts");
-                    accounts.add(Bukkit.getOfflinePlayer(playerName).getUniqueId().toString());
+                    accounts.add(Bukkit.getOfflinePlayer(UUIDFetcher.getUUID(playerName)).getUniqueId().toString());
                     cfg.set("accounts", accounts);
                 }
             } else {

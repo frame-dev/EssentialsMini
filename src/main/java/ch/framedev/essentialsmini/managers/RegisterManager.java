@@ -84,7 +84,7 @@ public class RegisterManager {
         new GameModeCMD(plugin);
         new VanishCMD(plugin);
         new WarpCMD(plugin);
-        new OnlinePlayerListCMD(plugin);
+        new PlayerListCMD(plugin);
         new DayNightCMD(plugin);
         new BackpackCMD(plugin);
         new SleepCMD(plugin);
