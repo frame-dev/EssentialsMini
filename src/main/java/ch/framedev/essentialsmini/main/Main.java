@@ -30,10 +30,12 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -139,11 +141,6 @@ public class Main extends JavaPlugin {
     @Getter
     public ArrayList<String> players;
 
-    /**
-     * -- GETTER --
-     */
-    /* Singleton */
-    @Getter
     private static Main instance;
 
     // RegisterManager
@@ -189,6 +186,8 @@ public class Main extends JavaPlugin {
     @Getter
     private FileConfiguration settingsCfg;
     private Logger logger;
+    private BukkitTask bukkitTaskConfig;
+    private BukkitTask limitedHomesTask;
 
     @SuppressWarnings("InstantiationOfUtilityClass")
     @Override
@@ -205,7 +204,7 @@ public class Main extends JavaPlugin {
 
         // Set Dev Build
         // TODO: Update
-        utilities.get().setDev(false);
+        utilities.get().setDev(true);
 
         // Info FileConfiguration
         this.infoFile = new File(getDataFolder(), "info.yml");
@@ -439,33 +438,11 @@ public class Main extends JavaPlugin {
         matchConfig(customConfig, customConfigFile);
         configVersion = getConfig().getString("Config-Version");
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                try {
-                    for (String cs : getConfig().getConfigurationSection("LimitedHomes").getKeys(false)) {
-                        if (getConfig().getInt("LimitedHomes." + cs) != 0) {
-                            limitedHomes.put(cs, getConfig().getInt("LimitedHomes." + cs));
-                        }
-                    }
-                    for (String cs : getConfig().getConfigurationSection("LimitedHomesPermission").getKeys(false)) {
-                        if (getConfig().get("LimitedHomesPermission." + cs) != null) {
-                            limitedHomesPermission.put(cs, getConfig().get("LimitedHomesPermission." + cs));
-                        }
-                    }
-                } catch (Exception ex) {
-                    logger.log(Level.ERROR, "Error", ex);
-                    Bukkit.broadcastMessage("RELOAD!");
-                    getServer().reload();
-                }
-            }
-        }.runTaskLater(this, 320);
+        setupLimitedHomes();
 
-        /**
-         * if (getConfig().getBoolean("SendPlayerUpdateMessage")) {
-         *     Bukkit.getOnlinePlayers().forEach(this::hasNewUpdate);
-         * }
-         */
+        if (getConfig().getBoolean("SendPlayerUpdateMessage")) {
+            Bukkit.getOnlinePlayers().forEach(this::hasNewUpdate);
+        }
 
         /* OfflinePlayer Register */
         this.offlinePlayers = new ArrayList<>();
@@ -499,6 +476,7 @@ public class Main extends JavaPlugin {
                                 "blocksPlacenList TEXT",
                                 "entityTypes TEXT");
                         Bukkit.getConsoleSender().sendMessage(getPrefix() + "§aMySQL Table Created!");
+                        cancel();
                     }
                 }
             }
@@ -516,7 +494,7 @@ public class Main extends JavaPlugin {
         if (!checkUpdate(getConfig().getBoolean("AutoDownload"))) {
             Bukkit.getConsoleSender().sendMessage(getPrefix() + "§c§lThere was an error downloading or retrieving the new version.");
 
-            if (!new SimpleJavaUtils().isOnline("https://framedev.ch", 444)) {
+            if (!new SimpleJavaUtils().isOnline("framedev.ch", 443)) {
                 Bukkit.getConsoleSender().sendMessage(getPrefix() + "§c§lPlease check your internet connection.");
             }
         }
@@ -542,7 +520,7 @@ public class Main extends JavaPlugin {
             Bukkit.getConsoleSender().sendMessage(
                     getPrefix() + "§c§lYou running a Dev Build, §r§cErrors can be happening!");
         }
-        if(utilities.get().isPreRelease()) {
+        if (utilities.get().isPreRelease()) {
             Bukkit.getConsoleSender().sendMessage(
                     getPrefix() + "§c§lYou are running a Pre-Release. §r§cErrors may occur! Make sure to update to a stable version as soon as possible.");
         }
@@ -550,6 +528,35 @@ public class Main extends JavaPlugin {
             configUpdater();
         }
         // Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cUpdater disabled. §6Website not Online!");
+    }
+
+    private void setupLimitedHomes() {
+        limitedHomesTask = new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    for (String cs : getConfig().getConfigurationSection("LimitedHomes").getKeys(false)) {
+                        if (getConfig().getInt("LimitedHomes." + cs) != 0) {
+                            limitedHomes.put(cs, getConfig().getInt("LimitedHomes." + cs));
+                        }
+                    }
+                    for (String cs : getConfig().getConfigurationSection("LimitedHomesPermission").getKeys(false)) {
+                        if (getConfig().get("LimitedHomesPermission." + cs) != null) {
+                            limitedHomesPermission.put(cs, getConfig().get("LimitedHomesPermission." + cs));
+                        }
+                    }
+                    cancel();
+                } catch (Exception ex) {
+                    logger.log(Level.ERROR, "Error", ex);
+                    Bukkit.broadcastMessage("RELOAD!");
+                    getServer().reload();
+                }
+            }
+        }.runTaskLater(this, 320);
+    }
+
+    public static Main getInstance() {
+        return instance;
     }
 
     private @NotNull List<String> getComments() {
@@ -573,7 +580,7 @@ public class Main extends JavaPlugin {
         } catch (IOException ex) {
             Main.getInstance().getLogger4J().log(Level.ERROR, "Error", ex);
         }
-        new BukkitRunnable() {
+        bukkitTaskConfig = new BukkitRunnable() {
             @Override
             public void run() {
                 List<String> comments = getComments();
@@ -586,6 +593,7 @@ public class Main extends JavaPlugin {
                 Config.saveDefaultConfigValues();
                 Bukkit.getServer().reload();
                 Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cConfig Replaced! Please edit your Config Sections!");
+                cancel();
             }
         }.runTaskLaterAsynchronously(this, 60);
         Config.saveDefaultConfigValues("messages_en-EN");
@@ -624,8 +632,24 @@ public class Main extends JavaPlugin {
         });
         savePlayers();
         if (thread != null && thread.isAlive())
-            thread.getThreadGroup().interrupt();
+            thread.interrupt();
         Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cDisabled! Bye");
+        utilities.remove();
+        this.spigotTimer = null;
+        limitedHomes.clear();
+        limitedHomesPermission.clear();
+        commands.clear();
+        listeners.clear();
+        limitedHomesTask.cancel();
+        bukkitTaskConfig.cancel();
+        if (mysql) {
+            MySQL.close();
+        }
+        if (sql) {
+            SQLite.close();
+        }
+        Bukkit.getScheduler().cancelTasks(this);
+        HandlerList.unregisterAll(this);
     }
 
     /**
@@ -852,9 +876,6 @@ public class Main extends JavaPlugin {
                     }
                     br.close();
                     return true;
-                } else {
-                    Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cThis Plugin is a Pre-Release | §6There could still be errors");
-                    Bukkit.getConsoleSender().sendMessage(getPrefix() + "There should be a new Version check if its newer than your Version : " + newVersion + ".| Your Version : §6" + oldVersion);
                 }
             } else {
                 Bukkit.getConsoleSender().sendMessage(getPrefix() + "You're running the newest plugin version!");
@@ -869,7 +890,7 @@ public class Main extends JavaPlugin {
     }
 
     /**
-     * Download the Latest Plugin from the Website https://framedev.ch
+     * Download the Latest Plugin from the Website <a href="https://framedev.ch">https://framedev.ch</a>
      */
     public void downloadLatest() {
         final File pluginFile = getDataFolder().getParentFile();

@@ -62,7 +62,7 @@ public class VaultManager {
                 eco.createPlayerAccount(player);
         }
 
-        Bukkit.getConsoleSender().sendMessage(plugin.getPrefix() + "§aVaultManager Loaded!");
+        Bukkit.getConsoleSender().sendMessage(plugin.getPrefix() + "§aVaultManager Loaded and Enabled!");
     }
 
     public List<String> getBanks() {
