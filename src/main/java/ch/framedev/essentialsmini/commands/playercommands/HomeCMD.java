@@ -11,7 +11,6 @@ import ch.framedev.simplejavautils.TextUtils;
 import ch.framedev.essentialsmini.main.Main;
 import ch.framedev.essentialsmini.abstracts.CommandListenerBase;
 import ch.framedev.essentialsmini.utils.ReplaceCharConfig;
-import lombok.SneakyThrows;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -58,7 +57,6 @@ public class HomeCMD extends CommandListenerBase {
 
     private LocationsManager locationsManager;
 
-    @SneakyThrows
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {

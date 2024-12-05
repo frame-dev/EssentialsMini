@@ -1,13 +1,16 @@
 package ch.framedev.essentialsmini.utils;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Setter
-@Getter
 public class Utilities {
 
     private boolean dev;
+
+    public boolean isDev() {
+        return dev;
+    }
+
+    public void setDev(boolean dev) {
+        this.dev = dev;
+    }
 
     public boolean isPreRelease() {
         return new UpdateChecker().isOldVersionPreRelease();

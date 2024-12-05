@@ -26,6 +26,11 @@ import java.util.List;
  */
 public class VaultAPI extends AbstractEconomy {
 
+    public interface Callback<T> {
+        T onSuccess(T object);
+        void onError(Exception exception);
+    }
+
     @Override
     public boolean isEnabled() {
         return Main.getInstance().isEnabled();

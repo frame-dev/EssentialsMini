@@ -13,7 +13,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import ch.framedev.essentialsmini.main.Main;
-import lombok.NonNull;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -77,7 +76,7 @@ public class MaterialManager {
      * @param name the Material Name
      * @return return the Material if not null
      */
-    public Material getMaterial(@NonNull String name) {
+    public Material getMaterial(String name) {
         for (Material material : getMaterials()) {
             if (material != null) {
                 if (material.name().toUpperCase().equalsIgnoreCase(name.toUpperCase())) {

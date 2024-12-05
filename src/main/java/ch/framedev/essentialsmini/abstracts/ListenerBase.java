@@ -11,10 +11,8 @@ package ch.framedev.essentialsmini.abstracts;
  */
 
 import ch.framedev.essentialsmini.main.Main;
-import lombok.Getter;
 import org.bukkit.event.Listener;
 
-@Getter
 public abstract class ListenerBase implements Listener {
 
     /**
@@ -48,5 +46,9 @@ public abstract class ListenerBase implements Listener {
      */
     public String getPrefix() {
         return plugin.getPrefix();
+    }
+
+    public Main getPlugin() {
+        return plugin;
     }
 }

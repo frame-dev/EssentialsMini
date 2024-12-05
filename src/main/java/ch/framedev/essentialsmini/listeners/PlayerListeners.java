@@ -16,31 +16,27 @@ import ch.framedev.essentialsmini.commands.playercommands.VanishCMD;
 import ch.framedev.essentialsmini.database.BackendManager;
 import ch.framedev.essentialsmini.managers.LocationsManager;
 import ch.framedev.essentialsmini.main.Main;
-import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import static org.bukkit.Bukkit.getServer;
 
 public class PlayerListeners implements Listener {
 
     private final Main plugin;
-    @Getter
     private final boolean jsonFormat;
+    private BukkitTask spawnTask;
 
     public PlayerListeners(Main plugin) {
         this.plugin = plugin;
@@ -48,6 +44,12 @@ public class PlayerListeners implements Listener {
         String permissionBase = plugin.getPermissionName();
         jsonFormat = plugin.getConfig().getBoolean("JsonFormat");
     }
+
+    public boolean isJsonFormat() {
+        return jsonFormat;
+    }
+
+
 
     public boolean isEnabled() {
         return plugin.getConfig().getBoolean("PlayerInfoSave");
@@ -105,7 +107,7 @@ public class PlayerListeners implements Listener {
         } else {
             event.setJoinMessage(null);
         }
-        new BukkitRunnable() {
+        spawnTask = new BukkitRunnable() {
             @Override
             public void run() {
                 if (plugin.getConfig().getBoolean("SpawnTP")) {
@@ -226,5 +228,9 @@ public class PlayerListeners implements Listener {
                 getServer().getPluginManager().callEvent(new EntityHitByProjectileEvent(event.getHitEntity(), (Entity) event.getEntity().getShooter()));
             }
         }
+    }
+
+    public BukkitTask getSpawnTask() {
+        return spawnTask;
     }
 }

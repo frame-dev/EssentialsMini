@@ -1,14 +1,17 @@
 Config-Version: '1.0.1'
 
 Prefix: '&6[&aEssentials&bMini&6] &c>> &f'
+
 Back: true
 
 JoinBoolean: true
 JoinMessage: '&aWelcome &6%Player% &aon this Server!'
 LeaveBoolean: true
 LeaveMessage: '&6%Player% &ahas left the Server!'
+
 SaveInventory: false
 Backpack: false
+
 SpawnTP: false
 SkipNight: false
 BedColor: 'BLUE'
@@ -68,7 +71,7 @@ MySQL:
   Port: 3306
   Use: false
 
-#Default Path plugins/EssentialsMini
+# Default Path plugins/EssentialsMini
 SQLite:
   Path: 'plugins/EssentialsMini'
   FileName: 'database'

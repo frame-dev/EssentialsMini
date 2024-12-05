@@ -6,7 +6,6 @@ import ch.framedev.essentialsmini.managers.*;
 import ch.framedev.essentialsmini.utils.InventoryStringDeSerializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -27,11 +26,9 @@ public class EssentialsMiniAPI {
 
     // The Singleton for the API
     private static EssentialsMiniAPI instance;
-    @Getter
     private final boolean jsonFormat;
 
     // Is Boolean enabled or not
-    @Getter
     private final boolean economy;
 
     protected EssentialsMiniAPI(Main plugin) {
@@ -462,5 +459,17 @@ public class EssentialsMiniAPI {
         if (economy)
             plugin.getVaultManager().getAccounts();
         return null;
+    }
+
+    public Main getPlugin() {
+        return plugin;
+    }
+
+    public double getProgress() {
+        return progress;
+    }
+
+    public int getTime() {
+        return time;
     }
 }

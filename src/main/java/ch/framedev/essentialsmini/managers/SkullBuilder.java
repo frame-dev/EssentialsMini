@@ -9,7 +9,6 @@ package ch.framedev.essentialsmini.managers;
  */
 
 import ch.framedev.essentialsmini.utils.UUIDFetcher;
-import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -42,7 +41,7 @@ public class SkullBuilder {
         this.player = Bukkit.getOfflinePlayer(uuid);
     }
 
-    public SkullBuilder(@NonNull OfflinePlayer player) {
+    public SkullBuilder(OfflinePlayer player) {
         itemStack = new ItemStack(Material.PLAYER_HEAD);
         this.player = player;
         this.skullOwner = player.getName();

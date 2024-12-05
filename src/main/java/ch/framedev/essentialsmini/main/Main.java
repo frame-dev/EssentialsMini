@@ -9,9 +9,7 @@ import ch.framedev.essentialsmini.database.*;
 import ch.framedev.essentialsmini.managers.*;
 import ch.framedev.essentialsmini.utils.*;
 import ch.framedev.simplejavautils.SimpleJavaUtils;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import lombok.Getter;
+import com.google.gson.*;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -53,38 +51,20 @@ import java.util.*;
  */
 public class Main extends JavaPlugin {
 
-    private final ThreadLocal<Utilities> utilities = new ThreadLocal<>();
-    /**
-     * -- GETTER --
-     * Return all Players there are Silent
-     */
-    @Getter
+    private ThreadLocal<Utilities> utilities = new ThreadLocal<>();
+
     private static ArrayList<String> silent;
-    /**
-     * -- GETTER --
-     * Return the Thread where the Schedulers are running
-     */
-    @Getter
+
     private Thread thread;
 
-    /**
-     * -- GETTER --
-     */
     /* Commands, TabCompleters and Listeners List */
     // Register Commands HashMap
-    @Getter
     private HashMap<String, CommandExecutor> commands;
-    /**
-     * -- GETTER --
-     */
+
     // Register TabCompleter HashMap
-    @Getter
     private HashMap<String, TabCompleter> tabCompleters;
-    /**
-     * -- GETTER --
-     */
+
     // Register Listener List
-    @Getter
     private ArrayList<Listener> listeners;
 
     private Map<String, Object> limitedHomesPermission;
@@ -93,97 +73,49 @@ public class Main extends JavaPlugin {
     //@Getter
     //private JsonConfig jsonConfig;
 
-    @Getter
     private boolean homeTP = false;
 
     /* Material Manager */
-    @Getter
     private MaterialManager materialManager;
-    /**
-     * -- GETTER --
-     * Diese Methode gibt die Klasse Variables zurück
-     */
+
     // Variables
-    @Getter
     private Variables variables;
-    /**
-     * -- GETTER --
-     * This Methods return the KeyGenerator
-     */
-    @Getter
+
     private KeyGenerator keyGenerator;
 
-    /**
-     * -- GETTER --
-     * This Method returns the VaultManager class
-     * This Method can return a Null Object Surround it with a Not null Check!
-     */
-    // VaultManager Require Vault
-    @Getter
     private VaultManager vaultManager;
+
     /* Custom Config File */
-    @Getter
     private File customConfigFile;
-    @Getter
+
     private FileConfiguration customConfig;
 
-    /**
-     * -- GETTER --
-     * This is used for returning the SpigotTimer for the Lag Command
-     */
-    @Getter
     private LagCMD.SpigotTimer spigotTimer;
 
-    /**
-     * -- GETTER --
-     * Return a list of all OfflinePlayers
-     */
-    @Getter
     public ArrayList<String> players;
 
     private static Main instance;
 
     // RegisterManager
-    @Getter
     private RegisterManager registerManager;
 
     private Map<String, Object> limitedHomes;
 
     // Variables for DataBases
-    @Getter
     private boolean mysql;
     private boolean sql;
 
-    /**
-     * -- GETTER --
-     * This Method returns the Currency Symbol from the Config
-     */
-    @Getter
     private String currencySymbol;
 
-    /**
-     * -- GETTER --
-     * Return all OfflinePlayers
-     */
-    @Getter
     private ArrayList<String> offlinePlayers;
     private File infoFile;
-    /**
-     * -- GETTER --
-     * Return the Info File for this Plugin
-     */
-    @Getter
+
     private FileConfiguration infoCfg;
 
     private MongoDBUtils mongoDbUtils;
-    /**
-     * -- GETTER --
-     * Return the Config version
-     */
-    @Getter
+
     private String configVersion;
     private File settingsFile;
-    @Getter
     private FileConfiguration settingsCfg;
     private Logger logger;
     private BukkitTask bukkitTaskConfig;
@@ -631,17 +563,29 @@ public class Main extends JavaPlugin {
             }
         });
         savePlayers();
-        if (thread != null && thread.isAlive())
+        if (thread != null) {
             thread.interrupt();
+            thread = null;
+        }
         Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cDisabled! Bye");
         utilities.remove();
+        utilities = null;
         this.spigotTimer = null;
         limitedHomes.clear();
         limitedHomesPermission.clear();
         commands.clear();
         listeners.clear();
-        limitedHomesTask.cancel();
-        bukkitTaskConfig.cancel();
+        try {
+            if (limitedHomesTask != null) limitedHomesTask.cancel();
+        } catch (Exception e) {
+            Bukkit.getLogger().warning("Failed to cancel limitedHomesTask: " + e.getMessage());
+        }
+
+        try {
+            if (bukkitTaskConfig != null) bukkitTaskConfig.cancel();
+        } catch (Exception e) {
+            Bukkit.getLogger().warning("Failed to cancel bukkitTaskConfig: " + e.getMessage());
+        }
         if (mysql) {
             MySQL.close();
         }
@@ -650,6 +594,7 @@ public class Main extends JavaPlugin {
         }
         Bukkit.getScheduler().cancelTasks(this);
         HandlerList.unregisterAll(this);
+        BackpackCMD.itemsStringHashMap.clear();
     }
 
     /**
@@ -861,9 +806,11 @@ public class Main extends JavaPlugin {
      */
     public boolean checkUpdate(boolean download) {
         Bukkit.getConsoleSender().sendMessage(getPrefix() + "Checking for updates...");
+        URLConnection conn;
+        BufferedReader br = null;
         try {
-            URLConnection conn = new URL("https://framedev.ch/sites/downloads/essentialsminiversion.txt").openConnection();
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            conn = new URL("https://framedev.ch/sites/downloads/essentialsminiversion.txt").openConnection();
+            br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String oldVersion = Main.getInstance().getDescription().getVersion();
             String newVersion = br.readLine();
             if (!newVersion.equalsIgnoreCase(oldVersion)) {
@@ -874,17 +821,22 @@ public class Main extends JavaPlugin {
                     } else {
                         Bukkit.getConsoleSender().sendMessage(getPrefix() + "A new update is available: version " + newVersion);
                     }
-                    br.close();
                     return true;
                 }
             } else {
                 Bukkit.getConsoleSender().sendMessage(getPrefix() + "You're running the newest plugin version!");
             }
-            br.close();
         } catch (IOException ex) {
             Main.getInstance().getLogger4J().log(Level.ERROR, "Error", ex);
             Bukkit.getConsoleSender().sendMessage(getPrefix() + "Failed to check for updates on framedev.ch");
             // Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cPlease write an Email to framedev@framedev.stream with the Error");
+        } finally {
+            try {
+                if (br != null)
+                    br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return false;
     }
@@ -897,7 +849,14 @@ public class Main extends JavaPlugin {
         final File updaterFile = new File(pluginFile, "update");
         if (!updaterFile.exists())
             updaterFile.mkdir();
-        new UpdateChecker().download("https://framedev.ch/downloads/EssentialsMini-Latest.jar", getServer().getUpdateFolder(), "EssentialsMini.jar");
+        try {
+            URL url = new URL("https://framedev.ch/others/versions/essentialsmini-versions.json");
+            JsonElement jsonElement = JsonParser.parseReader(new InputStreamReader(url.openConnection().getInputStream()));
+            String latest = jsonElement.getAsJsonObject().get("latest").getAsString();
+            new UpdateChecker().download("https://framedev.ch/downloads/EssentialsMini-" + latest + ".jar", getServer().getUpdateFolder(), "EssentialsMini.jar");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public String getPermissionName() {
@@ -911,12 +870,18 @@ public class Main extends JavaPlugin {
     public String getPrefix() {
         String prefix = getConfig().getString("Prefix");
         if (prefix == null) {
-            throw new NullPointerException("Prefix cannot be Found in Config.yml");
+            throw new NullPointerException("Prefix cannot be Found in Config.yml add (Prefix:'YourPrefix') to the config.yml");
         }
         if (prefix.contains("&"))
             prefix = prefix.replace('&', '§');
         if (prefix.contains(">>"))
             prefix = prefix.replace(">>", "»");
+        if (prefix.contains("<<"))
+            prefix = prefix.replace("<<", "«");
+        if (prefix.contains("->"))
+            prefix = prefix.replace("->", "→");
+        if (prefix.contains("<-"))
+            prefix = prefix.replace("<-", "←");
         return prefix;
     }
 
@@ -1016,5 +981,117 @@ public class Main extends JavaPlugin {
 
     public Logger getLogger4J() {
         return logger;
+    }
+
+    public FileConfiguration getSettingsCfg() {
+        return settingsCfg;
+    }
+
+    public ThreadLocal<Utilities> getUtilities() {
+        return utilities;
+    }
+
+    public static ArrayList<String> getSilent() {
+        return silent;
+    }
+
+    public Thread getThread() {
+        return thread;
+    }
+
+    public HashMap<String, CommandExecutor> getCommands() {
+        return commands;
+    }
+
+    public HashMap<String, TabCompleter> getTabCompleters() {
+        return tabCompleters;
+    }
+
+    public ArrayList<Listener> getListeners() {
+        return listeners;
+    }
+
+    public boolean isHomeTP() {
+        return homeTP;
+    }
+
+    public MaterialManager getMaterialManager() {
+        return materialManager;
+    }
+
+    public Variables getVariables() {
+        return variables;
+    }
+
+    public KeyGenerator getKeyGenerator() {
+        return keyGenerator;
+    }
+
+    public VaultManager getVaultManager() {
+        return vaultManager;
+    }
+
+    public File getCustomConfigFile() {
+        return customConfigFile;
+    }
+
+    public FileConfiguration getCustomConfig() {
+        return customConfig;
+    }
+
+    public LagCMD.SpigotTimer getSpigotTimer() {
+        return spigotTimer;
+    }
+
+    public ArrayList<String> getPlayers() {
+        return players;
+    }
+
+    public RegisterManager getRegisterManager() {
+        return registerManager;
+    }
+
+    public boolean isMysql() {
+        return mysql;
+    }
+
+    public boolean isSql() {
+        return sql;
+    }
+
+    public String getCurrencySymbol() {
+        return currencySymbol;
+    }
+
+    public ArrayList<String> getOfflinePlayers() {
+        return offlinePlayers;
+    }
+
+    public File getInfoFile() {
+        return infoFile;
+    }
+
+    public FileConfiguration getInfoCfg() {
+        return infoCfg;
+    }
+
+    public MongoDBUtils getMongoDbUtils() {
+        return mongoDbUtils;
+    }
+
+    public String getConfigVersion() {
+        return configVersion;
+    }
+
+    public File getSettingsFile() {
+        return settingsFile;
+    }
+
+    public BukkitTask getBukkitTaskConfig() {
+        return bukkitTaskConfig;
+    }
+
+    public BukkitTask getLimitedHomesTask() {
+        return limitedHomesTask;
     }
 }

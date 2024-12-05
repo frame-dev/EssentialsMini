@@ -6,7 +6,6 @@ import ch.framedev.essentialsmini.abstracts.CommandBase;
 import ch.framedev.essentialsmini.utils.AdminBroadCast;
 import ch.framedev.essentialsmini.utils.DateUnit;
 import ch.framedev.essentialsmini.utils.ReplaceCharConfig;
-import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -401,7 +400,6 @@ public class MuteCMD extends CommandBase implements Listener {
         return super.onTabComplete(sender, command, label, args);
     }
 
-    @Getter
     public static enum MuteReason {
         ADVERTISING("advertising"),
         CAPS("caps"),
@@ -422,6 +420,10 @@ public class MuteCMD extends CommandBase implements Listener {
 
         public static MuteReason getMuteReason(String reason) {
             return valueOf(reason.toUpperCase());
+        }
+
+        public String getReason() {
+            return reason;
         }
     }
 }

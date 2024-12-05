@@ -10,7 +10,6 @@ package ch.framedev.essentialsmini.abstracts;
  */
 
 import ch.framedev.essentialsmini.main.Main;
-import lombok.NonNull;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,7 +31,7 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
      * @param cmdName  the CommandName for registering
      * @param executor the Executor who executes the Command
      */
-    public void setup(@NonNull String cmdName, @NonNull CommandExecutor executor) {
+    public void setup(String cmdName, CommandExecutor executor) {
         plugin.getCommands().put(cmdName, executor);
     }
 
@@ -42,7 +41,7 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
      * @param cmdName      the CommandName for registering
      * @param tabCompleter the TabCompleter who used for the Command
      */
-    public void setupTabCompleter(@NonNull String cmdName, @NonNull TabCompleter tabCompleter) {
+    public void setupTabCompleter(String cmdName, TabCompleter tabCompleter) {
         plugin.getTabCompleters().put(cmdName, tabCompleter);
     }
 
@@ -62,7 +61,7 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
         }
     }
 
-    public CommandBase(Main plugin, @NonNull String cmdName) {
+    public CommandBase(Main plugin, String cmdName) {
         this.plugin = plugin;
         this.cmdName = cmdName;
         this.cmdNames = new String[]{cmdName};
@@ -70,7 +69,7 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
         setupTabCompleter(this);
     }
 
-    public CommandBase(Main plugin, @NonNull String cmdName, CommandExecutor executor) {
+    public CommandBase(Main plugin, String cmdName, CommandExecutor executor) {
         this.plugin = plugin;
         this.cmdName = cmdName;
         this.cmdNames = new String[]{cmdName};
@@ -78,7 +77,7 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
         setupTabCompleter(this);
     }
 
-    public CommandBase(Main plugin, CommandExecutor executor, @NonNull String... cmdNames) {
+    public CommandBase(Main plugin, CommandExecutor executor, String... cmdNames) {
         this.plugin = plugin;
         this.cmdNames = cmdNames;
         for (String cmd : cmdNames) {
@@ -87,7 +86,7 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
         }
     }
 
-    public CommandBase(Main plugin, CommandExecutor executor, TabCompleter completer, @NonNull String... cmdNames) {
+    public CommandBase(Main plugin, CommandExecutor executor, TabCompleter completer, String... cmdNames) {
         this.plugin = plugin;
         this.cmdNames = cmdNames;
         for (String cmd : cmdNames) {
@@ -109,7 +108,7 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
      *
      * @param executor the Executor who executes the Command
      */
-    public void setup(@NonNull CommandExecutor executor) {
+    public void setup(CommandExecutor executor) {
         if (cmdName == null) throw new IllegalArgumentException("Command name cannot be null");
         plugin.getCommands().put(cmdName, executor);
     }
@@ -119,7 +118,7 @@ public abstract class CommandBase implements CommandExecutor, TabCompleter {
      *
      * @param tabCompleter the TabCompleter who used for the Command
      */
-    public void setupTabCompleter(@NonNull TabCompleter tabCompleter) {
+    public void setupTabCompleter(TabCompleter tabCompleter) {
         if (cmdName == null) throw new IllegalArgumentException("Command name cannot be null");
         plugin.getTabCompleters().put(cmdName, tabCompleter);
     }

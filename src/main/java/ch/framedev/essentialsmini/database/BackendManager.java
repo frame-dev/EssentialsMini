@@ -4,7 +4,6 @@ import ch.framedev.essentialsmini.main.Main;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.InsertOneOptions;
-import lombok.Getter;
 import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -25,7 +24,6 @@ import java.util.UUID;
 public class BackendManager {
     private final Main plugin;
 
-    @Getter
     public static enum DATA {
         NAME("name"),
         MONEY("money"),
@@ -43,6 +41,9 @@ public class BackendManager {
             this.name = name;
         }
 
+        public String getName() {
+            return name;
+        }
     }
 
     public BackendManager(Main plugin) {

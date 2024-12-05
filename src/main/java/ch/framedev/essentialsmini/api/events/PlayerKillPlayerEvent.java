@@ -1,10 +1,7 @@
 package ch.framedev.essentialsmini.api.events;
 
-import lombok.Getter;
 import org.bukkit.World;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -22,7 +19,6 @@ import java.util.List;
  * / Copyrighted by FrameDev
  */
 
-@Getter
 public class PlayerKillPlayerEvent extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
 
@@ -64,5 +60,33 @@ public class PlayerKillPlayerEvent extends Event {
 
     public void setDroppedExp(double droppedExp) {
         this.droppedExp = droppedExp;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public Player getKiller() {
+        return killer;
+    }
+
+    public EntityDamageEvent.DamageCause getDeathCause() {
+        return deathCause;
+    }
+
+    public List<ItemStack> getDrops() {
+        return drops;
+    }
+
+    public double getDroppedExp() {
+        return droppedExp;
     }
 }

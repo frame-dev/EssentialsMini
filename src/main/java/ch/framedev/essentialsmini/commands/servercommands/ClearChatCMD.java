@@ -3,7 +3,6 @@ package ch.framedev.essentialsmini.commands.servercommands;
 import ch.framedev.simplejavautils.TextUtils;
 import ch.framedev.essentialsmini.main.Main;
 import ch.framedev.essentialsmini.abstracts.CommandBase;
-import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -26,7 +25,7 @@ public class ClearChatCMD extends CommandBase {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, @NonNull Command command, @NonNull String label, @NonNull String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender.hasPermission(plugin.getPermissionName() + "chatclear")) {
             clearChat(sender);
         } else {

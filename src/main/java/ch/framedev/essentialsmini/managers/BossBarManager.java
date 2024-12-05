@@ -9,7 +9,6 @@ package ch.framedev.essentialsmini.managers;
  * This Class was created at 21.08.2020 22:52
  */
 
-import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -20,11 +19,11 @@ import java.util.ArrayList;
 
 public class BossBarManager {
 
-    @NonNull
+    
     private BarStyle barStyle;
-    @NonNull
+    
     private String title;
-    @NonNull
+    
     private BarColor barColor;
 
     private BossBar bossBar;
@@ -40,7 +39,7 @@ public class BossBarManager {
      * @param barColor the Color from the BossBar
      * @param barStyle the Style from the BossBar
      */
-    public BossBarManager(@NonNull String title, @NonNull BarColor barColor, @NonNull BarStyle barStyle) {
+    public BossBarManager( String title,  BarColor barColor,  BarStyle barStyle) {
         this.title = title;
         this.barColor = barColor;
         this.barStyle = barStyle;
@@ -51,7 +50,7 @@ public class BossBarManager {
      *              BarColor is Blue
      *              BarStyle is Segmented_12
      */
-    public BossBarManager(@NonNull String title) {
+    public BossBarManager( String title) {
         this.title = title;
         this.barStyle = BarStyle.SEGMENTED_12;
         this.barColor = BarColor.BLUE;
@@ -60,14 +59,14 @@ public class BossBarManager {
     /**
      * @param barStyle set's the BarStyle new
      */
-    public void setBarStyle(@NonNull BarStyle barStyle) {
+    public void setBarStyle( BarStyle barStyle) {
         this.barStyle = barStyle;
     }
 
     /**
      * @param barColor set's the Color for the BossBar new!
      */
-    public void setBarColor(@NonNull BarColor barColor) {
+    public void setBarColor( BarColor barColor) {
         this.barColor = barColor;
     }
 
@@ -89,14 +88,14 @@ public class BossBarManager {
     /**
      * @return the BossBar Style
      */
-    public @NonNull BarStyle getBarStyle() {
+    public  BarStyle getBarStyle() {
         return barStyle;
     }
 
     /**
      * @return the Title from the BossBar
      */
-    public @NonNull String getTitle() {
+    public  String getTitle() {
         return title;
     }
 
@@ -104,16 +103,16 @@ public class BossBarManager {
      * @param title the Title how do you want to set to the BossBar
      * @return this BossBarManger Class!
      */
-    public BossBarManager setTitle(@NonNull String title) {
+    public BossBarManager setTitle( String title) {
         this.title = title;
         return this;
     }
 
-    public @NonNull BarColor getBarColor() {
+    public  BarColor getBarColor() {
         return barColor;
     }
 
-    public @NonNull BossBar getBossBar() {
+    public  BossBar getBossBar() {
         return bossBar;
     }
 

@@ -8,7 +8,6 @@ import ch.framedev.essentialsmini.commands.worldcommands.LightningStrikeCMD;
 import ch.framedev.essentialsmini.commands.worldcommands.SunRainThunderCMD;
 import ch.framedev.essentialsmini.commands.worldcommands.WorldTPCMD;
 import ch.framedev.essentialsmini.main.Main;
-import lombok.Getter;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.TabCompleter;
 
@@ -23,8 +22,9 @@ public class RegisterManager {
     private BackUpCMD backup;
 
     // MuteCMD Var
-    @Getter
     private MuteCMD muteCMD;
+
+    private PlayerListeners playerListeners;
 
     /**
      * Constructor of RegisterManager
@@ -61,7 +61,7 @@ public class RegisterManager {
     private void registerListeners() {
         new DisallowCommands(plugin);
         new SleepListener(plugin);
-        new PlayerListeners(plugin);
+        this.playerListeners = new PlayerListeners(plugin);
         new BanListener(plugin);
         new WarpSigns(plugin);
         plugin.getListeners().add(new SkinChanger());
@@ -153,5 +153,13 @@ public class RegisterManager {
 
     public BackUpCMD getBackupCMD() {
         return backup;
+    }
+
+    public PlayerListeners getPlayerListeners() {
+        return playerListeners;
+    }
+
+    public MuteCMD getMuteCMD() {
+        return muteCMD;
     }
 }

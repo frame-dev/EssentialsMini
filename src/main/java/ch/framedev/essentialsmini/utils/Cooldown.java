@@ -1,7 +1,6 @@
 package ch.framedev.essentialsmini.utils;
 
 import ch.framedev.essentialsmini.commands.playercommands.KitCMD;
-import lombok.Getter;
 
 /**
  * Cooldown Class
@@ -11,9 +10,7 @@ import lombok.Getter;
 public class Cooldown {
 
 	private final int seconds;
-	@Getter
     private long secondsLeft;
-	@Getter
     private long milliSeconds;
 	private final long actualTime;
 
@@ -37,4 +34,15 @@ public class Cooldown {
         return secondsLeft <= 0;
     }
 
+	public long getActualTime() {
+		return actualTime;
+	}
+
+	public long getMilliSeconds() {
+		return milliSeconds;
+	}
+
+	public long getSecondsLeft() {
+		return secondsLeft;
+	}
 }

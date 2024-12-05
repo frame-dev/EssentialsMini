@@ -8,7 +8,6 @@ import ch.framedev.simplejavautils.TextUtils;
 import ch.framedev.essentialsmini.main.Main;
 import ch.framedev.essentialsmini.utils.AdminBroadCast;
 import ch.framedev.essentialsmini.utils.Variables;
-import lombok.NonNull;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -55,7 +54,7 @@ public class TeleportCMD implements CommandExecutor, Listener {
     private final ArrayList<Player> queue = new ArrayList<>();
 
     @Override
-    public boolean onCommand(@NonNull CommandSender sender, Command command, @NonNull String label, @NonNull String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("tptoggle")) {
             if (sender instanceof Player player) {
                 if (player.hasPermission(plugin.getPermissionName() + "tptoggle")) {
@@ -69,7 +68,7 @@ public class TeleportCMD implements CommandExecutor, Listener {
                     return true;
                 } else {
                     player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                    new AdminBroadCast("tptoggle","§cNo Permissions!", sender);
+                    new AdminBroadCast("tptoggle", "§cNo Permissions!", sender);
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
@@ -328,7 +327,7 @@ public class TeleportCMD implements CommandExecutor, Listener {
                     Bukkit.getOnlinePlayers().forEach(players -> players.teleport(player.getLocation()));
                 } else {
                     player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                    new AdminBroadCast("tphereall","§cNo Permissions!", sender);
+                    new AdminBroadCast("tphereall", "§cNo Permissions!", sender);
                 }
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());

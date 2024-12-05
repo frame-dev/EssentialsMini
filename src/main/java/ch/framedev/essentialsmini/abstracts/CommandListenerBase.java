@@ -1,7 +1,6 @@
 package ch.framedev.essentialsmini.abstracts;
 
 import ch.framedev.essentialsmini.main.Main;
-import lombok.NonNull;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.event.Listener;
@@ -23,22 +22,22 @@ public abstract class CommandListenerBase extends CommandBase implements Listene
         setupListener(this);
     }
 
-    public CommandListenerBase(Main plugin, @NonNull String cmdName) {
+    public CommandListenerBase(Main plugin,  String cmdName) {
         super(plugin, cmdName);
         setupListener(this);
     }
 
-    public CommandListenerBase(Main plugin, @NonNull String cmdName, CommandExecutor executor) {
+    public CommandListenerBase(Main plugin,  String cmdName, CommandExecutor executor) {
         super(plugin, executor, cmdName);
         setupListener(this);
     }
 
-    public CommandListenerBase(Main plugin, @NotNull @NonNull String... cmdNames) {
+    public CommandListenerBase(Main plugin, @NotNull  String... cmdNames) {
         super(plugin,  cmdNames);
         setupListener(this);
     }
 
-    public CommandListenerBase(Main plugin, CommandExecutor executor, TabCompleter completer, @NotNull @NonNull String... cmdNames) {
+    public CommandListenerBase(Main plugin, CommandExecutor executor, TabCompleter completer, @NotNull String... cmdNames) {
         super(plugin, executor, completer, cmdNames);
         setupListener(this);
     }

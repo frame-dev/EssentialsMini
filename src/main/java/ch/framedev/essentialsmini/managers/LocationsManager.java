@@ -188,8 +188,7 @@ public class LocationsManager {
         if (cfg.contains(name + ".createdAt")) {
             Date date = new Date(cfg.getLong(name + ".createdAt"));
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
-            String time = simpleDateFormat.format(date);
-            return time;
+            return simpleDateFormat.format(date);
         }
         return "";
     }
@@ -246,7 +245,7 @@ public class LocationsManager {
     /**
      * @param s the Location Name
      * @return returns the Location from the File
-     * @throws NullPointerException throw an Nullpointerexception if the Location was not found
+     * @throws NullPointerException throw a NullPointerException if the Location was not found
      */
     public Location getLocation(String s) throws NotFoundException {
         if (jsonFormat) {
@@ -260,15 +259,10 @@ public class LocationsManager {
                     double z = cfg.getDouble(s + ".z");
                     float yaw = cfg.getInt(s + ".yaw");
                     float pitch = cfg.getInt(s + ".pitch");
-                    if (world != null) {
-
-                    } else {
+                    if (world == null) {
                         throw new NotFoundException("World");
                     }
-                    Location location = new Location(world, x, y, z, yaw, pitch);
-                    if (location != null) {
-                        return location;
-                    }
+                    return new Location(world, x, y, z, yaw, pitch);
                 } catch (IllegalArgumentException ignored) {
                 }
             }
@@ -338,10 +332,7 @@ public class LocationsManager {
                     } else {
                         throw new NotFoundException("World");
                     }
-                    Location location = new Location(world, x, y, z, yaw, pitch);
-                    if (location != null) {
-                        return location;
-                    }
+                    return new Location(world, x, y, z, yaw, pitch);
                 } catch (IllegalArgumentException ignored) {
                 }
             }
@@ -350,10 +341,10 @@ public class LocationsManager {
     }
 
     /**
-     * throw Nullpointerexception if the World is null
+     * throw NullPointerException if the World is null
      *
      * @param location the Location to convert to an string
-     * @return the Location convertet to String
+     * @return the Location converted to String
      */
     public static String locationToString(Location location) {
         String s = "";
@@ -371,8 +362,8 @@ public class LocationsManager {
     }
 
     /**
-     * @param string the convertet StringLocation
-     * @return returns an completet Location from the String
+     * @param string the converted StringLocation
+     * @return returns a completed Location from the String
      */
     public static Location locationFromString(String string) {
         String[] s = string.split(";");
@@ -430,7 +421,7 @@ public class LocationsManager {
     }
 
     /**
-     * Deletes the Postion Locations every Reload or restart
+     * Deletes the Position Locations every Reload or restart
      */
     public void deleteLocations() {
         ConfigurationSection cs = new LocationsManager().getCfg().getConfigurationSection("position");
@@ -453,6 +444,7 @@ public class LocationsManager {
             FileWriter fileWriter = new FileWriter(fileBackupJson);
             fileWriter.write(new GsonBuilder().setPrettyPrinting().serializeNulls().create().toJson(backups));
             fileWriter.flush();
+            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -3,7 +3,6 @@ package ch.framedev.essentialsmini.commands.playercommands;
 import ch.framedev.simplejavautils.TextUtils;
 import ch.framedev.essentialsmini.main.Main;
 import ch.framedev.essentialsmini.abstracts.CommandListenerBase;
-import lombok.NonNull;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -35,7 +34,7 @@ public class BackCMD extends CommandListenerBase {
 
     //Test
     @Override
-    public boolean onCommand(@NonNull CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("back")) {
             if (plugin.getConfig().getBoolean("Back")) {
                 if (sender instanceof Player) {

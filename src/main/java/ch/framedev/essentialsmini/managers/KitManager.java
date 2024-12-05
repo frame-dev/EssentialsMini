@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import ch.framedev.essentialsmini.main.Main;
-import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -26,7 +25,6 @@ import java.util.List;
 public class KitManager {
 
     private static File customConfigFile;
-    @Getter
     private static FileConfiguration customConfig;
     public Inventory kitName = Bukkit.createInventory(null, 36);
 
@@ -236,6 +234,14 @@ public class KitManager {
         return "KitManager{" +
                 "kitname=" + kitName +
                 '}';
+    }
+
+    public static File getCustomConfigFile() {
+        return customConfigFile;
+    }
+
+    public static FileConfiguration getCustomConfig() {
+        return customConfig;
     }
 }
 
