@@ -24,6 +24,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -121,7 +122,6 @@ public class Main extends JavaPlugin {
     private BukkitTask bukkitTaskConfig;
     private BukkitTask limitedHomesTask;
 
-    @SuppressWarnings("InstantiationOfUtilityClass")
     @Override
     public void onEnable() {
         this.limitedHomes = new HashMap<>();
@@ -136,7 +136,7 @@ public class Main extends JavaPlugin {
 
         // Set Dev Build
         // TODO: Update
-        utilities.get().setDev(true);
+        utilities.get().setDev(false);
 
         // Info FileConfiguration
         this.infoFile = new File(getDataFolder(), "info.yml");
@@ -172,10 +172,14 @@ public class Main extends JavaPlugin {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            new File("plugins/EssentialsMini/Config_Examples.zip").delete();
+            if (!new File("plugins/EssentialsMini/Config_Examples.zip").delete()) {
+                getLogger4J().error("Could not delete Config_Examples.zip");
+            }
         }
         if (!new File(getDataFolder() + "/messages-examples").exists())
-            new File(getDataFolder() + "/messages-examples").mkdir();
+            if (!new File(getDataFolder() + "/messages-examples").mkdir()) {
+                getLogger4J().error("Could not create directory " + getDataFolder() + "/messages-examples");
+            }
         try {
             SimpleJavaUtils utils = new SimpleJavaUtils();
             Files.copy(utils.getFromResourceFile("messages_de-DE-examples.yml", Main.class).toPath(),
@@ -253,15 +257,20 @@ public class Main extends JavaPlugin {
             this.mongoDbUtils = new MongoDBUtils();
             if (isMongoDB()) {
                 for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
-                    getBackendManager().createUser(player, "essentialsmini_data");
+                    getBackendManager().createUser(player, "essentialsmini_data", new BackendManager.Callback<Void>() {
+                        @Override
+                        public void onResult(Void result) {
+                        }
+
+                        @Override
+                        public void onError(Exception exception) {
+                        }
+                    });
                 }
                 Bukkit.getConsoleSender().sendMessage(getPrefix() + "§aMongoDB Enabled!");
             }
         }
         /* MongoDB Finish */
-
-        // Load Enchantments
-        EnchantCMD.Enchantments.load();
 
         // LocationBackup
         if (getConfig().getBoolean("LocationsBackup")) {
@@ -335,10 +344,12 @@ public class Main extends JavaPlugin {
         this.sql = getConfig().getBoolean("SQLite.Use");
 
         if (sql) {
+            //noinspection InstantiationOfUtilityClass
             new SQLite(getConfig().getString("SQLite.Path"), getConfig().getString("SQLite.FileName"));
         }
 
         if (mysql)
+            //noinspection InstantiationOfUtilityClass
             new MySQL();
 
         if (getConfig().getBoolean("Economy.Activate")) {
@@ -422,11 +433,11 @@ public class Main extends JavaPlugin {
 
         Bukkit.getConsoleSender().sendMessage(getPrefix() + "§aEnabled!");
 
-        // Checking for Update and when enabled Download the Latest Version automatically
+        // Checking for Update and when enabled, Download the Latest Version automatically
         if (!checkUpdate(getConfig().getBoolean("AutoDownload"))) {
-            Bukkit.getConsoleSender().sendMessage(getPrefix() + "§c§lThere was an error downloading or retrieving the new version.");
 
             if (!new SimpleJavaUtils().isOnline("framedev.ch", 443)) {
+                Bukkit.getConsoleSender().sendMessage(getPrefix() + "§c§lThere was an error downloading or retrieving the new version.");
                 Bukkit.getConsoleSender().sendMessage(getPrefix() + "§c§lPlease check your internet connection.");
             }
         }
@@ -467,21 +478,26 @@ public class Main extends JavaPlugin {
             @Override
             public void run() {
                 try {
-                    for (String cs : getConfig().getConfigurationSection("LimitedHomes").getKeys(false)) {
-                        if (getConfig().getInt("LimitedHomes." + cs) != 0) {
-                            limitedHomes.put(cs, getConfig().getInt("LimitedHomes." + cs));
+                    ConfigurationSection limitedHomeSection = getConfig().getConfigurationSection("LimitedHomes");
+                    if (limitedHomeSection != null) {
+                        for (String cs : limitedHomeSection.getKeys(false)) {
+                            if (getConfig().getInt("LimitedHomes." + cs) != 0) {
+                                limitedHomes.put(cs, getConfig().getInt("LimitedHomes." + cs));
+                            }
                         }
                     }
-                    for (String cs : getConfig().getConfigurationSection("LimitedHomesPermission").getKeys(false)) {
-                        if (getConfig().get("LimitedHomesPermission." + cs) != null) {
-                            limitedHomesPermission.put(cs, getConfig().get("LimitedHomesPermission." + cs));
+                    ConfigurationSection limitedHomesPermissionSection = getConfig().getConfigurationSection("LimitedHomesPermission");
+                    if (limitedHomesPermissionSection != null) {
+                        for (String cs : limitedHomesPermissionSection.getKeys(false)) {
+                            if (getConfig().get("LimitedHomesPermission." + cs) != null) {
+                                limitedHomesPermission.put(cs, getConfig().get("LimitedHomesPermission." + cs));
+                            }
                         }
                     }
                     cancel();
                 } catch (Exception ex) {
                     logger.log(Level.ERROR, "Error", ex);
-                    Bukkit.broadcastMessage("RELOAD!");
-                    getServer().reload();
+                    Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cThere was an error while trying to initialize homes and homes permissions!");
                 }
             }
         }.runTaskLater(this, 320);
@@ -534,6 +550,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onLoad() {
+
         Bukkit.getConsoleSender().sendMessage("§aEssentialsMini §cloading...");
     }
 
@@ -563,18 +580,22 @@ public class Main extends JavaPlugin {
             }
         });
         savePlayers();
+        Bukkit.getConsoleSender().sendMessage(getPrefix() + " Stop Thread...");
         if (thread != null) {
             thread.interrupt();
             thread = null;
         }
-        Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cDisabled! Bye");
+        Bukkit.getConsoleSender().sendMessage(getPrefix() + " Thread stopped successfully");
         utilities.remove();
         utilities = null;
         this.spigotTimer = null;
+
+        Bukkit.getConsoleSender().sendMessage(getPrefix() + " Clear List's and Map's");
         limitedHomes.clear();
         limitedHomesPermission.clear();
         commands.clear();
         listeners.clear();
+        Bukkit.getConsoleSender().sendMessage(getPrefix() + " List's and Map's successfully cleared");
         try {
             if (limitedHomesTask != null) limitedHomesTask.cancel();
         } catch (Exception e) {
@@ -595,6 +616,8 @@ public class Main extends JavaPlugin {
         Bukkit.getScheduler().cancelTasks(this);
         HandlerList.unregisterAll(this);
         BackpackCMD.itemsStringHashMap.clear();
+        disablePlugin();
+        Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cDisabled! Bye");
     }
 
     /**
@@ -602,7 +625,7 @@ public class Main extends JavaPlugin {
      * Current Language English, German, France
      *
      * @param player selected Player to check the Language Player
-     * @return return the Messages File from the selected Language
+     * @return return the Message File from the selected Language
      */
     public FileConfiguration getLanguageConfig(CommandSender player) {
         if (player instanceof Player) {
@@ -646,6 +669,7 @@ public class Main extends JavaPlugin {
      *
      * @param data the Data to Debugging
      */
+    @SuppressWarnings("unused")
     public void debug(String data) {
         getLogger().info(data);
     }
@@ -654,7 +678,8 @@ public class Main extends JavaPlugin {
         File file = new File(getDataFolder(), "players.json");
         try {
             if (!file.exists()) {
-                file.createNewFile();
+                if (!file.createNewFile())
+                    getLogger4J().error("Could not create File : " + file.getAbsolutePath());
             }
             FileWriter writer = new FileWriter(file);
             writer.write(new GsonBuilder().setPrettyPrinting().create().toJson(offlinePlayers));
@@ -676,11 +701,14 @@ public class Main extends JavaPlugin {
             InputStream is = getResource(file.getName());
             if (is != null) {
                 YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(file);
-                for (String key : defConfig.getConfigurationSection("").getKeys(false))
-                    if (!config.contains(key)) config.set(key, defConfig.getConfigurationSection(key));
-
-                for (String key : config.getConfigurationSection("").getKeys(false))
-                    if (!defConfig.contains(key)) config.set(key, null);
+                ConfigurationSection defConfigSection = defConfig.getConfigurationSection("");
+                if (defConfigSection != null)
+                    for (String key : defConfigSection.getKeys(false))
+                        if (!config.contains(key)) config.set(key, defConfig.getConfigurationSection(key));
+                ConfigurationSection configSection = config.getConfigurationSection("");
+                if (configSection != null)
+                    for (String key : configSection.getKeys(false))
+                        if (!defConfig.contains(key)) config.set(key, null);
 
                 config.save(file);
             }
@@ -714,11 +742,13 @@ public class Main extends JavaPlugin {
         return this.mongoDbUtils.isMongoDb();
     }
 
+    @SuppressWarnings("unused")
     public void addOfflinePlayer(OfflinePlayer player) {
         if (!getOfflinePlayers().contains(player.getName()))
             offlinePlayers.add(player.getName());
     }
 
+    @SuppressWarnings("unused")
     public void removeOfflinePlayer(OfflinePlayer player) {
         if (getOfflinePlayers().contains(player.getName()))
             offlinePlayers.remove(player.getName());
@@ -741,7 +771,9 @@ public class Main extends JavaPlugin {
     public void createCustomMessagesConfig() {
         customConfigFile = new File(Main.getInstance().getDataFolder(), "messages_en-EN.yml");
         if (!customConfigFile.exists()) {
-            customConfigFile.getParentFile().mkdirs();
+            if(!customConfigFile.getParentFile().mkdirs()) {
+                Main.getInstance().getLogger4J().log(Level.ERROR, "Failed to create directory for custom messages config");
+            }
             Main.getInstance().saveResource("messages_en-EN.yml", false);
         }
 
@@ -799,35 +831,45 @@ public class Main extends JavaPlugin {
     }
 
     /**
-     * Check if the Plugin need an update or not if Download is true it will download the Latest Version for you and after a Reload the new Version is active
+     * Check if the Plugin needs an update or not if Download is true it will download the Latest Version for you,
+     * and after a Reload the new Version is active
      *
      * @param download if is True it will automatically download the Latest for you and after a Reload it will be active
      * @return if check for update was successfully or not
+     *  TODO requires updating the url and reading the latest version
+     *      - Require Debugging and Testing
      */
     public boolean checkUpdate(boolean download) {
         Bukkit.getConsoleSender().sendMessage(getPrefix() + "Checking for updates...");
         URLConnection conn;
         BufferedReader br = null;
         try {
-            conn = new URL("https://framedev.ch/sites/downloads/essentialsminiversion.txt").openConnection();
+            conn = new URL("https://framedev.ch/others/versions/essentialsmini-versions.json").openConnection();
             br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            JsonElement jsonElement = JsonParser.parseReader(br);
+            String latestVersion = jsonElement.getAsJsonObject().get("latest").getAsString();
             String oldVersion = Main.getInstance().getDescription().getVersion();
-            String newVersion = br.readLine();
-            if (!newVersion.equalsIgnoreCase(oldVersion)) {
+            if (!latestVersion.equalsIgnoreCase(oldVersion)) {
                 if (!oldVersion.contains("PRE-RELEASE")) {
                     if (download) {
                         downloadLatest();
-                        Bukkit.getConsoleSender().sendMessage(getPrefix() + "Latest Version will be Downloaded : New Version : " + newVersion);
+                        Bukkit.getConsoleSender().sendMessage(getPrefix() + "Latest Version will be Downloaded : New Version : " + latestVersion);
                     } else {
-                        Bukkit.getConsoleSender().sendMessage(getPrefix() + "A new update is available: version " + newVersion);
+                        Bukkit.getConsoleSender().sendMessage(getPrefix() + "A new update is available: version " + latestVersion);
                     }
                     return true;
+                } else {
+                    if(new UpdateChecker().hasPreReleaseUpdate()) {
+                        Bukkit.getConsoleSender().sendMessage(getPrefix() + "A new pre-release update is available: version " + new UpdateChecker().getLatestPreRelease());
+                        return true;
+                    }
                 }
             } else {
                 Bukkit.getConsoleSender().sendMessage(getPrefix() + "You're running the newest plugin version!");
+                return false;
             }
         } catch (IOException ex) {
-            Main.getInstance().getLogger4J().log(Level.ERROR, "Error", ex);
+            getLogger4J().log(Level.ERROR, "Error", ex);
             Bukkit.getConsoleSender().sendMessage(getPrefix() + "Failed to check for updates on framedev.ch");
             // Bukkit.getConsoleSender().sendMessage(getPrefix() + "§cPlease write an Email to framedev@framedev.stream with the Error");
         } finally {
@@ -835,7 +877,7 @@ public class Main extends JavaPlugin {
                 if (br != null)
                     br.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                getLogger4J().error(e.getMessage(), e);
             }
         }
         return false;
@@ -848,29 +890,35 @@ public class Main extends JavaPlugin {
         final File pluginFile = getDataFolder().getParentFile();
         final File updaterFile = new File(pluginFile, "update");
         if (!updaterFile.exists())
-            updaterFile.mkdir();
+            if(!updaterFile.mkdir())
+                getLogger4J().error("Could not create Update Directory : " + updaterFile.getAbsolutePath());
         try {
             URL url = new URL("https://framedev.ch/others/versions/essentialsmini-versions.json");
             JsonElement jsonElement = JsonParser.parseReader(new InputStreamReader(url.openConnection().getInputStream()));
             String latest = jsonElement.getAsJsonObject().get("latest").getAsString();
             new UpdateChecker().download("https://framedev.ch/downloads/EssentialsMini-" + latest + ".jar", getServer().getUpdateFolder(), "EssentialsMini.jar");
         } catch (IOException ex) {
-            ex.printStackTrace();
+            getLogger4J().error(ex.getMessage(), ex);
         }
     }
 
-    public String getPermissionName() {
+    public String getPermissionBase() {
         return "essentialsmini.";
     }
 
 
     /**
+     * & will be replaced with §
+     * >> will be replaced with »
+     * << will be replaced with «
+     * -> will be replaced with →
+     * <- will be replaced with ←
      * @return the Prefix
      */
     public String getPrefix() {
-        String prefix = getConfig().getString("Prefix");
+        String prefix = getConfig().getString("prefix");
         if (prefix == null) {
-            throw new NullPointerException("Prefix cannot be Found in Config.yml add (Prefix:'YourPrefix') to the config.yml");
+            throw new NullPointerException("Prefix cannot be Found in Config.yml add (prefix:'YourPrefix') to the config.yml");
         }
         if (prefix.contains("&"))
             prefix = prefix.replace('&', '§');
@@ -885,25 +933,30 @@ public class Main extends JavaPlugin {
         return prefix;
     }
 
+    /**
+     * TODO requires updating the url and reading the latest version
+     *  - Require Debugging and Testing
+     */
     public void hasNewUpdate(Player player) {
         if (getConfig().getBoolean("SendPlayerUpdateMessage")) {
             if (player.hasPermission("essentialsmini.checkupdates")) {
                 try {
-                    URLConnection conn = new URL("https://framedev.ch/sites/downloads/essentialsminiversion.txt").openConnection();
+                    URLConnection conn = new URL("https://framedev.ch/others/versions/essentialsmini-versions.json").openConnection();
                     BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String latestVersion = JsonParser.parseReader(br).getAsJsonObject().get("latest").getAsString();
                     String oldVersion = Main.getInstance().getDescription().getVersion();
-                    String newVersion = br.readLine();
-                    if (!newVersion.equalsIgnoreCase(oldVersion)) {
+                    if (!latestVersion.equalsIgnoreCase(oldVersion)) {
                         if (!oldVersion.endsWith("PRE-RELEASE")) {
                             BaseComponent base = new TextComponent();
-                            base.addExtra(getPrefix() + "§aNew Version = §6" + newVersion + " §b§l[Please Click Here to Download the newest Plugin!]");
+                            base.addExtra(getPrefix() + "§aNew Version = §6" + latestVersion + " §b§l[Please Click Here to Download the newest Plugin!]");
                             base.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://framedev.ch/sites/downloads/essentialsmini"));
                             base.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("§6Click Here to Open the Download Link")));
                             player.spigot().sendMessage(base);
                         }
                     }
                     br.close();
-                } catch (IOException ignored) {
+                } catch (IOException ex) {
+                    getLogger4J().error(ex.getMessage(), ex);
                     player.sendMessage(getPrefix() + "Failed to check for updates on framedev.ch");
                 }
             }
@@ -918,6 +971,7 @@ public class Main extends JavaPlugin {
         return limited;
     }
 
+    @SuppressWarnings("unused")
     public Map<String, String> getLimitedHomes() {
         Map<String, String> limited = new HashMap<>();
         for (Map.Entry<String, Object> entry : limitedHomes.entrySet()) {
@@ -995,6 +1049,7 @@ public class Main extends JavaPlugin {
         return silent;
     }
 
+    @SuppressWarnings("unused")
     public Thread getThread() {
         return thread;
     }
@@ -1015,6 +1070,7 @@ public class Main extends JavaPlugin {
         return homeTP;
     }
 
+    @SuppressWarnings("unused")
     public MaterialManager getMaterialManager() {
         return materialManager;
     }
@@ -1031,10 +1087,12 @@ public class Main extends JavaPlugin {
         return vaultManager;
     }
 
+    @SuppressWarnings("unused")
     public File getCustomConfigFile() {
         return customConfigFile;
     }
 
+    @SuppressWarnings("unused")
     public FileConfiguration getCustomConfig() {
         return customConfig;
     }
@@ -1067,31 +1125,50 @@ public class Main extends JavaPlugin {
         return offlinePlayers;
     }
 
+    @SuppressWarnings("unused")
     public File getInfoFile() {
         return infoFile;
     }
 
+    @SuppressWarnings("unused")
     public FileConfiguration getInfoCfg() {
         return infoCfg;
     }
 
+    @SuppressWarnings("unused")
     public MongoDBUtils getMongoDbUtils() {
         return mongoDbUtils;
     }
 
+    @SuppressWarnings("unused")
     public String getConfigVersion() {
         return configVersion;
     }
 
+    @SuppressWarnings("unused")
     public File getSettingsFile() {
         return settingsFile;
     }
 
+    @SuppressWarnings("unused")
     public BukkitTask getBukkitTaskConfig() {
         return bukkitTaskConfig;
     }
 
+    @SuppressWarnings("unused")
     public BukkitTask getLimitedHomesTask() {
         return limitedHomesTask;
+    }
+
+    private void disablePlugin() {
+        this.vaultManager = null;
+        this.customConfig = null;
+        this.customConfigFile = null;
+        this.registerManager = null;
+        this.keyGenerator = null;
+        this.infoCfg = null;
+        this.infoFile = null;
+        this.settingsCfg = null;
+        this.settingsFile = null;
     }
 }

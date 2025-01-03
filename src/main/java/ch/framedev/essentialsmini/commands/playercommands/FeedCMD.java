@@ -107,7 +107,7 @@ public class FeedCMD extends CommandBase {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1) {
-            if (sender.hasPermission(plugin.getPermissionName() + "feed.others")) {
+            if (sender.hasPermission(plugin.getPermissionBase() + "feed.others")) {
                 ArrayList<String> players = new ArrayList<>();
                 ArrayList<String> empty = new ArrayList<>();
                 players.add("**");

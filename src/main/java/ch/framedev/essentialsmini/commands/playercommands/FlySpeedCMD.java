@@ -35,7 +35,7 @@ public class FlySpeedCMD extends CommandBase {
                 return true;
             }
             Player player = (Player) sender;
-            if (!player.hasPermission(plugin.getPermissionName() + "flyspeed")) {
+            if (!player.hasPermission(plugin.getPermissionBase() + "flyspeed")) {
                 player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 new AdminBroadCast(this, "§cNo Permissions!", sender);
                 return true;
@@ -43,12 +43,12 @@ public class FlySpeedCMD extends CommandBase {
             float flySpeed = Float.parseFloat(args[0]) / 10F;
             player.setFlySpeed(flySpeed);
             String flySpeedMessage = plugin.getLanguageConfig(player).getString("ChangeFlySpeed");
-            flySpeedMessage = new TextUtils().replaceObject("flySpeed", "%flyspeed%", String.valueOf(flySpeed * 10F));
+            flySpeedMessage = new TextUtils().replaceObject(flySpeedMessage, "%flyspeed%", String.valueOf(flySpeed * 10F));
             flySpeedMessage = new TextUtils().replaceAndWithParagraph(flySpeedMessage);
             player.sendMessage(flySpeedMessage);
             return true;
         } else if (args.length == 2) {
-            if (!sender.hasPermission(plugin.getPermissionName() + "flyspeed.others")) {
+            if (!sender.hasPermission(plugin.getPermissionBase() + "flyspeed.others")) {
                 sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 return true;
             }
@@ -60,7 +60,7 @@ public class FlySpeedCMD extends CommandBase {
             }
             player.setFlySpeed(flyspeed);
             String flySpeed = plugin.getLanguageConfig(player).getString("ChangeFlySpeed");
-            flySpeed = new TextUtils().replaceObject("flySpeed", "%flyspeed%", String.valueOf(flyspeed * 10F));
+            flySpeed = new TextUtils().replaceObject(flySpeed, "%flyspeed%", String.valueOf(flyspeed * 10F));
             flySpeed = new TextUtils().replaceAndWithParagraph(flySpeed);
             player.sendMessage(flySpeed);
             String other = plugin.getLanguageConfig(sender).getString("ChangeFlySpeedOther");

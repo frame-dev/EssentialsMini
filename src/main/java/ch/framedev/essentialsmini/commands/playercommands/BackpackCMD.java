@@ -9,6 +9,7 @@ package ch.framedev.essentialsmini.commands.playercommands;
  * This Class was created at 08.08.2020 20:56
  */
 
+import ch.framedev.essentialsmini.utils.PlayerUtils;
 import ch.framedev.simplejavautils.TextUtils;
 import ch.framedev.essentialsmini.main.Main;
 import ch.framedev.essentialsmini.abstracts.CommandListenerBase;
@@ -77,7 +78,7 @@ public class BackpackCMD extends CommandListenerBase {
                 try {
                     cfg.save(file);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Main.getInstance().getLogger4J().error(e);
                 }
             }
         }
@@ -94,7 +95,7 @@ public class BackpackCMD extends CommandListenerBase {
                         try {
                             inventory.setContents(InventoryStringDeSerializer.itemStackArrayFromBase64(itemsStringHashMap.get(player.getUniqueId().toString())));
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            Main.getInstance().getLogger4J().error(e);
                         }
                         player.openInventory(inventory);
                     } else {
@@ -103,7 +104,7 @@ public class BackpackCMD extends CommandListenerBase {
                 }
             } else if (args.length == 1) {
                 Player player = (Player) sender;
-                OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(args[0]);
+                OfflinePlayer targetPlayer = PlayerUtils.getOfflinePlayerByName(args[0]);
                 if (args[0].equalsIgnoreCase(targetPlayer.getName()) && !args[0].equalsIgnoreCase("delete")) {
                     if (player.hasPermission("essentialsmini.backpack.see")) {
                         if (plugin.getConfig().getBoolean("Backpack")) {
@@ -176,11 +177,11 @@ public class BackpackCMD extends CommandListenerBase {
             if (player != null)
                 playerNames.add(player.getName());
         }
-        ArrayList<String> cmds = new ArrayList<>(playerNames);
-        cmds.add("delete");
+        ArrayList<String> commands = new ArrayList<>(playerNames);
+        commands.add("delete");
         ArrayList<String> empty = new ArrayList<>();
         if (args.length == 1) {
-            for (String s : cmds) {
+            for (String s : commands) {
                 if (s.toLowerCase().startsWith(args[0])) {
                     empty.add(s);
                 }

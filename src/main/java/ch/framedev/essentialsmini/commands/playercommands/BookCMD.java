@@ -44,6 +44,7 @@ public class BookCMD extends CommandBase {
             if (player.getInventory().getItemInMainHand().getType() == Material.WRITTEN_BOOK) {
                 ItemStack itemStack = player.getInventory().getItemInMainHand();
                 BookMeta bookMeta = (BookMeta) itemStack.getItemMeta();
+                if(bookMeta == null) return true;
                 List<String> pages = bookMeta.getPages();
                 ItemStack item = new ItemStack(Material.WRITABLE_BOOK);
                 BookMeta meta = (BookMeta) item.getItemMeta();

@@ -3,7 +3,7 @@ package ch.framedev.essentialsmini.commands.playercommands;
 
 /*
  * EssentialsMini
- * de.framedev.essentialsmin.commands
+ * de.framedev.essentialsmini.commands
  * ===================================================
  * This File was Created by FrameDev
  * Please do not change anything without my consent!
@@ -43,13 +43,11 @@ public class RegisterCMD extends CommandListenerBase {
     }
 
     String passwordToBase64(String password) {
-        String encodedString = Base64.getEncoder().encodeToString(password.getBytes());
-        return encodedString;
+        return Base64.getEncoder().encodeToString(password.getBytes());
     }
 
     String base64ToPassword(String base64) {
-        String decodedString = new String(Base64.getDecoder().decode(base64.getBytes()));
-        return decodedString;
+        return new String(Base64.getDecoder().decode(base64.getBytes()));
     }
 
     @Override

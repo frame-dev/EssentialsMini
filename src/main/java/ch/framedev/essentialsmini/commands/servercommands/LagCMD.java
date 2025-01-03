@@ -39,7 +39,7 @@ public class LagCMD extends CommandBase {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.hasPermission(plugin.getPermissionName() + "lag")) {
+        if (sender.hasPermission(plugin.getPermissionBase() + "lag")) {
             final double tps = plugin.getSpigotTimer().getAverageTPS();
             final ChatColor color;
             if (tps >= 18.0) {

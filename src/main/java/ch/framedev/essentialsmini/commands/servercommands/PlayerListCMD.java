@@ -39,7 +39,7 @@ public class PlayerListCMD implements CommandExecutor {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     players.add(player.getName());
                 }
-                sender.sendMessage("§6==§cPlayers§6==");
+                sender.sendMessage("§6==§cOnlinePlayers§6==");
                 sender.sendMessage(Arrays.toString(players.toArray()));
                 players.clear();
             } else {

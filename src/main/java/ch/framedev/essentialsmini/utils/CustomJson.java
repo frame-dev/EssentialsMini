@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("unchecked")
 public class CustomJson {
 
     File file;
@@ -158,9 +159,10 @@ public class CustomJson {
         }
 
         try {
-            FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write(new GsonBuilder().setPrettyPrinting().create().toJson(object));
-            fileWriter.flush();
+            try (FileWriter fileWriter = new FileWriter(file)) {
+                fileWriter.write(new GsonBuilder().setPrettyPrinting().create().toJson(object));
+                fileWriter.flush();
+            }
         } catch (IOException e) {
             throw new IOException();
         }
@@ -179,9 +181,10 @@ public class CustomJson {
             if (file == null) {
                 throw new NotFoundException("File cannot be Found!");
             }
-            FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write(new GsonBuilder().setPrettyPrinting().create().toJson(object));
-            fileWriter.flush();
+            try (FileWriter fileWriter = new FileWriter(file)) {
+                fileWriter.write(new GsonBuilder().setPrettyPrinting().create().toJson(object));
+                fileWriter.flush();
+            }
             this.object = getObject();
         } catch (IOException e) {
             e.printStackTrace();

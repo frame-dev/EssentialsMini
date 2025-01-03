@@ -5,6 +5,7 @@ import ch.framedev.essentialsmini.main.Main;
 import ch.framedev.essentialsmini.abstracts.CommandBase;
 import ch.framedev.essentialsmini.utils.AdminBroadCast;
 import ch.framedev.essentialsmini.utils.DateUnit;
+import ch.framedev.essentialsmini.utils.PlayerUtils;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -24,21 +25,19 @@ import java.util.*;
  * Copyrighted by FrameDev
  */
 
+@SuppressWarnings("deprecation")
 public class TempBanCMD extends CommandBase {
     public TempBanCMD(Main plugin) {
-        super(plugin, "tempban");
-        setup(this);
-        setup("removetempban", this);
-        setupTabCompleter(this);
+        super(plugin, "tempban", "removetempban");
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("tempban")) {
-            if (sender.hasPermission(getPlugin().getPermissionName() + "tempban")) {
+            if (sender.hasPermission(getPlugin().getPermissionBase() + "tempban")) {
                 if (args.length == 5) {
                     if (args[0].equalsIgnoreCase("type")) {
-                        OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
+                        OfflinePlayer target = PlayerUtils.getOfflinePlayerByName(args[1]);
                         Ban reason = Ban.valueOf(args[2].toUpperCase());
                         DateUnit unit = DateUnit.valueOf(args[4].toUpperCase());
                         long value = Long.parseLong(args[3]);
@@ -57,7 +56,7 @@ public class TempBanCMD extends CommandBase {
                         new AdminBroadCast("tempban","§6" + target.getName() + " §ahas been banned while §6" + reason.getReason() + " §afor §6" + value + " " + unit.getOutput() + "!", sender);
                         return true;
                     } else if (args[0].equalsIgnoreCase("own")) {
-                        OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
+                        OfflinePlayer target = PlayerUtils.getOfflinePlayerByName(args[1]);
                         String reason = args[2];
                         DateUnit unit = DateUnit.valueOf(args[4].toUpperCase());
                         long value = Long.parseLong(args[3]);
@@ -83,8 +82,8 @@ public class TempBanCMD extends CommandBase {
             }
         }
         if (cmd.getName().equalsIgnoreCase("removetempban")) {
-            OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-            if (sender.hasPermission(getPlugin().getPermissionName() + "tempban")) {
+            OfflinePlayer target = PlayerUtils.getOfflinePlayerByName(args[0]);
+            if (sender.hasPermission(getPlugin().getPermissionBase() + "tempban")) {
                 if (getPlugin().isMysql() || getPlugin().isSQL()) {
                     new BanMuteManager().removeTempBan(target);
                     Bukkit.getServer().getBanList(BanList.Type.NAME).pardon(target.getName());

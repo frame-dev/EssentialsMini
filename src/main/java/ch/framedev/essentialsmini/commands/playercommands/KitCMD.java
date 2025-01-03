@@ -36,7 +36,7 @@ public class KitCMD extends CommandBase {
             if (command.getName().equalsIgnoreCase("kits")) {
                 if (args.length != 0) {
                     String name = args[0];
-                    if (p.hasPermission(plugin.getPermissionName() + "kits." + name)) {
+                    if (p.hasPermission(plugin.getPermissionBase() + "kits." + name)) {
                         if (args.length == 1) {
                             if (KitManager.getCustomConfig().contains("Items." + name)) {
                                 KitManager kit = new KitManager();
@@ -61,7 +61,7 @@ public class KitCMD extends CommandBase {
                                         if (cooldowns.containsKey(sender.getName())) {
                                             cooldowns.get(sender.getName()).remove(name);
 
-                                            if (cooldowns.get(sender.getName()).size() == 0) {
+                                            if (cooldowns.get(sender.getName()).isEmpty()) {
                                                 cooldowns.remove(sender.getName());
                                             }
                                         }
@@ -109,7 +109,7 @@ public class KitCMD extends CommandBase {
                                             if (cooldowns.containsKey(sender.getName())) {
                                                 cooldowns.get(sender.getName()).remove(name);
 
-                                                if (cooldowns.get(sender.getName()).size() == 0) {
+                                                if (cooldowns.get(sender.getName()).isEmpty()) {
                                                     cooldowns.remove(sender.getName());
                                                 }
                                             }
@@ -137,7 +137,7 @@ public class KitCMD extends CommandBase {
                 }
             }
             if (command.getName().equalsIgnoreCase("createkit")) {
-                if (p.hasPermission(plugin.getPermissionName() + "createkit")) {
+                if (p.hasPermission(plugin.getPermissionBase() + "createkit")) {
                     if (args.length == 1) {
                         ItemStack[] items = p.getInventory().getContents();
                         new KitManager().createKit(args[0], items);
@@ -172,7 +172,7 @@ public class KitCMD extends CommandBase {
             ArrayList<String> list = new ArrayList<>();
             ConfigurationSection cs = KitManager.getCustomConfig().getConfigurationSection("Items");
             for (String s : cs.getKeys(false)) {
-                if (sender.hasPermission(plugin.getPermissionName() + "kits." + s)) {
+                if (sender.hasPermission(plugin.getPermissionBase() + "kits." + s)) {
                     list.add(s);
                 }
             }

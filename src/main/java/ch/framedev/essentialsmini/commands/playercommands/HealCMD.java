@@ -65,13 +65,19 @@ public class HealCMD extends CommandBase {
                             player.setFoodLevel(20);
                             if (!Main.getSilent().contains(sender.getName())) {
                                 String heal = plugin.getLanguageConfig(player).getString("Heal.Self");
-                                if (heal == null) return true;
+                                if (heal == null) {
+                                    player.sendMessage(plugin.getPrefix() + "§cConfig 'Heal.Self' not found! Please contact the Admin!");
+                                    return true;
+                                }
                                 if (heal.contains("&"))
                                     heal = heal.replace('&', '§');
                                 player.sendMessage(plugin.getPrefix() + heal);
                             }
                             String healOther = plugin.getLanguageConfig(player).getString("Heal.Other");
-                            if (healOther == null) return true;
+                            if (healOther == null) {
+                                player.sendMessage(plugin.getPrefix() + "§cConfig 'Heal.Other' not found! Please contact the Admin!");
+                                return true;
+                            }
                             if (healOther.contains("&"))
                                 healOther = healOther.replace('&', '§');
                             if (healOther.contains("%Player%"))
@@ -92,13 +98,19 @@ public class HealCMD extends CommandBase {
                         player.setFoodLevel(20);
                         if (!Main.getSilent().contains(sender.getName())) {
                             String heal = plugin.getLanguageConfig(player).getString("Heal.Self");
-                            if (heal == null) return true;
+                            if (heal == null) {
+                                player.sendMessage(plugin.getPrefix() + "§cConfig 'Heal.Self' not found! Please contact the Admin!");
+                                return true;
+                            }
                             if (heal.contains("&"))
                                 heal = heal.replace('&', '§');
                             player.sendMessage(plugin.getPrefix() + heal);
                         }
                         String healOther = plugin.getLanguageConfig(player).getString("Heal.Other");
-                        if (healOther == null) return true;
+                        if (healOther == null) {
+                            player.sendMessage(plugin.getPrefix() + "§cConfig 'Heal.Other' not found! Please contact the Admin!");
+                            return true;
+                        }
                         if (healOther.contains("&"))
                             healOther = healOther.replace('&', '§');
                         if (healOther.contains("%Player%"))
@@ -122,19 +134,24 @@ public class HealCMD extends CommandBase {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1) {
-            if (sender.hasPermission(plugin.getPermissionName() + "heal.others")) {
+            if (sender.hasPermission(plugin.getPermissionBase() + "heal.others")) {
                 ArrayList<String> players = new ArrayList<>();
                 ArrayList<String> empty = new ArrayList<>();
-                players.add("**");
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    players.add(player.getName());
+
+                if (Bukkit.getOnlinePlayers().size() == 1) {
+                    return List.of(sender.getName());
                 }
-                for (String s : players) {
-                    if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
-                        empty.add(s);
-                    }
-                }
-                Collections.sort(empty);
+
+                players.add("**"); // Add a wildcard option first
+
+                // Add all online player names to the player list
+                Bukkit.getOnlinePlayers().forEach(player -> players.add(player.getName()));
+
+                // Filter player names based on the argument (case-insensitive)
+                players.stream()
+                        .filter(name -> name.toLowerCase().startsWith(args[0].toLowerCase()))
+                        .sorted()
+                        .forEach(empty::add);
                 return empty;
             }
         }

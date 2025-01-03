@@ -28,7 +28,7 @@ public class WorkbenchCMD extends CommandBase {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             if (args.length == 0) {
-                if (sender.hasPermission(plugin.getPermissionName() + "workbench")) {
+                if (sender.hasPermission(plugin.getPermissionBase() + "workbench")) {
                     ((Player) sender).openWorkbench(((Player) sender).getLocation(), true);
                     sender.sendMessage(getPrefix() + "§aWorkbench Opened");
                 } else {

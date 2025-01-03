@@ -28,7 +28,7 @@ public class GenerateKeyCMD implements CommandExecutor, TabCompleter {
         if (args.length == 2) {
             String collection = "essentialsmini_data";
             if (args[0].equalsIgnoreCase("generate")) {
-                if (sender.hasPermission(plugin.getPermissionName() + "key")) {
+                if (sender.hasPermission(plugin.getPermissionBase() + "key")) {
                     OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
                     String key = new KeyGenerator().generateKeyAndSave(player);
                     if (Bukkit.getPluginManager().getPlugin("MDBConnection") != null) {
@@ -44,7 +44,7 @@ public class GenerateKeyCMD implements CommandExecutor, TabCompleter {
                 }
             }
             if (args[0].equalsIgnoreCase("remove")) {
-                if (sender.hasPermission(plugin.getPermissionName() + "key")) {
+                if (sender.hasPermission(plugin.getPermissionBase() + "key")) {
                     OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
                     if (Bukkit.getPluginManager().getPlugin("MDBConnection") != null) {
                         if (plugin.getConfig().getBoolean("MongoDB.Boolean") || plugin.getConfig().getBoolean("MongoDB.LocalHost")) {
@@ -63,7 +63,7 @@ public class GenerateKeyCMD implements CommandExecutor, TabCompleter {
                 }
             }
             if (args[0].equalsIgnoreCase("haskey")) {
-                if (sender.hasPermission(plugin.getPermissionName() + "key")) {
+                if (sender.hasPermission(plugin.getPermissionBase() + "key")) {
                     OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
                     if (Bukkit.getPluginManager().getPlugin("MDBConnection") != null) {
                         if (plugin.getConfig().getBoolean("MongoDB.Boolean") || plugin.getConfig().getBoolean("MongoDB.LocalHost")) {

@@ -44,27 +44,35 @@ public class SignItemCMD extends CommandBase {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
-            if (sender.hasPermission(plugin.getPermissionName() + "signitem")) {
+            if (sender.hasPermission(plugin.getPermissionBase() + "signitem")) {
                 if (((Player) sender).getInventory().getItemInMainHand().getType() != AIR) {
                     ItemStack item = ((Player) sender).getInventory().getItemInMainHand();
                     ItemMeta meta = item.getItemMeta();
+                    if(meta == null) {
+                        sender.sendMessage(plugin.getPrefix() + "§cThis Item can't be signed!");
+                        return true;
+                    }
                     List<String> lore;
                     if (meta.getLore() == null) {
                         lore = new ArrayList<>();
-                        String message = "";
-                        for (int i = 0; i < args.length; i++) {
-                            message = message + args[i] + " ";
+                        StringBuilder message = new StringBuilder();
+                        if(args.length == 0) {
+                            sender.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("/signitem <Message>"));
+                            return true;
+                        }
+                        for (int i = 1; i < args.length; i++) {
+                            message.append(args[i]).append(" ");
                         }
                         lore.add("§6Signed by §d" + sender.getName());
-                        lore.add(ChatColor.translateAlternateColorCodes('&', message));
+                        lore.add(ChatColor.translateAlternateColorCodes('&', message.toString()));
                     } else {
                         lore = meta.getLore();
-                        String message = "";
+                        StringBuilder message = new StringBuilder();
                         for (int i = 1; i < args.length; i++) {
-                            message = message + args[i] + " ";
+                            message.append(args[i]).append(" ");
                         }
                         lore.set(0, "§6Signed by §d" + sender.getName());
-                        lore.set(1, ChatColor.translateAlternateColorCodes('&', message));
+                        lore.set(1, ChatColor.translateAlternateColorCodes('&', message.toString()));
 
                     }
                     meta.setLore(lore);

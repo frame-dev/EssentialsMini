@@ -18,12 +18,15 @@ import java.util.List;
 
 public class AdminBroadCast implements Serializable {
 
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     private final List<AdminBroadCast> adminBroadCasts = new ArrayList<>();
 
     private final String command;
     private final String message;
     private final String commandSender;
     private boolean send;
+    private static transient File file = new File(Main.getInstance().getDataFolder(),"admin-broadcasts.json");
+    private static final Main instance = Main.getInstance();
 
     public AdminBroadCast(String command, String message, CommandSender commandSender) {
         this.command = "/" + command;
@@ -52,13 +55,15 @@ public class AdminBroadCast implements Serializable {
     /**
      * This will send the Broadcast to the Players with the Permissions
      */
-    @SuppressWarnings("deprecation")
     public void send() {
         if (Main.getInstance().getSettingsCfg().getBoolean(Variables.ADMIN_BROADCAST)) {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (player.hasPermission("essentialsmini.adminbroadcast") && !Bukkit.getPlayer(commandSender).hasPermission("essentialsmini.adminbroadcast")) {
-                    player.sendMessage(Main.getInstance().getPrefix() + "§6[§aAdmin§bBroadCast§6] §c>> §c[Command] §6" + command + " §c[Message] §b" + message + " §6has been send by §6" + commandSender);
-                    send = true;
+                Player sender = Bukkit.getPlayer(commandSender);
+                if(sender != null) {
+                    if (player.hasPermission("essentialsmini.adminbroadcast") && !sender.hasPermission("essentialsmini.adminbroadcast")) {
+                        player.sendMessage(Main.getInstance().getPrefix() + "§6[§aAdmin§bBroadCast§6] §c>> §c[Command] §6" + command + " §c[Message] §b" + message + " §6has been send by §6" + commandSender);
+                        send = true;
+                    }
                 }
             }
             // Send to Console
@@ -73,14 +78,13 @@ public class AdminBroadCast implements Serializable {
 
     public static List<AdminBroadCast> getAdminBroadCasts() {
         List<AdminBroadCast> broadCastsLoad = new ArrayList<>();
-        File file = new File(Main.getInstance().getDataFolder(),"adminbroadcasts.json");
         if(file.exists()) {
             try {
                 FileReader fileReader = new FileReader(new File(Main.getInstance().getDataFolder(), "adminbroadcasts.json"));
                 broadCastsLoad = Arrays.asList(new Gson().fromJson(fileReader, AdminBroadCast[].class));
                 fileReader.close();
             } catch (Exception ex) {
-                ex.printStackTrace();
+                instance.getLogger4J().error(ex.getMessage(), ex);
             }
         }
         return broadCastsLoad;
@@ -89,7 +93,6 @@ public class AdminBroadCast implements Serializable {
     public void save() {
         List<AdminBroadCast> broadCastsLoad = new ArrayList<>();
         try {
-            File file = new File(Main.getInstance().getDataFolder(),"adminbroadcasts.json");
             if(file.exists()) {
                 FileReader fileReader = new FileReader(new File(Main.getInstance().getDataFolder(), "adminbroadcasts.json"));
                 broadCastsLoad = Arrays.asList(new Gson().fromJson(fileReader, AdminBroadCast[].class));
@@ -103,7 +106,7 @@ public class AdminBroadCast implements Serializable {
             writer.flush();
             writer.close();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            instance.getLogger4J().error(ex.getMessage(), ex);
         }
     }
 

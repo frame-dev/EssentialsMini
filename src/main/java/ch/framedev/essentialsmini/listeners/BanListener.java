@@ -39,7 +39,7 @@ public class BanListener extends ListenerBase {
                             String t = String.format("%tT", calendar.getTimeInMillis()-TimeZone.getDefault().getRawOffset());
                             reason[0] = "§aYou are Banned. Reason:§c " + s2 + " §aExpired at §6: " + s + " §aWait another : §6" + t;
                         } catch (ParseException parseException) {
-                            parseException.printStackTrace();
+                            getPlugin().getLogger4J().error(parseException.getMessage(), parseException);
                         }
                     });
                     e.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_BANNED);

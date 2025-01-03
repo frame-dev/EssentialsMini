@@ -7,6 +7,7 @@ package ch.framedev.essentialsmini.commands.playercommands;
 import ch.framedev.essentialsmini.managers.InventoryManager;
 import ch.framedev.essentialsmini.managers.ItemBuilder;
 import ch.framedev.essentialsmini.managers.LocationsManager;
+import ch.framedev.essentialsmini.utils.PlayerUtils;
 import ch.framedev.simplejavautils.TextUtils;
 import ch.framedev.essentialsmini.main.Main;
 import ch.framedev.essentialsmini.abstracts.CommandListenerBase;
@@ -64,7 +65,7 @@ public class HomeCMD extends CommandListenerBase {
                 InventoryManager inventoryManager = new InventoryManager("§aHomes");
                 inventoryManager.setSize(3);
                 inventoryManager.create();
-                List<String> homess = new ArrayList<>();
+                List<String> homes = new ArrayList<>();
                 ConfigurationSection cs = new LocationsManager().getCfg().getConfigurationSection(sender.getName() + ".home");
                 if (new LocationsManager().getCfg().contains(sender.getName() + ".home")) {
                     if (cs != null) {
@@ -72,14 +73,14 @@ public class HomeCMD extends CommandListenerBase {
                             if (s != null)
                                 if (new LocationsManager().getCfg().get(sender.getName() + ".home." + s) != null) {
                                     if (!new LocationsManager().getCfg().get(sender.getName() + ".home." + s).equals(" ")) {
-                                        homess.add(s);
+                                        homes.add(s);
                                     }
                                 }
                         }
                     }
                 }
-                for (int i = 0; i < homess.size(); i++) {
-                    inventoryManager.setItem(i, new ItemBuilder(Material.BLACK_BED).setDisplayName("§6" + homess.get(i)).setLore("§aTeleport to Home §6" + homess.get(i)).build());
+                for (int i = 0; i < homes.size(); i++) {
+                    inventoryManager.setItem(i, new ItemBuilder(Material.BLACK_BED).setDisplayName("§6" + homes.get(i)).setLore("§aTeleport to Home §6" + homes.get(i)).build());
                 }
                 inventoryManager.fillNull();
                 if (sender instanceof Player) {
@@ -91,6 +92,10 @@ public class HomeCMD extends CommandListenerBase {
                     if (sender.hasPermission("essentialsmini.sethome")) {
                         new LocationsManager(sender.getName() + ".home.home").setLocation(((Player) sender).getLocation());
                         String homeSet = plugin.getLanguageConfig(sender).getString("HomeSet");
+                        if(homeSet == null) {
+                            sender.sendMessage(plugin.getPrefix() + "§cConfig 'HomeSet' not found! Please contact the Admin!");
+                            return true;
+                        }
                         if (homeSet.contains("&"))
                             homeSet = homeSet.replace('&', '§');
                         sender.sendMessage(plugin.getPrefix() + homeSet);
@@ -104,10 +109,14 @@ public class HomeCMD extends CommandListenerBase {
             if (command.getName().equalsIgnoreCase("home")) {
                 try {
                     if (sender instanceof Player) {
-                        if (sender.hasPermission(plugin.getPermissionName() + "home")) {
+                        if (sender.hasPermission(plugin.getPermissionBase() + "home")) {
                             if (new LocationsManager().getCfg().contains(sender.getName() + ".home.home") && !new LocationsManager().getCfg().get(sender.getName() + ".home.home").equals(" ")) {
                                 ((Player) sender).teleport(new LocationsManager(sender.getName() + ".home.home").getLocation());
                                 String homeTeleport = plugin.getLanguageConfig(sender).getString("HomeTeleport");
+                                if(homeTeleport == null) {
+                                    sender.sendMessage(plugin.getPrefix() + "§cConfig 'HomeTeleport' not found! Please contact the Admin!");
+                                    return true;
+                                }
                                 if (homeTeleport.contains("&"))
                                     homeTeleport = homeTeleport.replace('&', '§');
                                 sender.sendMessage(plugin.getPrefix() + homeTeleport);
@@ -153,6 +162,10 @@ public class HomeCMD extends CommandListenerBase {
                         locationsManager.getCfg().set(sender.getName() + ".home.home", " ");
                         locationsManager.saveCfg();
                         String homeDeleted = plugin.getLanguageConfig(sender).getString("HomeDelete");
+                        if(homeDeleted == null) {
+                            sender.sendMessage(plugin.getPrefix() + "§cConfig 'HomeDelete' not found! Please contact the Admin!");
+                            return true;
+                        }
                         if (homeDeleted.contains("&"))
                             homeDeleted = ReplaceCharConfig.replaceParagraph(homeDeleted);
                         sender.sendMessage(plugin.getPrefix() + homeDeleted);
@@ -266,15 +279,13 @@ public class HomeCMD extends CommandListenerBase {
                                             homeSet = ReplaceCharConfig.replaceParagraph(homeSet);
                                             homeSet = ReplaceCharConfig.replaceObjectWithData(homeSet, "%Name%", name);
                                             sender.sendMessage(plugin.getPrefix() + homeSet);
-                                            homes.clear();
-                                            limited.clear();
                                         } else {
                                             String exist = plugin.getLanguageConfig(sender).getString("HomeExist");
                                             exist = ReplaceCharConfig.replaceParagraph(exist);
                                             sender.sendMessage(plugin.getPrefix() + exist);
-                                            homes.clear();
-                                            limited.clear();
                                         }
+                                        homes.clear();
+                                        limited.clear();
                                     } else if (limited.size() == plugin.getConfig().getInt("LimitedHomes.Admin") || limited.size() >= plugin.getConfig().getInt("LimitedHomes.Admin")) {
                                         String notSet = plugin.getLanguageConfig(sender).getString("NoMoreHomesSet");
                                         notSet = ReplaceCharConfig.replaceParagraph(notSet);
@@ -378,15 +389,13 @@ public class HomeCMD extends CommandListenerBase {
                                             homeSet = ReplaceCharConfig.replaceParagraph(homeSet);
                                             homeSet = ReplaceCharConfig.replaceObjectWithData(homeSet, "%Name%", name);
                                             sender.sendMessage(plugin.getPrefix() + homeSet);
-                                            homes.clear();
-                                            limited.clear();
                                         } else {
                                             String exist = plugin.getLanguageConfig(sender).getString("HomeExist");
                                             exist = ReplaceCharConfig.replaceParagraph(exist);
                                             sender.sendMessage(plugin.getPrefix() + exist);
-                                            homes.clear();
-                                            limited.clear();
                                         }
+                                        homes.clear();
+                                        limited.clear();
                                     } else if (limited.size() == plugin.getConfig().getInt("LimitedHomes.Admin") || limited.size() >= plugin.getConfig().getInt("LimitedHomes.Admin")) {
                                         String notSet = plugin.getLanguageConfig(sender).getString("NoMoreHomesSet");
                                         notSet = ReplaceCharConfig.replaceParagraph(notSet);
@@ -434,15 +443,13 @@ public class HomeCMD extends CommandListenerBase {
                                         homeSet = ReplaceCharConfig.replaceParagraph(homeSet);
                                         homeSet = ReplaceCharConfig.replaceObjectWithData(homeSet, "%Name%", name);
                                         sender.sendMessage(plugin.getPrefix() + homeSet);
-                                        homes.clear();
-                                        limited.clear();
                                     } else {
                                         String exist = plugin.getLanguageConfig(sender).getString("HomeExist");
                                         exist = ReplaceCharConfig.replaceParagraph(exist);
                                         sender.sendMessage(plugin.getPrefix() + exist);
-                                        homes.clear();
-                                        limited.clear();
                                     }
+                                    homes.clear();
+                                    limited.clear();
                                 } else if (limited.size() == plugin.getConfig().getInt("LimitedHomes.Admin") || limited.size() >= plugin.getConfig().getInt("LimitedHomes.Admin")) {
                                     String notSet = plugin.getLanguageConfig(sender).getString("NoMoreHomesSet");
                                     notSet = ReplaceCharConfig.replaceParagraph(notSet);
@@ -479,7 +486,7 @@ public class HomeCMD extends CommandListenerBase {
                 if (sender instanceof Player) {
                     String name = args[0].toLowerCase();
                     try {
-                        if (sender.hasPermission(plugin.getPermissionName() + "home")) {
+                        if (sender.hasPermission(plugin.getPermissionBase() + "home")) {
                             ((Player) sender)
                                     .teleport(new LocationsManager(sender.getName() + ".home." + name).getLocation());
                             String homeTeleport = plugin.getLanguageConfig(sender).getString("HomeTeleportOther");
@@ -549,7 +556,7 @@ public class HomeCMD extends CommandListenerBase {
         } else if (args.length == 2) {
             if (command.getName().equalsIgnoreCase("delotherhome")) {
                 if (sender.hasPermission(new Permission("essentialsmini.deletehome.others", PermissionDefault.OP))) {
-                    OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
+                    OfflinePlayer target = PlayerUtils.getOfflinePlayerByName(args[1]);
                     String name = args[0];
                     if (plugin.getConfig().getBoolean("JsonFormat")) {
                         if (new LocationsManager().getLocation(target.getName() + ".home." + name) != null && new LocationsManager().existsHome(target.getName() + ".home." + name)) {

@@ -8,10 +8,7 @@ import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * This Plugin was Created by FrameDev
@@ -23,6 +20,11 @@ import java.util.UUID;
 
 public class BackendManager {
     private final Main plugin;
+
+    public static interface Callback<T> {
+        void onResult(T result);
+        void onError(Exception exception);
+    }
 
     public static enum DATA {
         NAME("name"),
@@ -55,7 +57,7 @@ public class BackendManager {
      * @param player the Player
      * @param collection Collection in the Database
      */
-    public void createUser(OfflinePlayer player, String collection) {
+    public void createUser(OfflinePlayer player, String collection, Callback<Void> callback) {
         String uuid = player.getUniqueId().toString();
         if (existsCollection(collection)) {
             MongoCollection<Document> collections = this.plugin.getMongoManager().getDatabase().getCollection(collection);
@@ -72,6 +74,7 @@ public class BackendManager {
                         .append("lastLogin", 0L + "")
                         .append("lastLogout", 0L + "");
                 collections.insertOne(dc, (new InsertOneOptions()).bypassDocumentValidation(false));
+                callback.onResult(null);
             }
         } else {
             this.plugin.getMongoManager().getDatabase().createCollection(collection);
@@ -90,6 +93,7 @@ public class BackendManager {
                         .append("lastLogout", 0L);
                 collections.insertOne(dc, (new InsertOneOptions()).bypassDocumentValidation(false));
             }
+            callback.onResult(null);
         }
     }
 
@@ -112,7 +116,7 @@ public class BackendManager {
         return null;
     }
 
-    public void updataData(String where, Object data, String selected, Object dataSelected, String collection) {
+    public void updateData(String where, Object data, String selected, Object dataSelected, String collection) {
         if (existsCollection(collection)) {
             MongoCollection<Document> collections = this.plugin.getMongoManager().getDatabase().getCollection(collection);
             Document document = collections.find(new Document(where, data)).first();
@@ -123,7 +127,7 @@ public class BackendManager {
                     collections.updateOne(document, document2);
                 } else {
                     document.put(selected,dataSelected);
-                    collections.updateOne(collections.find(new Document(where, data)).first(), document);
+                    collections.updateOne(Objects.requireNonNull(collections.find(new Document(where, data)).first()), document);
                 }
             }
         } else {
@@ -259,7 +263,6 @@ public class BackendManager {
     }
 
 
-    @SuppressWarnings("deprecation")
     public ArrayList<OfflinePlayer> getOfflinePlayers(String collection) {
         ArrayList<OfflinePlayer> players = new ArrayList<>();
         if (existsCollection(collection)) {
@@ -294,9 +297,8 @@ public class BackendManager {
         if (existsCollection(collection)) {
             MongoCollection<Document> collections = this.plugin.getMongoManager().getDatabase().getCollection(collection);
             FindIterable<Document> find = collections.find();
-            Iterator it = find.iterator();
-            while (it.hasNext()) {
-                list.add((Document) it.next());
+            for (Document document : find) {
+                list.add(document);
             }
         }
         return list;

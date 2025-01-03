@@ -41,14 +41,13 @@ public class PlayerListeners implements Listener {
     public PlayerListeners(Main plugin) {
         this.plugin = plugin;
         plugin.getListeners().add(this);
-        String permissionBase = plugin.getPermissionName();
+        String permissionBase = plugin.getPermissionBase();
         jsonFormat = plugin.getConfig().getBoolean("JsonFormat");
     }
 
     public boolean isJsonFormat() {
         return jsonFormat;
     }
-
 
 
     public boolean isEnabled() {
@@ -192,7 +191,7 @@ public class PlayerListeners implements Listener {
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         try {
-            if (event.getPlayer().getBedSpawnLocation() == null || event.getPlayer().getBedSpawnLocation().equals(new LocationsManager("spawn").getLocation()) && !event.isBedSpawn())
+            if (event.getPlayer().getRespawnLocation() == null || event.getPlayer().getRespawnLocation().equals(new LocationsManager("spawn").getLocation()) && !event.isBedSpawn())
                 event.setRespawnLocation(new LocationsManager("spawn").getLocation());
         } catch (Exception ignored) {
             event.setRespawnLocation(event.getPlayer().getWorld().getSpawnLocation());
@@ -201,9 +200,9 @@ public class PlayerListeners implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        if (KillCMD.suicid) {
+        if (KillCMD.suicidPlayers.contains(event.getEntity())) {
             event.setDeathMessage(null);
-            KillCMD.suicid = false;
+            KillCMD.suicidPlayers.remove(event.getEntity());
         }
     }
 
@@ -220,6 +219,7 @@ public class PlayerListeners implements Listener {
         if (plugin.getConfig().getBoolean("PlayerEvents")) {
             if (event.getHitBlock() != null) return;
             if (event.getHitEntity() == null) return;
+            if (event.getEntity().getShooter() == null) return;
             if (event.getHitEntity() != null && event.getHitEntity() instanceof Player && event.getEntity().getShooter() != null) {
                 if (event.getEntity().getShooter() instanceof Entity)
                     getServer().getPluginManager().callEvent(new PlayerHitByProjectileEvent((Player) event.getHitEntity(), (Entity) event.getEntity().getShooter()));

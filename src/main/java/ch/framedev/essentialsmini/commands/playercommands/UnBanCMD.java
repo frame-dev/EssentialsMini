@@ -14,9 +14,10 @@ public class UnBanCMD extends CommandBase {
 		super(plugin, "eunban");
 	}
 
-	@Override
+	@SuppressWarnings("deprecation")
+    @Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(sender.hasPermission(getPlugin().getPermissionName() + "unban")) {
+		if(sender.hasPermission(getPlugin().getPermissionBase() + "unban")) {
 			if(args.length == 1) {
 				if(getPlugin().isMysql() || getPlugin().isSQL()) {
 					new BanMuteManager().setPermBan(Bukkit.getOfflinePlayer(args[0]), BanCMD.BanType.HACKING, false);

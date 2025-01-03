@@ -37,8 +37,7 @@ public class BackCMD extends CommandListenerBase {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("back")) {
             if (plugin.getConfig().getBoolean("Back")) {
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
+                if (sender instanceof Player player) {
                     if (deaths.containsKey(player)) {
 
                         /*  Player Teleports to the Death Location */
@@ -78,6 +77,7 @@ public class BackCMD extends CommandListenerBase {
         }
     }
 
+    @SuppressWarnings("unused")
     public HashMap<Player, Location> getDeaths() {
         return deaths;
     }

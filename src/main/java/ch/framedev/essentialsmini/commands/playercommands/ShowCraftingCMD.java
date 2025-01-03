@@ -37,7 +37,7 @@ public class ShowCraftingCMD extends CommandBase {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (player.hasPermission(plugin.getPermissionName() + "showcrafting")) {
+            if (player.hasPermission(plugin.getPermissionBase() + "showcrafting")) {
                 ItemStack item = new ItemStack(new MaterialManager().getMaterial(args[0].toLowerCase()));
                 for (Recipe recipe : Bukkit.getRecipesFor(item)) {
                     if (recipe.getResult().equals(item)) {

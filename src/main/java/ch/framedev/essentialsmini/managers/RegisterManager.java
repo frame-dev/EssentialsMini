@@ -155,6 +155,7 @@ public class RegisterManager {
         return backup;
     }
 
+    @SuppressWarnings("unused")
     public PlayerListeners getPlayerListeners() {
         return playerListeners;
     }

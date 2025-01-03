@@ -25,7 +25,7 @@ public class SilentCMD extends CommandBase {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.hasPermission(getPlugin().getPermissionName() + "silent")) {
+        if (sender.hasPermission(getPlugin().getPermissionBase() + "silent")) {
             if (!Main.getSilent().contains(sender.getName())) {
                 Main.getSilent().add(sender.getName());
                 sender.sendMessage(getPlugin().getPrefix() + "§aSilent wurde für dich Aktiviert!");

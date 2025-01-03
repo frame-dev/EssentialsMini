@@ -42,7 +42,7 @@ public class SummonCMD extends CommandBase {
         if (args.length == 1) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                if (player.hasPermission(plugin.getPermissionName() + "summon")) {
+                if (player.hasPermission(plugin.getPermissionBase() + "summon")) {
                     EntityType type = EntityType.fromName(args[0]);
                     if (type != null) {
                         Block block = player.getTargetBlock(null, 100);
@@ -63,7 +63,7 @@ public class SummonCMD extends CommandBase {
         } else if (args.length == 2) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                if (player.hasPermission(plugin.getPermissionName() + "summon")) {
+                if (player.hasPermission(plugin.getPermissionBase() + "summon")) {
                     EntityType type = EntityType.fromName(args[0]);
                     if (type != null) {
                         try {

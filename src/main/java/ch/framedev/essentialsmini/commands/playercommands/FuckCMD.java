@@ -33,7 +33,7 @@ public class FuckCMD extends CommandBase {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender.hasPermission(plugin.getPermissionName() + "fuck")) {
+        if (sender.hasPermission(plugin.getPermissionBase() + "fuck")) {
             if (args.length == 0) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;

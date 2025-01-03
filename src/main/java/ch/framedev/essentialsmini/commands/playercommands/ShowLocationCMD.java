@@ -42,7 +42,7 @@ public class ShowLocationCMD implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("showlocation")) {
             if (sender instanceof Player) {
-                if (sender.hasPermission(plugin.getPermissionName() + "showlocation")) {
+                if (sender.hasPermission(plugin.getPermissionBase() + "showlocation")) {
                     if (args.length == 0) {
                         Player player = (Player) sender;
                         Location location = player.getLocation();
@@ -79,7 +79,7 @@ public class ShowLocationCMD implements CommandExecutor, TabCompleter {
                 sender.sendMessage(plugin.getPrefix() + plugin.getOnlyPlayer());
             }
         } else if (command.getName().equalsIgnoreCase("position")) {
-            if (sender.hasPermission(plugin.getPermissionName() + "position")) {
+            if (sender.hasPermission(plugin.getPermissionBase() + "position")) {
                 if (args.length == 1) {
                     if (sender instanceof Player) {
                         Player player = (Player) sender;
@@ -144,7 +144,7 @@ public class ShowLocationCMD implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("position")) {
-            if (sender.hasPermission(plugin.getPermissionName() + "position")) {
+            if (sender.hasPermission(plugin.getPermissionBase() + "position")) {
                 if (args.length == 1) {
                     ArrayList<String> empty = new ArrayList<>();
                     ConfigurationSection cs = new LocationsManager().getCfg().getConfigurationSection("position");

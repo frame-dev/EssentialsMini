@@ -35,7 +35,7 @@ public class BackUpCMD extends CommandBase {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("backup")) {
-            if (sender.hasPermission(plugin.getPermissionName() + "backup")) {
+            if (sender.hasPermission(plugin.getPermissionBase() + "backup")) {
                 try {
                     backup();
                 } catch (IOException e) {

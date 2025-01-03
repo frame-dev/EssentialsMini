@@ -57,7 +57,7 @@ public class TeleportCMD implements CommandExecutor, Listener {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("tptoggle")) {
             if (sender instanceof Player player) {
-                if (player.hasPermission(plugin.getPermissionName() + "tptoggle")) {
+                if (player.hasPermission(plugin.getPermissionBase() + "tptoggle")) {
                     if (tpToggle.contains(player)) {
                         tpToggle.remove(player);
                         player.sendMessage(plugin.getPrefix() + "§aPlayers can now Teleport to you or send you a Tpa Request!");
@@ -104,7 +104,7 @@ public class TeleportCMD implements CommandExecutor, Listener {
                                 ablehnen.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("§cDeny Tpa Request!")));
                                 target.spigot().sendMessage(baseComponent);
                                 target.spigot().sendMessage(ablehnen);
-                            } else if (sender.hasPermission(plugin.getPermissionName() + "tptoggle.bypass")) {
+                            } else if (sender.hasPermission(plugin.getPermissionBase() + "tptoggle.bypass")) {
                                 tpRequest.put(target, (Player) sender);
                                 String send = plugin.getLanguageConfig(sender).getString("TpaMessages.TeleportSend");
                                 send = send.replace('&', '§');
@@ -234,7 +234,7 @@ public class TeleportCMD implements CommandExecutor, Listener {
                         ablehnen.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("§cDeny TpaHere Request!")));
                         target.spigot().sendMessage(baseComponent);
                         target.spigot().sendMessage(ablehnen);
-                    } else if (player.hasPermission(plugin.getPermissionName() + "tptoggle.bypass")) {
+                    } else if (player.hasPermission(plugin.getPermissionBase() + "tptoggle.bypass")) {
                         tpHereRequest.put(target, player);
                         String other = plugin.getLanguageConfig(player).getString(Variables.TP_MESSAGES + ".TpaHereTarget");
                         other = new TextUtils().replaceAndWithParagraph(other);

@@ -36,7 +36,7 @@ public class ExperienceCMD extends CommandBase {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 4) {
-            if (!sender.hasPermission(getPlugin().getPermissionName() + "xp")) {
+            if (!sender.hasPermission(getPlugin().getPermissionBase() + "xp")) {
                 sender.sendMessage(getPlugin().getPrefix() + getPlugin().getNoPerms());
                 new AdminBroadCast(this, "§cNo Permissions!", sender);
                 return true;
@@ -54,9 +54,17 @@ public class ExperienceCMD extends CommandBase {
                     return true;
                 }
                 String xpMessage = getPlugin().getCustomMessagesConfig().getString(Variables.EXPERIENCE + ".Self.XP");
+                if(xpMessage == null) {
+                    player.sendMessage(getPlugin().getPrefix() + "§cConfig 'Experience.Self.XP' not found! Please contact the Admin!");
+                    return true;
+                }
                 xpMessage = textUtils.replaceAndWithParagraph(xpMessage);
                 xpMessage = textUtils.replaceObject(xpMessage, "%XP%", amount + "");
                 String levelMessage = getPlugin().getCustomMessagesConfig().getString(Variables.EXPERIENCE + ".Self.Level");
+                if(levelMessage == null) {
+                    player.sendMessage(getPlugin().getPrefix() + "§cConfig 'Experience.Self.Level' not found! Please contact the Admin!");
+                    return true;
+                }
                 levelMessage = textUtils.replaceAndWithParagraph(levelMessage);
                 levelMessage = textUtils.replaceObject(levelMessage, "%Level%", amount + "");
                 if (args[3].equalsIgnoreCase("level")) {
@@ -79,9 +87,17 @@ public class ExperienceCMD extends CommandBase {
                 int level = player.getLevel();
                 level += amount;
                 String xpMessage = getPlugin().getCustomMessagesConfig().getString(Variables.EXPERIENCE + ".Self.XP");
+                if(xpMessage == null) {
+                    player.sendMessage(getPlugin().getPrefix() + "§cConfig 'Experience.Self.XP' not found! Please contact the Admin!");
+                    return true;
+                }
                 xpMessage = textUtils.replaceAndWithParagraph(xpMessage);
                 xpMessage = textUtils.replaceObject(xpMessage, "%XP%", player.getTotalExperience() + amount + "");
                 String levelMessage = getPlugin().getCustomMessagesConfig().getString(Variables.EXPERIENCE + ".Self.Level");
+                if(levelMessage == null) {
+                    player.sendMessage(getPlugin().getPrefix() + "§cConfig 'Experience.Self.Level' not found! Please contact the Admin!");
+                    return true;
+                }
                 levelMessage = textUtils.replaceAndWithParagraph(levelMessage);
                 levelMessage = textUtils.replaceObject(levelMessage, "%Level%", level + "");
                 if (args[3].equalsIgnoreCase("level")) {
@@ -101,12 +117,11 @@ public class ExperienceCMD extends CommandBase {
                 }
                 int level = player.getLevel();
                 level -= amount;
-                int xp = player.getTotalExperience();
-                xp -= amount;
-                String xpMessage = getPlugin().getCustomMessagesConfig().getString(Variables.EXPERIENCE + ".Self.XP");
-                xpMessage = textUtils.replaceAndWithParagraph(xpMessage);
-                xpMessage = textUtils.replaceObject(xpMessage, "%XP%", xp + "");
                 String levelMessage = getPlugin().getCustomMessagesConfig().getString(Variables.EXPERIENCE + ".Self.Level");
+                if(levelMessage == null) {
+                    player.sendMessage(getPlugin().getPrefix() + "§cConfig 'Experience.Self.Level' not found! Please contact the Admin!");
+                    return true;
+                }
                 levelMessage = textUtils.replaceAndWithParagraph(levelMessage);
                 levelMessage = textUtils.replaceObject(levelMessage, "%Level%", level + "");
                 if (args[3].equalsIgnoreCase("level")) {
@@ -130,9 +145,17 @@ public class ExperienceCMD extends CommandBase {
                 int xp = target.getTotalExperience();
                 xp += amount;
                 String xpMessage = getPlugin().getCustomMessagesConfig().getString(Variables.EXPERIENCE + ".Self.XP");
+                if(xpMessage == null) {
+                    player.sendMessage(getPlugin().getPrefix() + "§cConfig 'Experience.Self.XP' not found! Please contact the Admin!");
+                    return true;
+                }
                 xpMessage = textUtils.replaceAndWithParagraph(xpMessage);
                 xpMessage = textUtils.replaceObject(xpMessage, "%XP%", xp + "");
                 String levelMessage = getPlugin().getCustomMessagesConfig().getString(Variables.EXPERIENCE + ".Self.Level");
+                if(levelMessage == null) {
+                    player.sendMessage(getPlugin().getPrefix() + "§cConfig 'Experience.Self.Level' not found! Please contact the Admin!");
+                    return true;
+                }
                 levelMessage = textUtils.replaceAndWithParagraph(levelMessage);
                 levelMessage = textUtils.replaceObject(levelMessage, "%Level%", level + "");
                 if (args[3].equalsIgnoreCase("level")) {
@@ -165,12 +188,12 @@ public class ExperienceCMD extends CommandBase {
             Collections.sort(empty);
             return empty;
         } else if (args.length == 4) {
-            List<String> cmds = new ArrayList<>();
-            cmds.add("level");
+            List<String> argFourCommands = new ArrayList<>();
+            argFourCommands.add("level");
             if (!args[0].equalsIgnoreCase("remove"))
-                cmds.add("xp");
+                argFourCommands.add("xp");
             List<String> empty = new ArrayList<>();
-            for (String s : cmds) {
+            for (String s : argFourCommands) {
                 if (s.toLowerCase().startsWith(args[3].toLowerCase()))
                     empty.add(s);
             }

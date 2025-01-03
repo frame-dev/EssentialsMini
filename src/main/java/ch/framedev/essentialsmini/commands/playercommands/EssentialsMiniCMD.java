@@ -5,6 +5,7 @@ import ch.framedev.essentialsmini.abstracts.CommandBase;
 import ch.framedev.essentialsmini.utils.AdminBroadCast;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -167,40 +168,17 @@ public class EssentialsMiniCMD extends CommandBase {
         if (command.getName().equalsIgnoreCase("essentialsmini")) {
             if (args.length == 1) {
                 if (sender.hasPermission("essentialsmini.utils")) {
-                    ArrayList<String> cmds = new ArrayList<>();
-                    ArrayList<String> empty = new ArrayList<>();
-                    cmds.add("backupmessages");
-                    cmds.add("autorestart");
-                    cmds.add("reload");
-                    cmds.add("back");
-                    cmds.add("backpack");
-                    cmds.add("saveinventory");
-                    cmds.add("skipnight");
-                    cmds.add("spawntp");
-                    cmds.add("showlocation");
-                    cmds.add("showcrafting");
-                    cmds.add("showitem");
-                    cmds.add("position");
-                    cmds.add("jsonformat");
-                    cmds.add("worldbackup");
-                    cmds.add("economy");
-                    cmds.add("info");
-                    cmds.add("onlyessentials");
-                    for (String s : cmds) {
-                        if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
-                            empty.add(s);
-                        }
-                    }
+                    ArrayList<String> empty = getCommandsList(args);
                     Collections.sort(empty);
                     return empty;
                 }
             } else if (args.length == 2) {
                 if (!args[0].equalsIgnoreCase("reload") && !args[0].equalsIgnoreCase("info")) {
-                    ArrayList<String> cmds = new ArrayList<>();
+                    ArrayList<String> commands = new ArrayList<>();
                     ArrayList<String> empty = new ArrayList<>();
-                    cmds.add("true");
-                    cmds.add("false");
-                    for (String s : cmds) {
+                    commands.add("true");
+                    commands.add("false");
+                    for (String s : commands) {
                         if (s.toLowerCase().startsWith(args[1].toLowerCase())) {
                             empty.add(s);
                         }
@@ -211,5 +189,33 @@ public class EssentialsMiniCMD extends CommandBase {
             }
         }
         return super.onTabComplete(sender, command, alias, args);
+    }
+
+    private static @NotNull ArrayList<String> getCommandsList(String[] args) {
+        ArrayList<String> commands = new ArrayList<>();
+        ArrayList<String> empty = new ArrayList<>();
+        commands.add("backupmessages");
+        commands.add("autorestart");
+        commands.add("reload");
+        commands.add("back");
+        commands.add("backpack");
+        commands.add("saveinventory");
+        commands.add("skipnight");
+        commands.add("spawntp");
+        commands.add("showlocation");
+        commands.add("showcrafting");
+        commands.add("showitem");
+        commands.add("position");
+        commands.add("jsonformat");
+        commands.add("worldbackup");
+        commands.add("economy");
+        commands.add("info");
+        commands.add("onlyessentials");
+        for (String s : commands) {
+            if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
+                empty.add(s);
+            }
+        }
+        return empty;
     }
 }

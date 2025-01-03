@@ -1,144 +1,162 @@
 package ch.framedev.essentialsmini.utils;
 
-
-/*
- * ===================================================
- * This File was Created by FrameDev
- * Please do not change anything without my consent!
- * ===================================================
- * This Class was created at 16.08.2020 22:21
- */
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import com.google.gson.*;
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import java.util.concurrent.*;
 import java.util.function.Consumer;
 
+/**
+ * Modern UUIDFetcher for Mojang API
+ * Fetches UUIDs and Player Names via Mojang API.
+ * Compatible with Java 11+.
+ */
 public class UUIDFetcher {
 
-    /**
-     * Date when name changes were introduced
-     *
-     * @see UUIDFetcher#getUUIDAt(String, long)
-     */
+    // ✅ Constants
     public static final long FEBRUARY_2015 = 1422748800000L;
-
-
-    private static final Gson gson = new GsonBuilder().create();
-
     private static final String UUID_URL = "https://api.mojang.com/users/profiles/minecraft/%s?at=%d";
     private static final String NAME_URL = "https://api.mojang.com/user/profiles/%s/names";
 
-    private static final Map<String, UUID> uuidCache = new HashMap<>();
-    private static final Map<UUID, String> nameCache = new HashMap<>();
+    // ✅ Gson Instance
+    private static final Gson gson = new GsonBuilder().create();
 
-    private static final ExecutorService pool = Executors.newCachedThreadPool();
+    // ✅ Caches for Performance
+    private static final Map<String, UUID> uuidCache = new ConcurrentHashMap<>();
+    private static final Map<UUID, String> nameCache = new ConcurrentHashMap<>();
 
-    private String name;
-    private UUID id;
+    // ✅ Thread Pool for Asynchronous Requests
+    private static final ExecutorService pool = Executors.newFixedThreadPool(10);
 
-    /**
-     * Fetches the uuid asynchronously and passes it to the consumer
-     *
-     * @param name   The name
-     * @param action Do what you want to do with the uuid her
-     */
+    // ------------------------------------------
+    // ✅ ASYNCHRONOUS UUID FETCHING
+    // ------------------------------------------
     public static void getUUID(String name, Consumer<UUID> action) {
         pool.execute(() -> action.accept(getUUID(name)));
     }
 
-    /**
-     * Fetches the uuid synchronously and returns it
-     *
-     * @param name The name
-     * @return The uuid
-     */
-    public static UUID getUUID(String name) {
-        return getUUIDAt(name, System.currentTimeMillis());
-    }
-
-    /**
-     * Fetches the uuid synchronously for a specified name and time and passes the result to the consumer
-     *
-     * @param name      The name
-     * @param timestamp Time when the player had this name in milliseconds
-     * @param action    Do what you want to do with the uuid her
-     */
     public static void getUUIDAt(String name, long timestamp, Consumer<UUID> action) {
         pool.execute(() -> action.accept(getUUIDAt(name, timestamp)));
     }
 
-    /**
-     * Fetches the uuid synchronously for a specified name and time
-     *
-     * @param name      The name
-     * @param timestamp Time when the player had this name in milliseconds
-     * @see UUIDFetcher#FEBRUARY_2015
-     */
+    // ------------------------------------------
+    // ✅ SYNCHRONOUS UUID FETCHING
+    // ------------------------------------------
+    public static UUID getUUID(String name) {
+        return getUUIDAt(name, System.currentTimeMillis());
+    }
+
     public static UUID getUUIDAt(String name, long timestamp) {
         name = name.toLowerCase();
+
+        // Check Cache
         if (uuidCache.containsKey(name)) {
             return uuidCache.get(name);
         }
+
         try {
-            HttpURLConnection connection = (HttpURLConnection) new URL(String.format(UUID_URL, name, timestamp / 1000)).openConnection();
-            connection.setReadTimeout(5000);
-            UUIDFetcher data = gson.fromJson(new BufferedReader(new InputStreamReader(connection.getInputStream())), UUIDFetcher.class);
+            URL url = new URL(String.format(UUID_URL, name, timestamp / 1000));
+            HttpURLConnection connection = createConnection(url);
 
-            uuidCache.put(name, data.id);
-            nameCache.put(data.id, data.name);
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                JsonObject response = gson.fromJson(reader, JsonObject.class);
 
-            return data.id;
-        } catch (Exception e) {
-            e.printStackTrace();
+                if (response == null || !response.has("id")) {
+                    throw new IllegalArgumentException("Invalid response from Mojang API");
+                }
+
+                String uuidString = response.get("id").getAsString();
+                UUID uuid = formatUUID(uuidString);
+
+                // Update Cache
+                uuidCache.put(name, uuid);
+                nameCache.put(uuid, name);
+
+                return uuid;
+            }
+        } catch (IOException e) {
+            System.err.println("Failed to fetch UUID for " + name + ": " + e.getMessage());
         }
-
         return null;
     }
 
-    /**
-     * Fetches the name asynchronously and passes it to the consumer
-     *
-     * @param uuid   The uuid
-     * @param action Do what you want to do with the name her
-     */
+    // ------------------------------------------
+    // ✅ ASYNCHRONOUS NAME FETCHING
+    // ------------------------------------------
     public static void getName(UUID uuid, Consumer<String> action) {
         pool.execute(() -> action.accept(getName(uuid)));
     }
 
-    /**
-     * Fetches the name synchronously and returns it
-     *
-     * @param uuid The uuid
-     * @return The name
-     */
+    // ------------------------------------------
+    // ✅ SYNCHRONOUS NAME FETCHING
+    // ------------------------------------------
     public static String getName(UUID uuid) {
+        // Check Cache
         if (nameCache.containsKey(uuid)) {
             return nameCache.get(uuid);
         }
+
         try {
-            HttpURLConnection connection = (HttpURLConnection) new URL(String.format(NAME_URL, uuid)).openConnection();
-            connection.setReadTimeout(5000);
-            UUIDFetcher[] nameHistory = gson.fromJson(new BufferedReader(new InputStreamReader(connection.getInputStream())), UUIDFetcher[].class);
-            UUIDFetcher currentNameData = nameHistory[nameHistory.length - 1];
+            URL url = new URL(String.format(NAME_URL, uuid.toString().replace("-", "")));
+            HttpURLConnection connection = createConnection(url);
 
-            uuidCache.put(currentNameData.name.toLowerCase(), uuid);
-            nameCache.put(uuid, currentNameData.name);
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                JsonArray nameHistory = gson.fromJson(reader, JsonArray.class);
 
-            return currentNameData.name;
-        } catch (Exception e) {
-            e.printStackTrace();
+                if (nameHistory == null || nameHistory.size() == 0) {
+                    throw new IllegalArgumentException("Invalid response from Mojang API");
+                }
+
+                JsonObject latestName = nameHistory.get(nameHistory.size() - 1).getAsJsonObject();
+                String playerName = latestName.get("name").getAsString();
+
+                // Update Cache
+                nameCache.put(uuid, playerName);
+                uuidCache.put(playerName.toLowerCase(), uuid);
+
+                return playerName;
+            }
+        } catch (IOException e) {
+            System.err.println("Failed to fetch Name for UUID " + uuid + ": " + e.getMessage());
         }
-
         return null;
+    }
+
+    // ------------------------------------------
+    // ✅ HELPER METHODS
+    // ------------------------------------------
+
+    private static HttpURLConnection createConnection(URL url) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setConnectTimeout(5000); // 5 seconds
+        connection.setReadTimeout(5000); // 5 seconds
+        connection.setDoOutput(true);
+        return connection;
+    }
+
+    private static UUID formatUUID(String uuidString) {
+        return UUID.fromString(
+                uuidString.replaceFirst(
+                        "(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})",
+                        "$1-$2-$3-$4-$5"
+                )
+        );
+    }
+
+    // ------------------------------------------
+    // ✅ GRACEFUL SHUTDOWN
+    // ------------------------------------------
+    public static void shutdown() {
+        pool.shutdown();
+        try {
+            if (!pool.awaitTermination(5, TimeUnit.SECONDS)) {
+                pool.shutdownNow();
+            }
+        } catch (InterruptedException ex) {
+            pool.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
     }
 }

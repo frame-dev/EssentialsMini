@@ -45,11 +45,19 @@ public class VanishCMD extends CommandListenerBase {
                             });
                             hided.remove(player.getName());
                             String message = plugin.getLanguageConfig(player).getString("VanishOff.Single");
+                            if(message == null) {
+                                player.sendMessage(plugin.getPrefix() + "§cConfig 'VanishOff.Single' not found!");
+                                return true;
+                            }
                             if (message.contains("&"))
                                 message = new TextUtils().replaceAndWithParagraph(message);
                             player.sendMessage(plugin.getPrefix() + message);
                             if (plugin.getConfig().getBoolean("Vanish.Message")) {
                                 String joinMessage = plugin.getConfig().getString("JoinMessage");
+                                if(joinMessage == null) {
+                                    player.sendMessage(plugin.getPrefix() + "§cConfig 'JoinMessage' not found!");
+                                    return true;
+                                }
                                 if (joinMessage.contains("&"))
                                     joinMessage = joinMessage.replace('&', '§');
                                 if (joinMessage.contains("%Player%"))
@@ -65,11 +73,19 @@ public class VanishCMD extends CommandListenerBase {
                             });
                             hided.add(player.getName());
                             String message = plugin.getLanguageConfig(player).getString("VanishOn.Single");
+                            if(message == null) {
+                                player.sendMessage(plugin.getPrefix() + "§cConfig 'VanishOn.Single' not found!");
+                                return true;
+                            }
                             if (message.contains("&"))
                                 message = new TextUtils().replaceAndWithParagraph(message);
                             player.sendMessage(plugin.getPrefix() + message);
                             if (plugin.getConfig().getBoolean("Vanish.Message")) {
                                 String leaveMessage = plugin.getConfig().getString("LeaveMessage");
+                                if(leaveMessage == null) {
+                                    player.sendMessage(plugin.getPrefix() + "§cConfig 'LeaveMessage' not found!");
+                                    return true;
+                                }
                                 if (leaveMessage.contains("&"))
                                     leaveMessage = leaveMessage.replace('&', '§');
                                 if (leaveMessage.contains("%Player%"))
@@ -90,9 +106,17 @@ public class VanishCMD extends CommandListenerBase {
                             });
                             hided.remove(target.getName());
                             String message = plugin.getLanguageConfig(sender).getString("VanishOff.Single");
+                            if(message == null) {
+                                sender.sendMessage(plugin.getPrefix() + "§cConfig 'VanishOff.Single' not found!");
+                                return true;
+                            }
                             if (message.contains("&"))
                                 message = new TextUtils().replaceAndWithParagraph(message);
                             String playerMessage = plugin.getLanguageConfig(sender).getString("VanishOff.Multi");
+                            if(playerMessage == null) {
+                                sender.sendMessage(plugin.getPrefix() + "§cConfig 'VanishOff.Multi' not found!");
+                                return true;
+                            }
                             if (playerMessage.contains("%Player%"))
                                 playerMessage = playerMessage.replace("%Player%", target.getName());
                             if (playerMessage.contains("&")) playerMessage = playerMessage.replace('&', '§');
@@ -109,9 +133,17 @@ public class VanishCMD extends CommandListenerBase {
                             });
                             hided.add(target.getName());
                             String message = plugin.getLanguageConfig(sender).getString("VanishOn.Single");
+                            if(message == null) {
+                                sender.sendMessage(plugin.getPrefix() + "§cConfig 'VanishOn.Single' not found!");
+                                return true;
+                            }
                             if (message.contains("&"))
                                 message = new TextUtils().replaceAndWithParagraph(message);
                             String playerMessage = plugin.getLanguageConfig(sender).getString("VanishOn.Multi");
+                            if(playerMessage == null) {
+                                sender.sendMessage(plugin.getPrefix() + "§cConfig 'VanishOn.Multi' not found!");
+                                return true;
+                            }
                             if (playerMessage.contains("%Player%"))
                                 playerMessage = playerMessage.replace("%Player%", target.getName());
                             if (playerMessage.contains("&")) playerMessage = playerMessage.replace('&', '§');
@@ -136,9 +168,12 @@ public class VanishCMD extends CommandListenerBase {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
         for (String vanish : hided) {
-            if (!event.getPlayer().hasPermission("essentialsmini.vanish.see")) {
-                event.getPlayer().hidePlayer(plugin, Objects.requireNonNull(Bukkit.getPlayer(vanish)));
+            Player vanishPlayer = Bukkit.getPlayer(vanish);
+            if(vanishPlayer == null) return;
+            if (!player.hasPermission("essentialsmini.vanish.see")) {
+                player.hidePlayer(plugin, vanishPlayer);
             }
         }
     }

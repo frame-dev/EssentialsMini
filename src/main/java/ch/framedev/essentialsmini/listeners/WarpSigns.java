@@ -4,6 +4,7 @@ import ch.framedev.essentialsmini.managers.LocationsManager;
 import ch.framedev.essentialsmini.main.Main;
 import ch.framedev.essentialsmini.abstracts.ListenerBase;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,21 +29,34 @@ public class WarpSigns extends ListenerBase {
 
     @EventHandler
     public void onSignChange(SignChangeEvent event) {
-        if (event.getLine(0) == null) return;
-        if (event.getLine(1) == null) return;
-        if (event.getLine(0).equalsIgnoreCase("warp")) {
+        String line = event.getLine(0);
+        String line1 = event.getLine(1);
+        if (line == null) return;
+        if (line1 == null) return;
+        if (line.equalsIgnoreCase("warp")) {
             if (event.getPlayer().hasPermission("essentialsmini.signs.create")) {
                 boolean success = false;
                 for (String location : new LocationsManager().getWarpNames()) {
                     if (location == null) continue;
-                    if (event.getLine(1).equalsIgnoreCase(location)) {
+                    if (line1.equalsIgnoreCase(location)) {
                         event.setLine(0, "§6[§bWARP§6]");
                         event.setLine(1, "§a" + location);
                         success = true;
                     }
                 }
-                if (!success)
-                    event.getPlayer().sendMessage(getPlugin().getPrefix() + "§cDieser Warp existiert nicht!");
+                if (!success) {
+                    if(getPlugin().getCustomMessagesConfig().getString("Warp.NotExist") != null) {
+                        String message = getPlugin().getCustomMessagesConfig().getString("Warp.NotExist");
+                        if(message == null) return;
+                        if (message.contains("&"))
+                            message = message.replace('&', '§');
+                        if (message.contains("%WarpName%"))
+                            message = message.replace("%WarpName%", line1);
+                        event.getPlayer().sendMessage(getPlugin().getPrefix() + message);
+                    } else {
+                        event.getPlayer().sendMessage(getPlugin().getPrefix() + "§cDieser Warp existiert nicht!");
+                    }
+                }
             } else {
                 event.getPlayer().sendMessage(getPlugin().getPrefix() + getPlugin().getNoPerms());
             }
@@ -55,10 +69,14 @@ public class WarpSigns extends ListenerBase {
             if (event.getHand() == EquipmentSlot.OFF_HAND) {
                 return;
             }
+            Block block = event.getClickedBlock();
+            if(block == null) return;
+            EquipmentSlot equipmentSlot = event.getHand();
+            if(equipmentSlot == null) return;
             if (event.getHand().equals(EquipmentSlot.HAND) &&
                     event.getClickedBlock().getState() instanceof Sign) {
                 Sign s = (Sign) event.getClickedBlock().getState();
-                String[] lines = s.getLines();
+                String[] lines = s.getTargetSide(event.getPlayer()).getLines();
                 if (lines[0].equalsIgnoreCase("§6[§bWARP§6]")) {
                     if (event.getPlayer().hasPermission("essentialsmini.signs.use")) {
                         String warpName = lines[1].replace("§a", "");
@@ -67,6 +85,7 @@ public class WarpSigns extends ListenerBase {
                             event.getPlayer().teleport(location);
                             Player player = event.getPlayer();
                             String message = getPlugin().getCustomMessagesConfig().getString("Warp.Teleport");
+                            if(message == null) return;
                             if (message.contains("&"))
                                 message = message.replace('&', '§');
                             if (message.contains("%WarpName%"))

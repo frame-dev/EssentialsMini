@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,7 +25,7 @@ import java.util.List;
 public class KillCMD extends CommandBase {
 
     private final Main plugin;
-    public static boolean suicid = false;
+    public static final List<Player> suicidPlayers = new ArrayList<>();
 
     public KillCMD(Main plugin) {
         super(plugin, "killall", "suicid");
@@ -34,7 +35,7 @@ public class KillCMD extends CommandBase {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("killall")) {
-            if (sender.hasPermission(new Permission(plugin.getPermissionName() + "killall", PermissionDefault.OP))) {
+            if (sender.hasPermission(new Permission(plugin.getPermissionBase() + "killall", PermissionDefault.OP))) {
                 if (args.length == 1) {
                     if (sender instanceof Player) {
                         Player player = (Player) sender;
@@ -79,9 +80,10 @@ public class KillCMD extends CommandBase {
         }
         if (command.getName().equalsIgnoreCase("suicid")) {
             if(args.length == 0) {
-                if (sender.hasPermission(plugin.getPermissionName() + "suicid")) {
+                if (sender.hasPermission(plugin.getPermissionBase() + "suicid")) {
                     if (sender instanceof Player) {
-                        suicid = true;
+                        if(!suicidPlayers.contains((Player) sender))
+                            suicidPlayers.add((Player) sender);
                         ((Player) sender).setHealth(0);
                         ((Player) sender).setFoodLevel(0);
                         ((Player) sender).getWorld().getPlayers().forEach(players -> players.sendMessage("§6" + sender.getName() + " §ahat Suicid begangen!"));
@@ -93,13 +95,14 @@ public class KillCMD extends CommandBase {
                     new AdminBroadCast("suicid","§cNo Permissions!", sender);
                 }
             } else if(args.length == 1) {
-                if(sender.hasPermission(plugin.getPermissionName() + "suicid.others")) {
+                if(sender.hasPermission(plugin.getPermissionBase() + "suicid.others")) {
                     Player player = Bukkit.getPlayer(args[0]);
                     if(player == null) {
                         sender.sendMessage(plugin.getPrefix() + plugin.getVariables().getPlayerNameNotOnline(args[0]));
                         return true;
                     }
-                    suicid = true;
+                    if(!suicidPlayers.contains(player))
+                        suicidPlayers.add(player);
                     player.setHealth(0);
                     player.setFoodLevel(0);
                     player.getWorld().getPlayers().forEach(players -> players.sendMessage("§6" + player.getName() + " §ahat Suicid begangen!"));
@@ -116,24 +119,29 @@ public class KillCMD extends CommandBase {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("killall")) {
-            if (sender.hasPermission(plugin.getPermissionName() + "killall")) {
+            if (sender.hasPermission(plugin.getPermissionBase() + "killall")) {
                 if (args.length == 1) {
-                    ArrayList<String> cmds = new ArrayList<>();
-                    ArrayList<String> empty = new ArrayList<>();
-                    cmds.add("items");
-                    cmds.add("players");
-                    cmds.add("mobs");
-                    cmds.add("animals");
-                    for (String s : cmds) {
-                        if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
-                            empty.add(s);
-                        }
-                    }
+                    ArrayList<String> empty = getCommands(args);
                     Collections.sort(empty);
                     return empty;
                 }
             }
         }
         return null;
+    }
+
+    private static @NotNull ArrayList<String> getCommands(String[] args) {
+        ArrayList<String> commands = new ArrayList<>();
+        ArrayList<String> empty = new ArrayList<>();
+        commands.add("items");
+        commands.add("players");
+        commands.add("mobs");
+        commands.add("animals");
+        for (String s : commands) {
+            if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
+                empty.add(s);
+            }
+        }
+        return empty;
     }
 }

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * / This Plugin was Created by FrameDev
- * / Package : de.framedev.essentialsmini.managers
+ * / Package: de.framedev.essentialsmini.managers
  * / ClassName CommandListenerBase
  * / Date: 24.08.21
  * / Project: EssentialsMini

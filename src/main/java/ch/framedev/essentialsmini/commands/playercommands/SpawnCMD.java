@@ -41,7 +41,7 @@ public class SpawnCMD implements CommandExecutor {
             }
         }
         if (command.getName().equalsIgnoreCase("spawn")) {
-            if(sender.hasPermission(plugin.getPermissionName() + "spawn")) {
+            if(sender.hasPermission(plugin.getPermissionBase() + "spawn")) {
                 if (sender instanceof Player) {
                     try {
                         ((Player) sender).teleport(new LocationsManager("spawn").getLocation());

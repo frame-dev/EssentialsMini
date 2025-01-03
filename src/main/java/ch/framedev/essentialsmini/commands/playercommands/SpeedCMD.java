@@ -32,7 +32,7 @@ public class SpeedCMD extends CommandBase {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1) {
             if (sender instanceof Player) {
-                if (sender.hasPermission(plugin.getPermissionName() + "speed")) {
+                if (sender.hasPermission(plugin.getPermissionBase() + "speed")) {
                     ((Player) sender).setWalkSpeed(Integer.parseInt(args[0]) / 10F);
                     int walkSpeed = Integer.parseInt(args[0]);
                     String message = plugin.getLanguageConfig(sender).getString("WalkSpeed");

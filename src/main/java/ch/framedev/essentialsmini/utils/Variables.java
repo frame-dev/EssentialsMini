@@ -2,7 +2,7 @@ package ch.framedev.essentialsmini.utils;
 
 
 /*
- * de.framedev.essentialsmin.utils
+ * de.framedev.essentialsmini.utils
  * ===================================================
  * This File was Created by FrameDev
  * Please do not change anything without my consent!
@@ -46,7 +46,7 @@ public class Variables {
         this.prefix = instance.getPrefix();
         this.onlyPlayer = instance.getOnlyPlayer();
         this.noPermission = instance.getNoPerms();
-        this.permissionBase = instance.getPermissionName();
+        this.permissionBase = instance.getPermissionBase();
         this.authors = instance.getDescription().getAuthors();
         this.version = instance.getDescription().getVersion();
         this.apiVersion = instance.getDescription().getAPIVersion();

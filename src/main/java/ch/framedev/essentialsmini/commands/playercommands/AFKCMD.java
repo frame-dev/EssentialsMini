@@ -22,13 +22,14 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Objects;
 
 /**
  * This Plugin was Created by FrameDev
- * Package : de.framedev.essentialsmin.commands
+ * Package : de.framedev.essentialsmini.commands
  * Date: 31.01.21
  * Project: EssentialsMini
  * Copyrighted by FrameDev
@@ -46,13 +47,13 @@ public class AFKCMD implements CommandExecutor {
         afkPlayerMap = new HashMap<>();
         afkTimeMap = new HashMap<>();
         int afkTime = plugin.getConfig().getInt("AFK.Time");
-        plugin.getCommand("afk").setExecutor(this);
+        Objects.requireNonNull(plugin.getCommand("afk")).setExecutor(this);
         new Events(plugin);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, new IdleTimer(plugin), (afkTime * 20L), (afkTime * 20L));
     }
 
     public static void putPlayerToAfkMap(String PlayerName) {
-        afkPlayerMap.put(PlayerName, Bukkit.getPlayer(PlayerName).getPlayerListName());
+        afkPlayerMap.put(PlayerName, Objects.requireNonNull(Bukkit.getPlayer(PlayerName)).getPlayerListName());
     }
 
     public static void removePlayerFromAfkMap(String playerName) {
@@ -64,8 +65,8 @@ public class AFKCMD implements CommandExecutor {
     }
 
     public static void putPlayerToTimeMap(String playerName) {
-        afkTimeMap.put(playerName, Bukkit.getPlayer(playerName).getPlayerTime());
-        Bukkit.getPlayer(playerName).resetPlayerTime();
+        afkTimeMap.put(playerName, Objects.requireNonNull(Bukkit.getPlayer(playerName)).getPlayerTime());
+        Objects.requireNonNull(Bukkit.getPlayer(playerName)).resetPlayerTime();
     }
 
     public static void removePlayerFromTimeMap(String playerName) {
@@ -81,10 +82,9 @@ public class AFKCMD implements CommandExecutor {
     }
 
 
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
-            if (player.hasPermission(plugin.getPermissionName() + "afk")) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
+        if (sender instanceof Player player) {
+            if (player.hasPermission(plugin.getPermissionBase() + "afk")) {
                 if (command.getName().equalsIgnoreCase("afk")) {
                     if (isPlayerAfk(player.getName())) {
                         afk(player, true, "");
@@ -102,16 +102,17 @@ public class AFKCMD implements CommandExecutor {
         return false;
     }
 
+    @SuppressWarnings({"unused", "deprecation"})
     public void afk(Player player, boolean afk, String reason) {
         String isAfkMessage = this.plugin.getConfig().getString("AFK.IsAFK");
         String notAfkMessage = this.plugin.getConfig().getString("AFK.IsNotAFK");
 
 
         if (afk) {
-            if (notAfkMessage.matches(".*\\[Time].*")) {
-                String afktime = returnAfkTime(player.getName());
+            if (notAfkMessage != null && notAfkMessage.matches(".*\\[Time].*")) {
+                String afkTime = returnAfkTime(player.getName());
                 notAfkMessage = notAfkMessage.replace("[Time]", "");
-                Bukkit.getPlayer(player.getName()).setPlayerListName(getAfkPlayerName(player.getName()));
+                Objects.requireNonNull(Bukkit.getPlayer(player.getName())).setPlayerListName(getAfkPlayerName(player.getName()));
                 removePlayerFromAfkMap(player.getName());
                 notAfkMessage = ReplaceCharConfig.replaceParagraph(notAfkMessage);
                 TextComponent tc = new TextComponent();
@@ -119,16 +120,7 @@ public class AFKCMD implements CommandExecutor {
                 tc.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, (new ComponentBuilder(player.getName())).create()));
                 notAfkMessage = ReplaceCharConfig.replaceObjectWithData(notAfkMessage, "[Player]", player.getName());
                 Bukkit.broadcastMessage(notAfkMessage);
-                Bukkit.getConsoleSender().sendMessage("§7" + player.getName() + " is no longer AFK " + afktime);
-            } else {
-                TextComponent tc = new TextComponent();
-                tc.setText(player.getName());
-                tc.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, (new ComponentBuilder(player.getName())).create()));
-                Bukkit.getPlayer(player.getName()).setPlayerListName(getAfkPlayerName(player.getName()));
-                removePlayerFromAfkMap(player.getName());
-                notAfkMessage = ReplaceCharConfig.replaceParagraph(notAfkMessage);
-                notAfkMessage = ReplaceCharConfig.replaceObjectWithData(notAfkMessage, "[Player]", player.getName());
-                Bukkit.broadcastMessage(notAfkMessage);
+                Bukkit.getConsoleSender().sendMessage("§7" + player.getName() + " is no longer AFK " + afkTime);
             }
         } else {
 
@@ -166,18 +158,20 @@ public class AFKCMD implements CommandExecutor {
         @EventHandler
         private void onPlayerMove(PlayerMoveEvent event) {
             if (AFKCMD.isPlayerAfk(event.getPlayer().getName())) {
-                int movX = event.getFrom().getBlockX() - event.getTo().getBlockX();
-                int movZ = event.getFrom().getBlockZ() - event.getTo().getBlockZ();
-                if (Math.abs(movX) > 0 || Math.abs(movZ) > 0) {
-                    AFKCMD.this.afk(event.getPlayer(), true, "");
+                Location toLocation = event.getTo();
+                if(toLocation != null) {
+                    int movX = event.getFrom().getBlockX() - toLocation.getBlockX();
+                    int movZ = event.getFrom().getBlockZ() - toLocation.getBlockZ();
+                    if (Math.abs(movX) > 0 || Math.abs(movZ) > 0) {
+                        AFKCMD.this.afk(event.getPlayer(), true, "");
+                    }
                 }
             }
         }
 
         @EventHandler
         public void onPlayerDamage(EntityDamageEvent event) {
-            if (event.getEntity() instanceof Player) {
-                Player player = (Player) event.getEntity();
+            if (event.getEntity() instanceof Player player) {
                 if (AFKCMD.isPlayerAfk(player.getName())) {
                     event.setCancelled(true);
                 }

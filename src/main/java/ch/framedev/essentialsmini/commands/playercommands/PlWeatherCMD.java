@@ -27,18 +27,11 @@ public class PlWeatherCMD extends CommandBase {
             Player player = (Player) sender;
             if (args.length == 1) {
                 String weather = args[0];
-                WeatherType effectiveWeather = null;
-                switch (weather) {
-                    case "sun":
-                    case "clear":
-                        effectiveWeather = WeatherType.CLEAR;
-                        break;
-                    case "downfall":
-                    case "rain":
-                    case "thunder":
-                        effectiveWeather = WeatherType.DOWNFALL;
-                        break;
-                }
+                WeatherType effectiveWeather = switch (weather) {
+                    case "sun", "clear" -> WeatherType.CLEAR;
+                    case "downfall", "rain", "thunder" -> WeatherType.DOWNFALL;
+                    default -> null;
+                };
                 if (effectiveWeather == null) {
                     player.sendMessage(getPrefix() + "§cThis Weather Type doesn't exist!");
                     return true;

@@ -43,6 +43,10 @@ public class GameModeCMD extends CommandBase {
                             switch (Integer.parseInt(args[0])) {
                                 case 0:
                                     player.setGameMode(GameMode.SURVIVAL);
+                                    if(gameModeChanged == null) {
+                                        player.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeChanged' not found! Please contact the Admin!");
+                                        return true;
+                                    }
                                     if (gameModeChanged.contains("%GameMode%"))
                                         gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.SURVIVAL.name());
                                     gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
@@ -50,6 +54,10 @@ public class GameModeCMD extends CommandBase {
                                     break;
                                 case 1:
                                     player.setGameMode(GameMode.CREATIVE);
+                                    if(gameModeChanged == null) {
+                                        player.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeChanged' not found! Please contact the Admin!");
+                                        return true;
+                                    }
                                     if (gameModeChanged.contains("%GameMode%"))
                                         gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.CREATIVE.name());
                                     gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
@@ -57,6 +65,10 @@ public class GameModeCMD extends CommandBase {
                                     break;
                                 case 2:
                                     player.setGameMode(GameMode.ADVENTURE);
+                                    if(gameModeChanged == null) {
+                                        player.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeChanged' not found! Please contact the Admin!");
+                                        return true;
+                                    }
                                     if (gameModeChanged.contains("%GameMode%"))
                                         gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.ADVENTURE.name());
                                     gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
@@ -64,6 +76,10 @@ public class GameModeCMD extends CommandBase {
                                     break;
                                 case 3:
                                     player.setGameMode(GameMode.SPECTATOR);
+                                    if(gameModeChanged == null) {
+                                        player.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeChanged' not found! Please contact the Admin!");
+                                        return true;
+                                    }
                                     if (gameModeChanged.contains("%GameMode%"))
                                         gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.SPECTATOR.name());
                                     gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
@@ -74,57 +90,45 @@ public class GameModeCMD extends CommandBase {
                             }
                         } catch (NumberFormatException ex) {
                             switch (args[0]) {
-                                case "survival":
+                                case "survival", "s":
                                     player.setGameMode(GameMode.SURVIVAL);
+                                    if(gameModeChanged == null) {
+                                        player.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeChanged' not found! Please contact the Admin!");
+                                        return true;
+                                    }
                                     if (gameModeChanged.contains("%GameMode%"))
                                         gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.SURVIVAL.name());
                                     gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
                                     player.sendMessage(plugin.getPrefix() + gameModeChanged);
                                     break;
-                                case "creative":
+                                case "creative", "c":
                                     player.setGameMode(GameMode.CREATIVE);
+                                    if(gameModeChanged == null) {
+                                        player.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeChanged' not found! Please contact the Admin!");
+                                        return true;
+                                    }
                                     if (gameModeChanged.contains("%GameMode%"))
                                         gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.CREATIVE.name());
                                     gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
                                     player.sendMessage(plugin.getPrefix() + gameModeChanged);
                                     break;
-                                case "adventure":
+                                case "adventure", "a":
                                     player.setGameMode(GameMode.ADVENTURE);
+                                    if(gameModeChanged == null) {
+                                        player.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeChanged' not found! Please contact the Admin!");
+                                        return true;
+                                    }
                                     if (gameModeChanged.contains("%GameMode%"))
                                         gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.ADVENTURE.name());
                                     gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
                                     player.sendMessage(plugin.getPrefix() + gameModeChanged);
                                     break;
-                                case "spectator":
+                                case "spectator", "sp":
                                     player.setGameMode(GameMode.SPECTATOR);
-                                    if (gameModeChanged.contains("%GameMode%"))
-                                        gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.SPECTATOR.name());
-                                    gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
-                                    player.sendMessage(plugin.getPrefix() + gameModeChanged);
-                                    break;
-                                case "s":
-                                    player.setGameMode(GameMode.SURVIVAL);
-                                    if (gameModeChanged.contains("%GameMode%"))
-                                        gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.SURVIVAL.name());
-                                    gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
-                                    player.sendMessage(plugin.getPrefix() + gameModeChanged);
-                                    break;
-                                case "c":
-                                    player.setGameMode(GameMode.CREATIVE);
-                                    if (gameModeChanged.contains("%GameMode%"))
-                                        gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.CREATIVE.name());
-                                    gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
-                                    player.sendMessage(plugin.getPrefix() + gameModeChanged);
-                                    break;
-                                case "a":
-                                    player.setGameMode(GameMode.ADVENTURE);
-                                    if (gameModeChanged.contains("%GameMode%"))
-                                        gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.ADVENTURE.name());
-                                    gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
-                                    player.sendMessage(plugin.getPrefix() + gameModeChanged);
-                                    break;
-                                case "sp":
-                                    player.setGameMode(GameMode.SPECTATOR);
+                                    if(gameModeChanged == null) {
+                                        player.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeChanged' not found! Please contact the Admin!");
+                                        return true;
+                                    }
                                     if (gameModeChanged.contains("%GameMode%"))
                                         gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.SPECTATOR.name());
                                     gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
@@ -152,10 +156,18 @@ public class GameModeCMD extends CommandBase {
                                 case 0:
                                     target.setGameMode(GameMode.SURVIVAL);
                                     if (!Main.getSilent().contains(sender.getName())) {
+                                        if(gameModeChanged == null) {
+                                            sender.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeChanged' not found! Please contact the Admin!");
+                                            return true;
+                                        }
                                         if (gameModeChanged.contains("%GameMode%"))
                                             gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.SURVIVAL.name());
                                         gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
                                         target.sendMessage(plugin.getPrefix() + gameModeChanged);
+                                    }
+                                    if(gameModeOtherChanged == null) {
+                                        sender.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeOtherChanged' not found! Please contact the Admin!");
+                                        return true;
                                     }
                                     if (gameModeOtherChanged.contains("%Player%"))
                                         gameModeOtherChanged = gameModeOtherChanged.replace("%Player%", target.getName());
@@ -167,10 +179,18 @@ public class GameModeCMD extends CommandBase {
                                 case 1:
                                     target.setGameMode(GameMode.CREATIVE);
                                     if (!Main.getSilent().contains(sender.getName())) {
+                                        if(gameModeChanged == null) {
+                                            sender.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeChanged' not found! Please contact the Admin!");
+                                            return true;
+                                        }
                                         if (gameModeChanged.contains("%GameMode%"))
                                             gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.CREATIVE.name());
                                         gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
                                         target.sendMessage(plugin.getPrefix() + gameModeChanged);
+                                    }
+                                    if(gameModeOtherChanged == null) {
+                                        sender.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeOtherChanged' not found! Please contact the Admin!");
+                                        return true;
                                     }
                                     if (gameModeOtherChanged.contains("%Player%"))
                                         gameModeOtherChanged = gameModeOtherChanged.replace("%Player%", target.getName());
@@ -182,10 +202,18 @@ public class GameModeCMD extends CommandBase {
                                 case 2:
                                     target.setGameMode(GameMode.ADVENTURE);
                                     if (!Main.getSilent().contains(sender.getName())) {
+                                        if(gameModeChanged == null) {
+                                            sender.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeChanged' not found! Please contact the Admin!");
+                                            return true;
+                                        }
                                         if (gameModeChanged.contains("%GameMode%"))
                                             gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.ADVENTURE.name());
                                         gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
                                         target.sendMessage(plugin.getPrefix() + gameModeChanged);
+                                    }
+                                    if(gameModeOtherChanged == null) {
+                                        sender.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeOtherChanged' not found! Please contact the Admin!");
+                                        return true;
                                     }
                                     if (gameModeOtherChanged.contains("%Player%"))
                                         gameModeOtherChanged = gameModeOtherChanged.replace("%Player%", target.getName());
@@ -197,10 +225,18 @@ public class GameModeCMD extends CommandBase {
                                 case 3:
                                     target.setGameMode(GameMode.SPECTATOR);
                                     if (!Main.getSilent().contains(sender.getName())) {
+                                        if(gameModeChanged == null) {
+                                            sender.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeChanged' not found! Please contact the Admin!");
+                                            return true;
+                                        }
                                         if (gameModeChanged.contains("%GameMode%"))
                                             gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.SPECTATOR.name());
                                         gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
                                         target.sendMessage(plugin.getPrefix() + gameModeChanged);
+                                    }
+                                    if(gameModeOtherChanged == null) {
+                                        sender.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeOtherChanged' not found! Please contact the Admin!");
+                                        return true;
                                     }
                                     if (gameModeOtherChanged.contains("%Player%"))
                                         gameModeOtherChanged = gameModeOtherChanged.replace("%Player%", target.getName());
@@ -214,13 +250,21 @@ public class GameModeCMD extends CommandBase {
                             }
                         } catch (NumberFormatException ex) {
                             switch (args[0]) {
-                                case "survival":
+                                case "survival", "s":
                                     target.setGameMode(GameMode.SURVIVAL);
                                     if (!Main.getSilent().contains(sender.getName())) {
+                                        if(gameModeChanged == null) {
+                                            sender.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeChanged' not found! Please contact the Admin!");
+                                            return true;
+                                        }
                                         if (gameModeChanged.contains("%GameMode%"))
                                             gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.SURVIVAL.name());
                                         gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
                                         target.sendMessage(plugin.getPrefix() + gameModeChanged);
+                                    }
+                                    if(gameModeOtherChanged == null) {
+                                        sender.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeOtherChanged' not found! Please contact the Admin!");
+                                        return true;
                                     }
                                     if (gameModeOtherChanged.contains("%Player%"))
                                         gameModeOtherChanged = gameModeOtherChanged.replace("%Player%", target.getName());
@@ -229,13 +273,21 @@ public class GameModeCMD extends CommandBase {
                                     gameModeOtherChanged = ReplaceCharConfig.replaceParagraph(gameModeOtherChanged);
                                     sender.sendMessage(plugin.getPrefix() + gameModeOtherChanged);
                                     break;
-                                case "creative":
+                                case "creative", "c":
                                     target.setGameMode(GameMode.CREATIVE);
                                     if (!Main.getSilent().contains(sender.getName())) {
+                                        if(gameModeChanged == null) {
+                                            sender.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeChanged' not found! Please contact the Admin!");
+                                            return true;
+                                        }
                                         if (gameModeChanged.contains("%GameMode%"))
                                             gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.CREATIVE.name());
                                         gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
                                         target.sendMessage(plugin.getPrefix() + gameModeChanged);
+                                    }
+                                    if(gameModeOtherChanged == null) {
+                                        sender.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeOtherChanged' not found! Please contact the Admin!");
+                                        return true;
                                     }
                                     if (gameModeOtherChanged.contains("%Player%"))
                                         gameModeOtherChanged = gameModeOtherChanged.replace("%Player%", target.getName());
@@ -244,13 +296,21 @@ public class GameModeCMD extends CommandBase {
                                     gameModeOtherChanged = ReplaceCharConfig.replaceParagraph(gameModeOtherChanged);
                                     sender.sendMessage(plugin.getPrefix() + gameModeOtherChanged);
                                     break;
-                                case "adventure":
+                                case "adventure", "a":
                                     target.setGameMode(GameMode.ADVENTURE);
                                     if (!Main.getSilent().contains(sender.getName())) {
+                                        if(gameModeChanged == null) {
+                                            sender.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeChanged' not found! Please contact the Admin!");
+                                            return true;
+                                        }
                                         if (gameModeChanged.contains("%GameMode%"))
                                             gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.ADVENTURE.name());
                                         gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
                                         target.sendMessage(plugin.getPrefix() + gameModeChanged);
+                                    }
+                                    if(gameModeOtherChanged == null) {
+                                        sender.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeOtherChanged' not found! Please contact the Admin!");
+                                        return true;
                                     }
                                     if (gameModeOtherChanged.contains("%Player%"))
                                         gameModeOtherChanged = gameModeOtherChanged.replace("%Player%", target.getName());
@@ -259,73 +319,21 @@ public class GameModeCMD extends CommandBase {
                                     gameModeOtherChanged = ReplaceCharConfig.replaceParagraph(gameModeOtherChanged);
                                     sender.sendMessage(plugin.getPrefix() + gameModeOtherChanged);
                                     break;
-                                case "spectator":
+                                case "spectator", "sp":
                                     target.setGameMode(GameMode.SPECTATOR);
                                     if (!Main.getSilent().contains(sender.getName())) {
+                                        if(gameModeChanged == null) {
+                                            sender.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeChanged' not found! Please contact the Admin!");
+                                            return true;
+                                        }
                                         if (gameModeChanged.contains("%GameMode%"))
                                             gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.SPECTATOR.name());
                                         gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
                                         target.sendMessage(plugin.getPrefix() + gameModeChanged);
                                     }
-                                    if (gameModeOtherChanged.contains("%Player%"))
-                                        gameModeOtherChanged = gameModeOtherChanged.replace("%Player%", target.getName());
-                                    if (gameModeOtherChanged.contains("%GameMode%"))
-                                        gameModeOtherChanged = gameModeOtherChanged.replace("%GameMode%", GameMode.SPECTATOR.name());
-                                    gameModeOtherChanged = ReplaceCharConfig.replaceParagraph(gameModeOtherChanged);
-                                    sender.sendMessage(plugin.getPrefix() + gameModeOtherChanged);
-                                    break;
-                                case "s":
-                                    target.setGameMode(GameMode.SURVIVAL);
-                                    if (!Main.getSilent().contains(sender.getName())) {
-                                        if (gameModeChanged.contains("%GameMode%"))
-                                            gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.SURVIVAL.name());
-                                        gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
-                                        target.sendMessage(plugin.getPrefix() + gameModeChanged);
-                                    }
-                                    if (gameModeOtherChanged.contains("%Player%"))
-                                        gameModeOtherChanged = gameModeOtherChanged.replace("%Player%", target.getName());
-                                    if (gameModeOtherChanged.contains("%GameMode%"))
-                                        gameModeOtherChanged = gameModeOtherChanged.replace("%GameMode%", GameMode.SURVIVAL.name());
-                                    gameModeOtherChanged = ReplaceCharConfig.replaceParagraph(gameModeOtherChanged);
-                                    sender.sendMessage(plugin.getPrefix() + gameModeOtherChanged);
-                                    break;
-                                case "c":
-                                    target.setGameMode(GameMode.CREATIVE);
-                                    if (!Main.getSilent().contains(sender.getName())) {
-                                        if (gameModeChanged.contains("%GameMode%"))
-                                            gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.CREATIVE.name());
-                                        gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
-                                        target.sendMessage(plugin.getPrefix() + gameModeChanged);
-                                    }
-                                    if (gameModeOtherChanged.contains("%Player%"))
-                                        gameModeOtherChanged = gameModeOtherChanged.replace("%Player%", target.getName());
-                                    if (gameModeOtherChanged.contains("%GameMode%"))
-                                        gameModeOtherChanged = gameModeOtherChanged.replace("%GameMode%", GameMode.CREATIVE.name());
-                                    gameModeOtherChanged = ReplaceCharConfig.replaceParagraph(gameModeOtherChanged);
-                                    sender.sendMessage(plugin.getPrefix() + gameModeOtherChanged);
-                                    break;
-                                case "a":
-                                    target.setGameMode(GameMode.ADVENTURE);
-                                    if (!Main.getSilent().contains(sender.getName())) {
-                                        if (gameModeChanged.contains("%GameMode%"))
-                                            gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.ADVENTURE.name());
-                                        gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
-                                        target.sendMessage(plugin.getPrefix() + gameModeChanged);
-                                    }
-                                    if (gameModeOtherChanged.contains("%Player%"))
-                                        gameModeOtherChanged = gameModeOtherChanged.replace("%Player%", target.getName());
-                                    if (gameModeOtherChanged.contains("%GameMode%"))
-                                        gameModeOtherChanged = gameModeOtherChanged.replace("%GameMode%", GameMode.ADVENTURE.name());
-                                    gameModeOtherChanged = ReplaceCharConfig.replaceParagraph(gameModeOtherChanged);
-                                    sender.sendMessage(gameModeOtherChanged);
-                                    break;
-                                case "sp":
-                                    target.setGameMode(GameMode.SPECTATOR);
-                                    if (!Main.getSilent().contains(sender.getName())) {
-                                        if (gameModeChanged.contains("%GameMode%"))
-                                            gameModeChanged = gameModeChanged.replace("%GameMode%", GameMode.SPECTATOR.name());
-                                        gameModeChanged = ReplaceCharConfig.replaceParagraph(gameModeChanged);
-                                        target.sendMessage(plugin.getPrefix() + gameModeChanged);
+                                    if(gameModeOtherChanged == null) {
+                                        sender.sendMessage(plugin.getPrefix() + "§cConfig 'GameModeOtherChanged' not found! Please contact the Admin!");
+                                        return true;
                                     }
                                     if (gameModeOtherChanged.contains("%Player%"))
                                         gameModeOtherChanged = gameModeOtherChanged.replace("%Player%", target.getName());

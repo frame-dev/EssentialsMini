@@ -9,9 +9,10 @@ import ch.framedev.essentialsmini.abstracts.CommandListenerBase;
 import ch.framedev.essentialsmini.utils.AdminBroadCast;
 import ch.framedev.essentialsmini.utils.Variables;
 import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Content;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -44,12 +45,15 @@ public class WarpCMD extends CommandListenerBase {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("setwarp")) {
             if (sender.hasPermission("essentialsmini.setwarp")) {
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
+                if (sender instanceof Player player) {
                     if (args.length == 1) {
                         String name = args[0];
                         new LocationsManager().setLocation("warps." + name.toLowerCase(), player.getLocation());
                         String message = plugin.getLanguageConfig(player).getString(Variables.WARP_MESSAGE + ".Created");
+                        if(message == null) {
+                            player.sendMessage(plugin.getPrefix() + "§cConfig '" + Variables.WARP_MESSAGE + ".Created' not found!");
+                            return true;
+                        }
                         if (message.contains("&"))
                             message = message.replace('&', '§');
                         if (message.contains("WarpName"))
@@ -60,6 +64,10 @@ public class WarpCMD extends CommandListenerBase {
                         double cost = Double.parseDouble(args[1]);
                         new LocationsManager().setWarp(name.toLowerCase(), player.getLocation(), cost);
                         String message = plugin.getLanguageConfig(player).getString(Variables.WARP_MESSAGE + ".Created");
+                        if(message == null) {
+                            player.sendMessage(plugin.getPrefix() + "§cConfig '" + Variables.WARP_MESSAGE + ".Created' not found!");
+                            return true;
+                        }
                         if (message.contains("&"))
                             message = message.replace('&', '§');
                         if (message.contains("WarpName"))
@@ -82,8 +90,7 @@ public class WarpCMD extends CommandListenerBase {
         }
         if (command.getName().equalsIgnoreCase("warp")) {
             if (sender.hasPermission("essentialsmini.warp")) {
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
+                if (sender instanceof Player player) {
                     if (args.length == 1) {
                         String name = args[0];
                         try {
@@ -97,6 +104,10 @@ public class WarpCMD extends CommandListenerBase {
                                     }
                             player.teleport(new LocationsManager().getWarp(name.toLowerCase()));
                             String message = plugin.getLanguageConfig(player).getString(Variables.WARP_MESSAGE + ".Teleport");
+                            if(message == null) {
+                                player.sendMessage(plugin.getPrefix() + "§cConfig '" + Variables.WARP_MESSAGE + ".Teleport' not found!");
+                                return true;
+                            }
                             if (message.contains("&"))
                                 message = message.replace('&', '§');
                             if (message.contains("%WarpName%"))
@@ -104,6 +115,10 @@ public class WarpCMD extends CommandListenerBase {
                             player.sendMessage(plugin.getPrefix() + message);
                         } catch (Exception ex) {
                             String message = plugin.getLanguageConfig(player).getString(Variables.WARP_MESSAGE + ".NotExist");
+                            if(message == null) {
+                                player.sendMessage(plugin.getPrefix() + "§cConfig '" + Variables.WARP_MESSAGE + ".NotExist' not found!");
+                                return true;
+                            }
                             if (message.contains("&"))
                                 message = message.replace('&', '§');
                             player.sendMessage(plugin.getPrefix() + message);
@@ -157,9 +172,11 @@ public class WarpCMD extends CommandListenerBase {
                         if (cs != null) {
                             for (String s : cs.getKeys(false)) {
                                 if (s != null) {
-                                    if (!new LocationsManager().getCfg().get("warps." + s).equals(" ")) {
+                                    String warpName = new LocationsManager().getCfg().getString("warps." + s);
+                                    if(warpName == null) continue;
+                                    if (!warpName.equalsIgnoreCase(" ")) {
                                         TextComponent textComponent = new TextComponent("§6" + s);
-                                        textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Click me to add as Warp Command §6(/warp " + s + ")").create()));
+                                        textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Content[] { new Text("Click me to add as Warp Command §6(/warp " + s + ")") }));
                                         textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/warp " + s));
                                         sender.spigot().sendMessage(textComponent);
                                     }
@@ -168,6 +185,10 @@ public class WarpCMD extends CommandListenerBase {
                         }
                     } else {
                         String message = plugin.getLanguageConfig((Player) sender).getString(Variables.WARP_MESSAGE + ".NotExist");
+                        if(message == null) {
+                            sender.sendMessage(plugin.getPrefix() + "§cConfig '" + Variables.WARP_MESSAGE + ".NotExist' not found!");
+                            return true;
+                        }
                         if (message.contains("&"))
                             message = message.replace('&', '§');
                         sender.sendMessage(plugin.getPrefix() + message);
@@ -195,6 +216,10 @@ public class WarpCMD extends CommandListenerBase {
                     String warp = args[0].toLowerCase();
                     new LocationsManager().removeLocation("warps." + warp);
                     String message = plugin.getLanguageConfig((Player) sender).getString(Variables.WARP_MESSAGE + ".Delete");
+                    if(message == null) {
+                        sender.sendMessage(plugin.getPrefix() + "§cConfig '" + Variables.WARP_MESSAGE + ".Delete' not found!");
+                        return true;
+                    }
                     if (message.contains("&"))
                         message = message.replace('&', '§');
                     if (message.contains("%WarpName%"))
@@ -220,7 +245,9 @@ public class WarpCMD extends CommandListenerBase {
                         if (cs != null) {
                             for (String s : cs.getKeys(false)) {
                                 if (s != null) {
-                                    if (!new LocationsManager().getCfg().get("warps." + s).equals(" "))
+                                    String warpName = new LocationsManager().getCfg().getString("warps." + s);
+                                    if(warpName == null) continue;
+                                    if (!warpName.equalsIgnoreCase(" "))
                                         warps.add(s);
                                 }
                             }
@@ -258,7 +285,9 @@ public class WarpCMD extends CommandListenerBase {
                 if (cs != null) {
                     for (String s : cs.getKeys(false)) {
                         if (s != null) {
-                            if (!new LocationsManager().getCfg().get("warps." + s).equals(" "))
+                            String warpName = new LocationsManager().getCfg().getString("warps." + s);
+                            if(warpName == null) continue;
+                            if (!warpName.equalsIgnoreCase(" "))
                                 warps.add(s);
                         }
                     }
@@ -277,11 +306,15 @@ public class WarpCMD extends CommandListenerBase {
                             if (Main.getInstance().getVaultManager().getEco().has(player, new LocationsManager().getWarpCost(s))) {
                                 Main.getInstance().getVaultManager().getEco().withdrawPlayer(player, new LocationsManager().getWarpCost(s));
                             } else {
-                                player.sendMessage(plugin.getPrefix() + "§cNot enought §6" + plugin.getVaultManager().getEconomy().currencyNamePlural());
+                                player.sendMessage(plugin.getPrefix() + "§cNot enough §6" + plugin.getVaultManager().getEconomy().currencyNamePlural());
                                 return;
                             }
                     player.teleport(new LocationsManager().getLocation("warps." + s.toLowerCase()));
                     String message = plugin.getLanguageConfig(player).getString(Variables.WARP_MESSAGE + ".Teleport");
+                    if(message == null) {
+                        player.sendMessage(plugin.getPrefix() + "§cConfig '" + Variables.WARP_MESSAGE + ".Teleport' not found!");
+                        return;
+                    }
                     if (message.contains("&"))
                         message = message.replace('&', '§');
                     if (message.contains("%WarpName%"))

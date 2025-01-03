@@ -25,11 +25,13 @@ public class VaultManager {
         File file = new File(Main.getInstance().getDataFolder() + "/money", "eco.yml");
         FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
         if (!file.exists()) {
-            file.getParentFile().mkdirs();
+            if(!file.getParentFile().mkdirs())
+                System.err.println("Could not create directory");
             try {
-                file.createNewFile();
+                if(!file.createNewFile())
+                    System.err.println("Could not create new file");
             } catch (IOException e) {
-                e.printStackTrace();
+                plugin.getLogger4J().error(e.getMessage(), e);
             }
         }
         if (Bukkit.getServer().getOnlineMode()) {
@@ -40,7 +42,7 @@ public class VaultManager {
                 try {
                     cfg.save(file);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    plugin.getLogger4J().error(e.getMessage(), e);
                 }
             }
         } else {
@@ -51,7 +53,7 @@ public class VaultManager {
                 try {
                     cfg.save(file);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    plugin.getLogger4J().error(e.getMessage(), e);
                 }
             }
         }
@@ -82,6 +84,7 @@ public class VaultManager {
      * @param bankName the Bank name
      * @param player   the OfflinePlayer
      */
+    @SuppressWarnings("unchecked")
     public void addBankMember(String bankName, OfflinePlayer player) {
         if (Main.getInstance().isMysql() || Main.getInstance().isSQL()) {
             new MySQLManager().addBankMember(bankName, player);
@@ -91,12 +94,12 @@ public class VaultManager {
                 users.add(player.getName());
             Main.getInstance().getBackendManager().updateUser(player, "bankname", bankName, "essentialsmini_data");
             Main.getInstance().getBackendManager().updateUser(player, "bankmembers", users, "essentialsmini_data");
-            Main.getInstance().getBackendManager().updataData("bankname", bankName, "bankmembers", users, "essentialsmini_data");
+            Main.getInstance().getBackendManager().updateData("bankname", bankName, "bankmembers", users, "essentialsmini_data");
         } else {
             try {
                 cfg.load(file);
             } catch (IOException | InvalidConfigurationException e) {
-                e.printStackTrace();
+                Main.getInstance().getLogger4J().error(e.getMessage(), e);
             }
             if (!cfg.contains("Banks." + bankName + ".members")) {
                 List<String> players = new ArrayList<>();
@@ -111,7 +114,7 @@ public class VaultManager {
             try {
                 cfg.save(file);
             } catch (IOException e) {
-                e.printStackTrace();
+                Main.getInstance().getLogger4J().error(e.getMessage(), e);
             }
         }
     }
@@ -122,6 +125,7 @@ public class VaultManager {
      * @param bankName the BankName
      * @param player   the OfflinePlayer
      */
+    @SuppressWarnings("unchecked")
     public void removeBankMember(String bankName, OfflinePlayer player) {
         if (Main.getInstance().isMysql() || Main.getInstance().isSQL()) {
             new MySQLManager().removeBankMember(bankName, player);
@@ -130,15 +134,14 @@ public class VaultManager {
             users.remove(player.getName());
             Main.getInstance().getBackendManager().updateUser(player, "bankname", "", "essentialsmini_data");
             Main.getInstance().getBackendManager().updateUser(player, "bankmembers", users, "essentialsmini_data");
-            Main.getInstance().getBackendManager().updataData("bankname", bankName, "bankmembers", users, "essentialsmini_data");
+            Main.getInstance().getBackendManager().updateData("bankname", bankName, "bankmembers", users, "essentialsmini_data");
         } else {
             try {
                 cfg.load(file);
             } catch (IOException | InvalidConfigurationException e) {
-                e.printStackTrace();
+                Main.getInstance().getLogger4J().error(e.getMessage(), e);
             }
-            if (!cfg.contains("Banks." + bankName + ".members")) {
-            } else {
+            if (cfg.contains("Banks." + bankName + ".members")) {
                 List<String> players = cfg.getStringList("Banks." + bankName + ".members");
                 players.remove(player.getName());
                 cfg.set("Banks." + bankName + ".members", players);
@@ -146,7 +149,7 @@ public class VaultManager {
             try {
                 cfg.save(file);
             } catch (IOException e) {
-                e.printStackTrace();
+                Main.getInstance().getLogger4J().error(e.getMessage(), e);
             }
         }
     }
@@ -157,6 +160,7 @@ public class VaultManager {
      * @param bankName the BankName
      * @return all BankMembers from the Bank
      */
+    @SuppressWarnings("unchecked")
     public List<String> getBankMembers(String bankName) {
         if (Main.getInstance().isMysql() || Main.getInstance().isSQL()) {
             return new MySQLManager().getBankMembers(bankName);

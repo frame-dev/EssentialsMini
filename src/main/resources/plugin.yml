@@ -86,6 +86,9 @@ commands:
   tphereall:
   backpack:
     description: Opens an Backpack
+    aliases:
+      - bp
+      - bpack
   essentialsmini:
     aliases:
       - essmini
@@ -130,10 +133,16 @@ commands:
   workbench:
     description: opens an portable Workbench
   sun:
+    aliases:
+      - sunny
     description: set sun in our World
   rain:
+    aliases:
+      - rainy
     description: set Rain in our World
   thunder:
+    aliases:
+      - thunderstorm
     description: set Thunder in our World
   renameitem:
     description: Rename a Item
@@ -200,51 +209,66 @@ commands:
     aliases:
       - baltop
   afk:
+    description: Command to set as Afk
   silent:
+    description: Command to enable Silent
   bank:
     description: Main Command for all Bank Commands
   flyspeed:
     description: Change your Fly Speed
   tempmute:
+    description: Base Command for the use of Temp Mute
   muteinfo:
     description: Show all Muted Player and there Reason and Expiration
   removetempmute:
+    description: Base Command for the use of Remove Temp Mute
   mute:
     description: Mute a Player
   tempban:
+    description: Base Command for the use of Temp Ban
   eban:
+    description: Base Command for Permanent Ban
   eunban:
+    description: Base Command for Permanent Unban
   book:
     description: Open an Written Book and edited it
   copybook:
     description: Copy an Written Book
   removetempban:
+    description: Base Command for the use of Remove Temp Ban
   firework:
+    description: Spawn a Firework
   createkit:
     description: Create a new Kit, Place all your Items in your Inventory.This Command will delete your Inventory after execute
   globalmute:
     aliases:
       - gmute
       - glmute
+    description: Mute all Messages
   offline:
     aliases:
       - offlineplayers
       - offplayers
+    description: Show all Offline Players
   xp:
     aliases:
       - exp
       - experience
+    description: Base Command to change your XP or Level
   register:
   login:
   plweather:
     aliases:
       - playerweather
+    description: Change the Weather for a Player
   resetplweather:
     aliases:
       - resetplayerweather
+    description: Reset the Weather for a Player
   timeplayed:
     aliases:
       - playedtime
+    description: Show your Playtime
 permissions:
   essentialsmini.*:
     children:

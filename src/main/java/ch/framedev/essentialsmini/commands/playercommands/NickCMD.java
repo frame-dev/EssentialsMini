@@ -1,6 +1,5 @@
 package ch.framedev.essentialsmini.commands.playercommands;
 
-import ch.framedev.essentialsmini.managers.SkinChanger;
 import ch.framedev.essentialsmini.main.Main;
 import ch.framedev.essentialsmini.abstracts.CommandBase;
 import org.bukkit.OfflinePlayer;
@@ -30,13 +29,12 @@ public class NickCMD extends CommandBase {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage(getPlugin().getPrefix() + getPlugin().getOnlyPlayer());
             return true;
         }
-        Player player = (Player) sender;
         if (command.getName().equalsIgnoreCase("nick")) {
-            if (!player.hasPermission(getPlugin().getPermissionName() + "nick")) {
+            if (!player.hasPermission(getPlugin().getPermissionBase() + "nick")) {
                 player.sendMessage(getPlugin().getPrefix() + getPlugin().getNoPerms());
                 return true;
             }
@@ -46,7 +44,7 @@ public class NickCMD extends CommandBase {
                     player.setPlayerListName(nickPlayer.get(player));
                     player.sendMessage(getPlugin().getPrefix() + "§aNick removed!");
                     nickPlayer.remove(player);
-                    SkinChanger.resetSkin(player);
+                    // SkinChanger.resetSkin(player);
                     return true;
                 }
             } else if (args.length == 1) {
@@ -55,7 +53,7 @@ public class NickCMD extends CommandBase {
                 player.setDisplayName(nick);
                 player.setPlayerListName(nick);
                 player.sendMessage(getPlugin().getPrefix() + "§aYour name has been changed to §6" + nick + "§c§l!");
-                SkinChanger.changeSkin(player, nick);
+                // SkinChanger.changeSkin(player, nick);
                 return true;
             }
         }

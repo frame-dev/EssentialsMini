@@ -17,14 +17,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This Plugin was Created by FrameDev
- * Package : de.framedev.essentialsmini.api
+ * Package: de.framedev.essentialsmini.api
  * Date: 23.11.2020
  * Project: EssentialsMini
  * Copyrighted by FrameDev
  */
+@SuppressWarnings("deprecation")
 public class MySQLManager {
 
     protected String tableName = "essentialsmini_eco";
@@ -101,7 +103,9 @@ public class MySQLManager {
                 if (SQL.exists(tableName, "Player", player.getUniqueId().toString())) {
                     if (SQL.get(tableName, "Money", "Player", player.getUniqueId().toString()) != null) {
                         String bd = (String) SQL.get(tableName, "Money", "Player", player.getUniqueId().toString());
-                        return Double.parseDouble(bd);
+                        if (bd != null) {
+                            return Double.parseDouble(bd);
+                        }
                     }
                 }
             } else {
@@ -112,7 +116,9 @@ public class MySQLManager {
                 if (SQL.exists(tableName, "Player", player.getName())) {
                     if (SQL.get(tableName, "Money", "Player", player.getName()) != null) {
                         String bd = (String) SQL.get(tableName, "Money", "Player", player.getName());
-                        return Double.parseDouble(bd);
+                        if (bd != null) {
+                            return Double.parseDouble(bd);
+                        }
                     }
                 }
             } else {
@@ -167,15 +173,19 @@ public class MySQLManager {
         List<String> players = new ArrayList<>();
         try {
             if (Main.getInstance().isMysql()) {
-                Statement statement = MySQL.getConnection().createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE BankName ='" + name + "';");
+                ResultSet resultSet;
+                try (Statement statement = MySQL.getConnection().createStatement()) {
+                    resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE BankName ='" + name + "';");
+                }
                 while (resultSet.next()) {
                     i++;
                     players.add(resultSet.getString("Player"));
                 }
             } else if (Main.getInstance().isSQL()) {
-                Statement statement = SQLite.connect().createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE BankName ='" + name + "';");
+                ResultSet resultSet;
+                try (Statement statement = Objects.requireNonNull(SQLite.connect()).createStatement()) {
+                    resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE BankName ='" + name + "';");
+                }
                 while (resultSet.next()) {
                     i++;
                     players.add(resultSet.getString("Player"));
@@ -205,13 +215,17 @@ public class MySQLManager {
     protected double getBankMoney(String name) {
         try {
             if (Main.getInstance().isMysql()) {
-                Statement statement = MySQL.getConnection().createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE BankName ='" + name + "';");
+                ResultSet resultSet;
+                try (Statement statement = MySQL.getConnection().createStatement()) {
+                    resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE BankName ='" + name + "';");
+                }
                 if (resultSet.next())
                     return resultSet.getDouble("BankBalance");
             } else if (Main.getInstance().isSQL()) {
-                Statement statement = SQLite.connect().createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE BankName ='" + name + "';");
+                ResultSet resultSet;
+                try (Statement statement = Objects.requireNonNull(SQLite.connect()).createStatement()) {
+                    resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE BankName ='" + name + "';");
+                }
                 if (resultSet.next())
                     return resultSet.getDouble("BankBalance");
             }
@@ -226,12 +240,14 @@ public class MySQLManager {
         return 0.0;
     }
 
+    @SuppressWarnings("unused")
     protected void addBankMoney(String name, double amount) {
         double money = getBankMoney(name);
         money += amount;
         setBankMoney(name, money);
     }
 
+    @SuppressWarnings("unused")
     protected void removeBankMoney(String name, double amount) {
         double money = getBankMoney(name);
         money -= amount;
@@ -246,34 +262,36 @@ public class MySQLManager {
     protected boolean isBankOwner(String name, OfflinePlayer player) {
         try {
             if (Main.getInstance().isMysql()) {
-                Statement statement = MySQL.getConnection().createStatement();
-                ResultSet resultSet = null;
-                if (isOnlineMode()) {
-                    resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE Player = '" + player.getUniqueId() + "';");
-                    if (resultSet.next())
-                        if (resultSet.getString("BankName").equalsIgnoreCase(name) && resultSet.getString("BankOwner").equalsIgnoreCase(player.getUniqueId().toString()))
-                            return true;
-                } else {
-                    resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE Player = '" + player.getName() + "';");
-                    if (resultSet.next())
-                        if (resultSet.getString("BankName").equalsIgnoreCase(name) && resultSet.getString("BankOwner").equalsIgnoreCase(player.getName()))
-                            return true;
+                try (Statement statement = MySQL.getConnection().createStatement()) {
+                    ResultSet resultSet;
+                    if (isOnlineMode()) {
+                        resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE Player = '" + player.getUniqueId() + "';");
+                        if (resultSet.next())
+                            if (resultSet.getString("BankName").equalsIgnoreCase(name) && resultSet.getString("BankOwner").equalsIgnoreCase(player.getUniqueId().toString()))
+                                return true;
+                    } else {
+                        resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE Player = '" + player.getName() + "';");
+                        if (resultSet.next())
+                            if (resultSet.getString("BankName").equalsIgnoreCase(name) && resultSet.getString("BankOwner").equalsIgnoreCase(player.getName()))
+                                return true;
+                    }
                 }
             } else if (Main.getInstance().isSQL()) {
-                Statement statement = SQLite.connect().createStatement();
-                ResultSet resultSet = null;
-                if (isOnlineMode()) {
-                    resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE Player = '" + player.getUniqueId() + "';");
-                    if (resultSet.next()) {
-                        if (resultSet.getString("BankName").equalsIgnoreCase(name) && resultSet.getString("BankOwner").equalsIgnoreCase(player.getUniqueId().toString())) {
-                            return true;
+                try (Statement statement = Objects.requireNonNull(SQLite.connect()).createStatement()) {
+                    ResultSet resultSet;
+                    if (isOnlineMode()) {
+                        resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE Player = '" + player.getUniqueId() + "';");
+                        if (resultSet.next()) {
+                            if (resultSet.getString("BankName").equalsIgnoreCase(name) && resultSet.getString("BankOwner").equalsIgnoreCase(player.getUniqueId().toString())) {
+                                return true;
+                            }
                         }
-                    }
-                } else {
-                    resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE Player = '" + player.getName() + "';");
-                    if (resultSet.next()) {
-                        if (resultSet.getString("BankName").equalsIgnoreCase(name) && resultSet.getString("BankOwner").equalsIgnoreCase(player.getName())) {
-                            return true;
+                    } else {
+                        resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE Player = '" + player.getName() + "';");
+                        if (resultSet.next()) {
+                            if (resultSet.getString("BankName").equalsIgnoreCase(name) && resultSet.getString("BankOwner").equalsIgnoreCase(player.getName())) {
+                                return true;
+                            }
                         }
                     }
                 }
@@ -302,8 +320,7 @@ public class MySQLManager {
                     Type type = new TypeToken<List<String>>() {
                     }.getType();
                     List<String> players = new Gson().fromJson((String) SQL.get(tableName, "BankMembers", "BankName", bankName), type);
-                    if (!players.contains(player.getName()))
-                        players.add(player.getName());
+                    if (players != null && !players.contains(player.getName())) players.add(player.getName());
                     if (isOnlineMode()) {
                         SQL.updateData(tableName, "BankOwner", "'" + SQL.get(tableName, "BankOwner", "BankName", bankName) + "'", "Player = '" + player.getUniqueId() + "'");
                         SQL.updateData(tableName, "BankName", "'" + bankName + "'", "Player = '" + player.getUniqueId() + "'");
@@ -340,7 +357,9 @@ public class MySQLManager {
                     Type type = new TypeToken<List<String>>() {
                     }.getType();
                     List<String> players = new Gson().fromJson((String) SQL.get(tableName, "BankMembers", "BankName", bankName), type);
-                    return players.contains(player.getName());
+                    if (players != null) {
+                        return players.contains(player.getName());
+                    }
                 }
             }
         }
@@ -360,7 +379,9 @@ public class MySQLManager {
                     Type type = new TypeToken<List<String>>() {
                     }.getType();
                     List<String> players = new Gson().fromJson((String) SQL.get(tableName, "BankMembers", "BankName", bankName), type);
-                    players.remove(player.getName());
+                    if (players != null) {
+                        players.remove(player.getName());
+                    }
                     if (isOnlineMode()) {
                         SQL.updateData(tableName, "BankOwner", "'" + null + "'", "Player = '" + player.getUniqueId() + "'");
                         SQL.updateData(tableName, "BankName", "'" + null + "'", "Player = '" + player.getUniqueId() + "'");
@@ -372,11 +393,15 @@ public class MySQLManager {
                         SQL.updateData(tableName, "BankBalance", "'" + null + "'", "Player = '" + player.getName() + "'");
                         SQL.updateData(tableName, "BankMembers", "'" + null + "'", "Player = '" + player.getName() + "'");
                     }
-                    members.addAll(players);
+                    if (players != null) {
+                        members.addAll(players);
+                    }
                     if (Main.getInstance().isMysql()) {
                         try {
-                            Statement statement = MySQL.getConnection().createStatement();
-                            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE BankName ='" + bankName + "';");
+                            ResultSet resultSet;
+                            try (Statement statement = MySQL.getConnection().createStatement()) {
+                                resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE BankName ='" + bankName + "';");
+                            }
                             while (resultSet.next()) {
                                 pls.add(resultSet.getString("Player"));
                             }
@@ -387,7 +412,7 @@ public class MySQLManager {
                         }
                     } else if (Main.getInstance().isSQL()) {
                         try {
-                            Statement statement = SQLite.connect().createStatement();
+                            Statement statement = Objects.requireNonNull(SQLite.connect()).createStatement();
                             ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE BankName ='" + bankName + "';");
                             while (resultSet.next()) {
                                 pls.add(resultSet.getString("Player"));
@@ -432,7 +457,7 @@ public class MySQLManager {
                 );
             }
         } else {
-            if (!SQL.exists("essentialsmini_accounts", "name", "" + player.getName())) {
+            if (!SQL.exists("essentialsmini_accounts", "name", player.getName())) {
                 SQL.insertData(
                         "essentialsmini_accounts",
                         new String[]{player.getName()},
@@ -451,7 +476,7 @@ public class MySQLManager {
             if (isOnlineMode()) {
                 return SQL.exists("essentialsmini_accounts", "uuid", "" + player.getUniqueId());
             } else {
-                return SQL.exists("essentialsmini_accounts", "name", "" + player.getName());
+                return SQL.exists("essentialsmini_accounts", "name", player.getName());
             }
         }
         return false;
@@ -482,13 +507,15 @@ public class MySQLManager {
         if (SQL.isTableExists(tableName)) {
             try {
                 if (Main.getInstance().isMysql()) {
-                    Statement statement = MySQL.getConnection().createStatement();
-                    ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE BankName IS NOT NULL");
+                    ResultSet resultSet;
+                    try (Statement statement = MySQL.getConnection().createStatement()) {
+                        resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE BankName IS NOT NULL");
+                    }
                     while (resultSet.next()) {
                         banks.add(resultSet.getString("BankName"));
                     }
                 } else if (Main.getInstance().isSQL()) {
-                    Statement statement = SQLite.connect().createStatement();
+                    Statement statement = Objects.requireNonNull(SQLite.connect()).createStatement();
                     ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE BankName IS NOT NULL");
                     while (resultSet.next()) {
                         banks.add(resultSet.getString("BankName"));

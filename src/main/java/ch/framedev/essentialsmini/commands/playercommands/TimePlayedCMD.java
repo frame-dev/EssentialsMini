@@ -9,6 +9,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class TimePlayedCMD extends CommandBase {
     public TimePlayedCMD(Main plugin) {
         super(plugin, "playedtime", "timeplayed");
@@ -19,9 +22,8 @@ public class TimePlayedCMD extends CommandBase {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("timeplayed")) {
             if (args.length == 0) {
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
-                    player.sendMessage(getPrefix() + "§aPlayed Hours : §6" + calculateHours(player));
+                if (sender instanceof Player player) {
+                    player.sendMessage(getPrefix() + "§aPlayed Hours : §6" + toFormatted(calculateHours(player)));
                 } else {
                     sender.sendMessage(getPrefix() + getPlugin().getOnlyPlayer());
                 }
@@ -30,10 +32,14 @@ public class TimePlayedCMD extends CommandBase {
                 OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[0]);
                 if (offlinePlayer.hasPlayedBefore())
                     sender.sendMessage(getPrefix() + "§aPlayer §6" + offlinePlayer.getName() + " §ahas Played Hours of : §6"
-                            + calculateHours(offlinePlayer));
+                            + toFormatted(calculateHours(offlinePlayer)));
             }
         }
         return super.onCommand(sender, command, label, args);
+    }
+
+    private String toFormatted(double hours) {
+        return BigDecimal.valueOf(hours).setScale(3, RoundingMode.HALF_UP).toString();
     }
 
     private double calculateHours(OfflinePlayer player) {

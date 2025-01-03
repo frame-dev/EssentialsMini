@@ -44,6 +44,7 @@ SpyMessage: '&6%Player% &ahas sent a message to &6%Target% &awith the text &6:&c
 Spy:
   Activate: '&aYou can now see messages from other players!'
   Deactivate: "&a You can't see anymore messages from other players now!"
+  notFound: '&cThis item does not exist! &6%Item%'
 
 Item:
   Get: '&aYou got the Item &6%Item%! Amount: &6%Amount%'

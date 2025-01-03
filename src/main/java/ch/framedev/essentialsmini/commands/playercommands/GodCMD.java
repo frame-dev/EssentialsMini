@@ -2,7 +2,7 @@ package ch.framedev.essentialsmini.commands.playercommands;
 
 
 /*
- * de.framedev.essentialsmin.commands
+ * de.framedev.essentialsmini.commands
  * ===================================================
  * This File was Created by FrameDev
  * Please do not change anything without my consent!
@@ -37,7 +37,7 @@ public class GodCMD implements CommandExecutor {
                 return true;
             }
             Player player = (Player) sender;
-            if (!player.hasPermission(new Permission(plugin.getPermissionName() + "god", PermissionDefault.OP))) {
+            if (!player.hasPermission(new Permission(plugin.getPermissionBase() + "god", PermissionDefault.OP))) {
                 player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                 new AdminBroadCast("godmode", "§cNo Permissions!", sender);
                 return true;
@@ -45,12 +45,20 @@ public class GodCMD implements CommandExecutor {
             if (player.isInvulnerable()) {
                 player.setInvulnerable(false);
                 String godSelfOff = plugin.getLanguageConfig(player).getString("God.Self.Deactivated");
+                if(godSelfOff == null) {
+                    player.sendMessage(plugin.getPrefix() + "§cConfig 'God.Self.Deactivated' not found! Please contact the Admin!");
+                    return true;
+                }
                 if (godSelfOff.contains("&"))
                     godSelfOff = godSelfOff.replace('&', '§');
                 player.sendMessage(plugin.getPrefix() + godSelfOff);
             } else {
                 player.setInvulnerable(true);
                 String godSelfOn = plugin.getLanguageConfig(player).getString("God.Self.Activated");
+                if(godSelfOn == null) {
+                    player.sendMessage(plugin.getPrefix() + "§cConfig 'God.Self.Activated' not found! Please contact the Admin!");
+                    return true;
+                }
                 if (godSelfOn.contains("&"))
                     godSelfOn = godSelfOn.replace('&', '§');
                 player.sendMessage(plugin.getPrefix() + godSelfOn);
@@ -59,7 +67,7 @@ public class GodCMD implements CommandExecutor {
         } else if (args.length == 1) {
             Player player = Bukkit.getPlayer(args[0]);
             if (player != null) {
-                if (!sender.hasPermission(new Permission(plugin.getPermissionName() + "god.others", PermissionDefault.OP))) {
+                if (!sender.hasPermission(new Permission(plugin.getPermissionBase() + "god.others", PermissionDefault.OP))) {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     return true;
                 }
@@ -67,11 +75,19 @@ public class GodCMD implements CommandExecutor {
                     player.setInvulnerable(false);
                     if (!Main.getSilent().contains(sender.getName())) {
                         String godSelfOff = plugin.getLanguageConfig(player).getString("God.Self.Deactivated");
+                        if(godSelfOff == null) {
+                            player.sendMessage(plugin.getPrefix() + "§cConfig 'God.Self.Deactivated' not found! Please contact the Admin!");
+                            return true;
+                        }
                         if (godSelfOff.contains("&"))
                             godSelfOff = godSelfOff.replace('&', '§');
                         player.sendMessage(plugin.getPrefix() + godSelfOff);
                     }
                     String godOtherOff = plugin.getLanguageConfig(sender).getString("God.Other.Deactivated");
+                    if(godOtherOff == null) {
+                        sender.sendMessage(plugin.getPrefix() + "§cConfig 'God.Other.Deactivated' not found! Please contact the Admin!");
+                        return true;
+                    }
                     if (godOtherOff.contains("%Player%"))
                         godOtherOff = godOtherOff.replace("%Player%", player.getName());
                     if (godOtherOff.contains("&"))
@@ -81,22 +97,29 @@ public class GodCMD implements CommandExecutor {
                     player.setInvulnerable(true);
                     if (!Main.getSilent().contains(sender.getName())) {
                         String godSelfOn = plugin.getLanguageConfig(player).getString("God.Self.Activated");
+                        if(godSelfOn == null) {
+                            player.sendMessage(plugin.getPrefix() + "§cConfig 'God.Self.Activated' not found! Please contact the Admin!");
+                            return true;
+                        }
                         if (godSelfOn.contains("&"))
                             godSelfOn = godSelfOn.replace('&', '§');
                         player.sendMessage(plugin.getPrefix() + godSelfOn);
                     }
                     String godOtherOff = plugin.getLanguageConfig(sender).getString("God.Other.Activated");
+                    if(godOtherOff == null) {
+                        sender.sendMessage(plugin.getPrefix() + "§cConfig 'God.Other.Activated' not found! Please contact the Admin!");
+                        return true;
+                    }
                     if (godOtherOff.contains("%Player%"))
                         godOtherOff = godOtherOff.replace("%Player%", player.getName());
                     if (godOtherOff.contains("&"))
                         godOtherOff = godOtherOff.replace('&', '§');
                     sender.sendMessage(plugin.getPrefix() + godOtherOff);
                 }
-                return true;
             } else {
                 sender.sendMessage(plugin.getPrefix() + plugin.getVariables().getPlayerNameNotOnline(args[0]));
-                return true;
             }
+            return true;
         } else {
             sender.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("/god"));
             sender.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("/god <SpielerName>"));

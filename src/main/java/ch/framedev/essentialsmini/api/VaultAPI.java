@@ -19,13 +19,15 @@ import java.util.List;
 
 /**
  * This Plugin was Created by FrameDev
- * Package : de.framedev.essentialsmini.api
+ * Package: de.framedev.essentialsmini.api
  * Date: 22.11.2020
  * Project: EssentialsMini
  * Copyrighted by FrameDev
  */
+@SuppressWarnings("deprecation")
 public class VaultAPI extends AbstractEconomy {
 
+    @SuppressWarnings("unused")
     public interface Callback<T> {
         T onSuccess(T object);
         void onError(Exception exception);
@@ -56,6 +58,7 @@ public class VaultAPI extends AbstractEconomy {
         return String.format("%.2f", amount);
     }
 
+    @SuppressWarnings("unused")
     public double formatToDouble(double amount) {
         return Double.parseDouble(format(amount));
     }
@@ -119,8 +122,6 @@ public class VaultAPI extends AbstractEconomy {
 
     @Override
     public double getBalance(String playerName) {
-        File file = new File(Main.getInstance().getDataFolder() + "/money", "eco.yml");
-        FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
         if (Main.getInstance().isMysql() || Main.getInstance().isSQL()) {
             return new MySQLManager().getMoney(Bukkit.getOfflinePlayer(playerName));
         } else if (Main.getInstance().isMongoDB()) {
@@ -294,7 +295,7 @@ public class VaultAPI extends AbstractEconomy {
             balance -= amount;
             if (!bankHas(name, amount).transactionSuccess())
                 economyResponses[0] = new EconomyResponse(amount, balance, EconomyResponse.ResponseType.FAILURE, "Not enought Money");
-            Main.getInstance().getBackendManager().updataData("bankname", name, "bank", balance, "essentialsmini_data");
+            Main.getInstance().getBackendManager().updateData("bankname", name, "bank", balance, "essentialsmini_data");
         } else {
             File file = new File(Main.getInstance().getDataFolder() + "/money", "eco.yml");
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
@@ -318,7 +319,7 @@ public class VaultAPI extends AbstractEconomy {
         } else if (Main.getInstance().isMongoDB()) {
             double balance = bankBalance(name).balance;
             balance += amount;
-            Main.getInstance().getBackendManager().updataData("bankname", name, "bank", balance, "essentialsmini_data");
+            Main.getInstance().getBackendManager().updateData("bankname", name, "bank", balance, "essentialsmini_data");
             return new EconomyResponse(amount, balance, EconomyResponse.ResponseType.SUCCESS, "");
         } else {
             File file = new File(Main.getInstance().getDataFolder() + "/money", "eco.yml");

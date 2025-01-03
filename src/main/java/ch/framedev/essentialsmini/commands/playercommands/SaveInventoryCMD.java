@@ -40,7 +40,7 @@ public class SaveInventoryCMD implements CommandExecutor, Listener {
             plugin.getCommands().put("saveinventory",this);
             plugin.getListeners().add(this);
         }
-        file = new File(Main.getInstance().getDataFolder(),"inventorys.yml");
+        file = new File(Main.getInstance().getDataFolder(),"inventories.yml");
         cfg = YamlConfiguration.loadConfiguration(file);
     }
 

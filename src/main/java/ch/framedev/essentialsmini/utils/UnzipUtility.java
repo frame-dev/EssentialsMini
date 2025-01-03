@@ -11,7 +11,7 @@ public class UnzipUtility {
     private static final int BUFFER_SIZE = 4096;
     /**
      * Extracts a zip file specified by the zipFilePath to a directory specified by
-     * destDirectory (will be created if does not exists)
+     * destDirectory (will be created if it does not exist)
      */
     public void unzip(String zipFilePath, String destDirectory) throws IOException {
         File destDir = new File(destDirectory);

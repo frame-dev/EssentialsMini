@@ -1,5 +1,6 @@
 package ch.framedev.essentialsmini.commands.playercommands;
 
+import ch.framedev.essentialsmini.utils.PlayerUtils;
 import ch.framedev.simplejavautils.TextUtils;
 import ch.framedev.essentialsmini.main.Main;
 import ch.framedev.essentialsmini.abstracts.CommandBase;
@@ -54,6 +55,7 @@ public class BankCMD extends CommandBase {
                             sender.sendMessage(plugin.getPrefix() + "§6<<<===>>>");
                             sender.sendMessage(plugin.getPrefix() + "§a" + stringBuilder.toString());
                             sender.sendMessage(plugin.getPrefix() + "§6<<<===>>>");
+                            cancel();
                         }
                     }.runTaskAsynchronously(plugin);
                 } else {
@@ -63,7 +65,7 @@ public class BankCMD extends CommandBase {
             }
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("info")) {
-                if (!sender.hasPermission(plugin.getPermissionName() + "bank.info")) {
+                if (!sender.hasPermission(plugin.getPermissionBase() + "bank.info")) {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     new AdminBroadCast(this, "§cNo Permissions!", sender);
                     return true;
@@ -77,6 +79,7 @@ public class BankCMD extends CommandBase {
                             for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
                                 if (plugin.getVaultManager().getEconomy().isBankOwner(name, player).transactionSuccess()) {
                                     owner = player;
+                                    break;
                                 }
                             }
                             sender.sendMessage("BankName : " + name);
@@ -89,6 +92,7 @@ public class BankCMD extends CommandBase {
                             bankNotFound = new TextUtils().replaceAndWithParagraph(bankNotFound);
                             sender.sendMessage(plugin.getPrefix() + bankNotFound);
                         }
+                        cancel();
                     }
                 }.runTaskAsynchronously(plugin);
             }
@@ -111,6 +115,7 @@ public class BankCMD extends CommandBase {
                                     error = new TextUtils().replaceObject(error, "%Error%", economyResponse.errorMessage);
                                     player.sendMessage(plugin.getPrefix() + error);
                                 }
+                                cancel();
                             }
                         }.runTaskAsynchronously(plugin);
                     } else {
@@ -143,6 +148,7 @@ public class BankCMD extends CommandBase {
                                     bankNotFound = new TextUtils().replaceAndWithParagraph(bankNotFound);
                                     player.sendMessage(plugin.getPrefix() + bankNotFound);
                                 }
+                                cancel();
                             }
                         }.runTaskAsynchronously(plugin);
                     } else {
@@ -244,6 +250,7 @@ public class BankCMD extends CommandBase {
                                     bankNotFound = new TextUtils().replaceAndWithParagraph(bankNotFound);
                                     player.sendMessage(plugin.getPrefix() + bankNotFound);
                                 }
+                                cancel();
                             }
                         }.runTaskAsynchronously(plugin);
                     } else {
@@ -282,6 +289,7 @@ public class BankCMD extends CommandBase {
                                     bankNotFound = new TextUtils().replaceAndWithParagraph(bankNotFound);
                                     player.sendMessage(plugin.getPrefix() + bankNotFound);
                                 }
+                                cancel();
                             }
                         }.runTaskAsynchronously(plugin);
                     } else {
@@ -291,7 +299,7 @@ public class BankCMD extends CommandBase {
                 }
             } else if (args[0].equalsIgnoreCase("addmember")) {
                 String bankName = args[1];
-                OfflinePlayer offline = Bukkit.getOfflinePlayer(args[2]);
+                OfflinePlayer offline = PlayerUtils.getOfflinePlayerByName(args[2]);
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
                     if (player.hasPermission("essentialsmini.bank.addmember")) {
@@ -318,7 +326,7 @@ public class BankCMD extends CommandBase {
                 }
             } else if (args[0].equalsIgnoreCase("removemember")) {
                 String bankName = args[1];
-                OfflinePlayer offline = Bukkit.getOfflinePlayer(args[2]);
+                OfflinePlayer offline = PlayerUtils.getOfflinePlayerByName(args[2]);
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
                     if (player.hasPermission("essentialsmini.bank.removemember")) {
@@ -373,9 +381,9 @@ public class BankCMD extends CommandBase {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1) {
-            List<String> cmds = new ArrayList<String>(Arrays.asList("remove", "create", "balance", "withdraw", "deposit", "addmember", "removemember", "listmembers", "list", "info", "transfer"));
+            List<String> commands = new ArrayList<String>(Arrays.asList("remove", "create", "balance", "withdraw", "deposit", "addmember", "removemember", "listmembers", "list", "info", "transfer"));
             List<String> empty = new ArrayList<>();
-            for (String s : cmds) {
+            for (String s : commands) {
                 if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
                     empty.add(s);
                 }

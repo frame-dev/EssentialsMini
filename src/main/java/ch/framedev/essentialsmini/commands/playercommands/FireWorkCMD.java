@@ -45,7 +45,7 @@ public class FireWorkCMD extends CommandBase {
         }
 
         Player player = (Player) sender;
-        if (!player.hasPermission(getPlugin().getPermissionName() + "firework")) {
+        if (!player.hasPermission(getPlugin().getPermissionBase() + "firework")) {
             player.sendMessage(getPlugin().getPrefix() + getPlugin().getNoPerms());
             new AdminBroadCast(this, "§cNo Permissions!", sender);
             return true;
@@ -58,10 +58,7 @@ public class FireWorkCMD extends CommandBase {
             }
             FireworkMeta effect = (FireworkMeta) itemStack.getItemMeta();
             FireworkEffect.Type type = FireworkEffect.Type.valueOf(args[1].toUpperCase());
-            if (FireworkEffect.Type.valueOf(args[1].toUpperCase()) == null) {
-                sender.sendMessage(getPlugin().getPrefix() + "§aFeuerwerk Typ nicht gefunden!");
-                return true;
-            }
+            FireworkEffect.Type.valueOf(args[1].toUpperCase());
             if (args.length == 3) {
                 List<Color> colors = new ArrayList<>();
                 if (args[2].contains(":")) {
@@ -72,6 +69,7 @@ public class FireWorkCMD extends CommandBase {
                 } else {
                     colors.add(DyeColor.valueOf(args[2].toUpperCase()).getColor());
                 }
+                if(effect == null) return true;
                 effect.addEffect(FireworkEffect.builder().with(type).withColor(colors.toArray(new Color[0])).build());
                 itemStack.setItemMeta(effect);
                 return true;
@@ -87,6 +85,7 @@ public class FireWorkCMD extends CommandBase {
                 } else {
                     colors.add(DyeColor.valueOf(args[2].toUpperCase()).getColor());
                 }
+                if(effect == null) return true;
                 effect.addEffect(FireworkEffect.builder().with(type).withColor(colors.toArray(new Color[0])).build());
                 effect.setPower(Integer.parseInt(args[3]));
                 itemStack.setItemMeta(effect);
@@ -101,6 +100,7 @@ public class FireWorkCMD extends CommandBase {
                 } else {
                     colors.add(DyeColor.valueOf(args[2].toUpperCase()).getColor());
                 }
+                if(effect == null) return true;
                 effect.addEffect(FireworkEffect.builder().with(type).withColor(colors.toArray(new Color[0])).flicker(Boolean.parseBoolean(args[4])).build());
                 effect.setPower(Integer.parseInt(args[3]));
                 itemStack.setItemMeta(effect);
@@ -115,6 +115,7 @@ public class FireWorkCMD extends CommandBase {
                 } else {
                     colors.add(DyeColor.valueOf(args[2].toUpperCase()).getColor());
                 }
+                if(effect == null) return true;
                 effect.addEffect(FireworkEffect.builder().with(type).withColor(colors.toArray(new Color[0])).flicker(Boolean.parseBoolean(args[4])).trail(Boolean.parseBoolean(args[5])).build());
                 effect.setPower(Integer.parseInt(args[3]));
                 itemStack.setItemMeta(effect);
@@ -141,9 +142,9 @@ public class FireWorkCMD extends CommandBase {
             int amount = Integer.parseInt(args[1]);
             for (int i = 0; i < amount; i++) {
                 final Firework firework = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK_ROCKET);
-                final FireworkMeta fmeta = (FireworkMeta) itemStack.getItemMeta();
-                if (fmeta != null) {
-                    firework.setFireworkMeta(fmeta);
+                final FireworkMeta fMeta = (FireworkMeta) itemStack.getItemMeta();
+                if (fMeta != null) {
+                    firework.setFireworkMeta(fMeta);
                 }
             }
         }
@@ -183,9 +184,9 @@ public class FireWorkCMD extends CommandBase {
             data.add("3");
             return data;
         } else if (args.length == 5) {
-            return new ArrayList<String>(Arrays.asList("true", "false"));
+            return new ArrayList<>(Arrays.asList("true", "false"));
         } else if (args.length == 6) {
-            return new ArrayList<String>(Arrays.asList("true", "false"));
+            return new ArrayList<>(Arrays.asList("true", "false"));
         }
         return super.onTabComplete(sender, command, label, args);
     }

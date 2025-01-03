@@ -1,6 +1,6 @@
 Config-Version: '1.0.1'
 
-Prefix: '&6[&aEssentials&bMini&6] &c>> &f'
+prefix: '&6[&aEssentials&bMini&6] &c>> &f'
 
 Back: true
 
@@ -124,3 +124,7 @@ PlayerEvents: false
 
 TeleportDelay: 3
 Bank: true
+
+msg:
+  notificationTo: "&cme &r-> &a %TARGET% &f» %MESSAGE%"
+  notificationFrom: "&a%TARGET% &r-> &cme  &f» %MESSAGE%"

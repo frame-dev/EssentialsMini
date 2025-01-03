@@ -53,6 +53,13 @@ public class ItemCMD extends CommandBase {
                             message = ReplaceCharConfig.replaceObjectWithData(message, "%Amount%", "" + 1);
                             player.sendMessage(plugin.getPrefix() + message);
                         } else {
+                            String message = plugin.getLanguageConfig(player).getString("Item.notFound");
+                            if(message == null) {
+                                player.sendMessage(plugin.getPrefix() + "§cConfig 'Item.notFound' not found! Please contact the Admin!");
+                                return true;
+                            }
+                            message = message.replace("&", "§");
+                            message = message.replace("%Item%", name);
                             player.sendMessage(plugin.getPrefix() + "§cDieses Item existiert nicht! §6" + name);
                         }
                     } else {

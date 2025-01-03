@@ -33,7 +33,7 @@ public class SetHealthCMD extends CommandBase {
             double health = Double.parseDouble(args[0]);
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                if (player.hasPermission(plugin.getPermissionName() + "sethealth")) {
+                if (player.hasPermission(plugin.getPermissionBase() + "sethealth")) {
                     player.setHealthScale(health);
                     player.sendMessage(plugin.getPrefix() + "§aDeine Herzen wurden auf §6" + health + " §agesetzt!");
                 } else {
@@ -47,7 +47,7 @@ public class SetHealthCMD extends CommandBase {
             double health = Double.parseDouble(args[0]);
             Player player = Bukkit.getPlayer(args[1]);
             if (player != null) {
-                if (sender.hasPermission(plugin.getPermissionName() + "sethealth.others")) {
+                if (sender.hasPermission(plugin.getPermissionBase() + "sethealth.others")) {
                     player.setHealthScale(health);
                     if (!Main.getSilent().contains(sender.getName()))
                         player.sendMessage(plugin.getPrefix() + "§aDeine Herzen wurden auf §6" + health + " §agesetzt!");

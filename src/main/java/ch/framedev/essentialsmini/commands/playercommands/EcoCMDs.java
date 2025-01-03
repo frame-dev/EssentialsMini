@@ -1,11 +1,9 @@
 package ch.framedev.essentialsmini.commands.playercommands;
 
+import ch.framedev.essentialsmini.utils.*;
 import ch.framedev.simplejavautils.TextUtils;
 import ch.framedev.essentialsmini.main.Main;
 import ch.framedev.essentialsmini.abstracts.CommandBase;
-import ch.framedev.essentialsmini.utils.AdminBroadCast;
-import ch.framedev.essentialsmini.utils.Language;
-import ch.framedev.essentialsmini.utils.ReplaceCharConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -36,11 +34,12 @@ public class EcoCMDs extends CommandBase {
         setupTabCompleter("eco", this);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("pay")) {
             if (sender instanceof Player) {
-                if (sender.hasPermission(plugin.getPermissionName() + "pay")) {
+                if (sender.hasPermission(plugin.getPermissionBase() + "pay")) {
                     if (args.length == 2) {
                         Player p = (Player) sender;
                         if (isDouble(args[0])) {
@@ -52,6 +51,7 @@ public class EcoCMDs extends CommandBase {
                                             plugin.getVaultManager().getEco().withdrawPlayer(p, amount);
                                             plugin.getVaultManager().getEco().depositPlayer(player, amount);
                                             String send = plugin.getLanguageConfig(p).getString("Money.MSG.Pay");
+                                            if(send == null) return true;
                                             send = send.replace('&', '§');
                                             send = send.replace("[Target]", player.getName());
                                             send = send.replace("[Money]", amount + plugin.getCurrencySymbol());
@@ -72,12 +72,13 @@ public class EcoCMDs extends CommandBase {
                                     }
                                 }
                             } else {
-                                OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
+                                OfflinePlayer player = PlayerUtils.getOfflinePlayerByName(args[1]);
                                 if (player.hasPlayedBefore()) {
                                     if (plugin.getVaultManager().getEco().has(p, amount)) {
                                         plugin.getVaultManager().getEco().withdrawPlayer(p, amount);
                                         plugin.getVaultManager().getEco().depositPlayer(player, amount);
                                         String send = plugin.getLanguageConfig(sender).getString("Money.MSG.Pay");
+                                        if(send == null) return true;
                                         send = send.replace('&', '§');
                                         send = send.replace("[Target]", player.getName());
                                         send = send.replace("[Money]", amount + plugin.getCurrencySymbol());
@@ -122,7 +123,7 @@ public class EcoCMDs extends CommandBase {
         }
         if (command.getName().equalsIgnoreCase("balance")) {
             if (args.length == 0) {
-                if (sender.hasPermission(plugin.getPermissionName() + "balance")) {
+                if (sender.hasPermission(plugin.getPermissionBase() + "balance")) {
                     if (sender instanceof Player) {
                         Player player = (Player) sender;
                         String balance = plugin.getLanguageConfig(player).getString("Money.MSG.Balance");
@@ -138,8 +139,8 @@ public class EcoCMDs extends CommandBase {
                 }
                 return true;
             } else if (args.length == 1) {
-                if (sender.hasPermission(plugin.getPermissionName() + "balance.others")) {
-                    OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
+                if (sender.hasPermission(plugin.getPermissionBase() + "balance.others")) {
+                    OfflinePlayer player = PlayerUtils.getOfflinePlayerByName(args[0]);
                     String balance = plugin.getLanguageConfig(sender).getString("Money.MoneyBalance.Other.MSG");
                     if (balance != null) {
                         balance = new TextUtils().replaceAndWithParagraph(balance);
@@ -163,7 +164,7 @@ public class EcoCMDs extends CommandBase {
                     if (args.length == 2) {
                         if (isDouble(args[1])) {
                             double amount = Double.parseDouble(args[1]);
-                            if (sender.hasPermission(plugin.getPermissionName() + "eco.add")) {
+                            if (sender.hasPermission(plugin.getPermissionBase() + "eco.add")) {
                                 if (sender instanceof Player) {
                                     Player player = (Player) sender;
                                     plugin.getVaultManager().getEco().depositPlayer(player, amount);
@@ -184,10 +185,15 @@ public class EcoCMDs extends CommandBase {
                             sender.sendMessage(plugin.getPrefix() + "§6" + args[0] + " §cisn't a Number!");
                         }
                     } else if (args.length == 3) {
-                        if (sender.hasPermission(plugin.getPermissionName() + "eco.add.others")) {
+                        if (sender.hasPermission(plugin.getPermissionBase() + "eco.add.others")) {
                             if (isDouble(args[1])) {
                                 double amount = Double.parseDouble(args[1]);
-                                OfflinePlayer player = Bukkit.getOfflinePlayer(args[2]);
+                                OfflinePlayer player;
+                                if(Bukkit.getOnlineMode()) {
+                                    player = Bukkit.getOfflinePlayer(UUIDFetcher.getUUID(args[2]));
+                                } else {
+                                    player = Bukkit.getOfflinePlayer(args[2]);
+                                }
                                 plugin.getVaultManager().getEco().depositPlayer(player, amount);
                                 String setOther = plugin.getLanguageConfig(sender).getString("Money.MoneySet.Other.MSG");
                                 if (setOther != null) {
@@ -219,7 +225,7 @@ public class EcoCMDs extends CommandBase {
                     if (args.length == 2) {
                         if (isDouble(args[1])) {
                             double amount = Double.parseDouble(args[1]);
-                            if (sender.hasPermission(plugin.getPermissionName() + "eco.add")) {
+                            if (sender.hasPermission(plugin.getPermissionBase() + "eco.add")) {
                                 if (sender instanceof Player) {
                                     Player player = (Player) sender;
                                     plugin.getVaultManager().getEco().withdrawPlayer(player, amount);
@@ -240,10 +246,10 @@ public class EcoCMDs extends CommandBase {
                             sender.sendMessage(plugin.getPrefix() + "§6" + args[0] + " §cisn't a Number!");
                         }
                     } else if (args.length == 3) {
-                        if (sender.hasPermission(plugin.getPermissionName() + "eco.add.others")) {
+                        if (sender.hasPermission(plugin.getPermissionBase() + "eco.add.others")) {
                             if (isDouble(args[1])) {
                                 double amount = Double.parseDouble(args[1]);
-                                OfflinePlayer player = Bukkit.getOfflinePlayer(args[2]);
+                                OfflinePlayer player = PlayerUtils.getOfflinePlayerByName(args[2]);
                                 plugin.getVaultManager().getEco().depositPlayer(player, amount);
                                 String setOther = plugin.getLanguageConfig(sender).getString("Money.MoneySet.Other.MSG");
                                 if (setOther != null) {
@@ -275,7 +281,7 @@ public class EcoCMDs extends CommandBase {
                     if (args.length == 2) {
                         if (isDouble(args[1])) {
                             double amount = Double.parseDouble(args[1]);
-                            if (sender.hasPermission(plugin.getPermissionName() + "eco.set")) {
+                            if (sender.hasPermission(plugin.getPermissionBase() + "eco.set")) {
                                 if (sender instanceof Player) {
                                     Player player = (Player) sender;
                                     plugin.getVaultManager().getEco().withdrawPlayer(player, plugin.getVaultManager().getEco().getBalance(player));
@@ -297,10 +303,10 @@ public class EcoCMDs extends CommandBase {
                             sender.sendMessage(plugin.getPrefix() + "§6" + args[0] + " §cisn't a Number!");
                         }
                     } else if (args.length == 3) {
-                        if (sender.hasPermission(plugin.getPermissionName() + "eco.set.others")) {
+                        if (sender.hasPermission(plugin.getPermissionBase() + "eco.set.others")) {
                             if (isDouble(args[1])) {
                                 double amount = Double.parseDouble(args[1]);
-                                OfflinePlayer player = Bukkit.getOfflinePlayer(args[2]);
+                                OfflinePlayer player = PlayerUtils.getOfflinePlayerByName(args[2]);
                                 plugin.getVaultManager().getEco().withdrawPlayer(player, plugin.getVaultManager().getEco().getBalance(player));
                                 plugin.getVaultManager().getEco().depositPlayer(player, amount);
                                 String setOther = plugin.getLanguageConfig(sender).getString("Money.MoneySet.Other.MSG");
@@ -335,37 +341,37 @@ public class EcoCMDs extends CommandBase {
             }
         }
         if (command.getName().equalsIgnoreCase("balancetop")) {
-            if (sender.hasPermission(plugin.getPermissionName() + "balancetop")) {
-                HashMap<String, Double> mostplayers = new HashMap<>();
-                ValueComparator bvc = new ValueComparator(mostplayers);
+            if (sender.hasPermission(plugin.getPermissionBase() + "balancetop")) {
+                HashMap<String, Double> mostPlayers = new HashMap<>();
+                ValueComparator bvc = new ValueComparator(mostPlayers);
                 TreeMap<String, Double> sorted_map = new TreeMap<>(bvc);
                 for (Player all : Bukkit.getOnlinePlayers()) {
                     if (plugin.getVaultManager().getEco().getBanks().isEmpty()) {
-                        mostplayers.put(all.getName(), plugin.getVaultManager().getEco().getBalance(all));
+                        mostPlayers.put(all.getName(), plugin.getVaultManager().getEco().getBalance(all));
                     } else {
                         for (String bank : plugin.getVaultManager().getEco().getBanks()) {
                             if (plugin.getVaultManager().getEco().isBankMember(bank, all).transactionSuccess() || plugin.getVaultManager().getEco().isBankOwner(bank, all).transactionSuccess()) {
-                                mostplayers.put(all.getName(), Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().getBalance(all)).replace(",", ".")) + Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().bankBalance(bank).balance).replace(",", ".")));
+                                mostPlayers.put(all.getName(), Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().getBalance(all)).replace(",", ".")) + Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().bankBalance(bank).balance).replace(",", ".")));
                             } else {
-                                mostplayers.put(all.getName(), Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().getBalance(all)).replace(",", ".")));
+                                mostPlayers.put(all.getName(), Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().getBalance(all)).replace(",", ".")));
                             }
                         }
                     }
                 }
-                for (OfflinePlayer alloffline : Bukkit.getOfflinePlayers()) {
+                for (OfflinePlayer allOffline : Bukkit.getOfflinePlayers()) {
                     if (plugin.getVaultManager().getEco().getBanks().isEmpty()) {
-                        mostplayers.put(alloffline.getName(), plugin.getVaultManager().getEco().getBalance(alloffline));
+                        mostPlayers.put(allOffline.getName(), plugin.getVaultManager().getEco().getBalance(allOffline));
                     } else {
                         for (String bank : plugin.getVaultManager().getEco().getBanks()) {
-                            if (plugin.getVaultManager().getEco().isBankMember(bank, alloffline).transactionSuccess() || plugin.getVaultManager().getEco().isBankOwner(bank, alloffline).transactionSuccess()) {
-                                mostplayers.put(alloffline.getName(), Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().getBalance(alloffline)).replace(",", ".")) + Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().bankBalance(bank).balance).replace(",", ".")));
+                            if (plugin.getVaultManager().getEco().isBankMember(bank, allOffline).transactionSuccess() || plugin.getVaultManager().getEco().isBankOwner(bank, allOffline).transactionSuccess()) {
+                                mostPlayers.put(allOffline.getName(), Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().getBalance(allOffline)).replace(",", ".")) + Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().bankBalance(bank).balance).replace(",", ".")));
                             } else {
-                                mostplayers.put(alloffline.getName(), Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().getBalance(alloffline)).replace(",", ".")));
+                                mostPlayers.put(allOffline.getName(), Double.parseDouble(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().getBalance(allOffline)).replace(",", ".")));
                             }
                         }
                     }
                 }
-                sorted_map.putAll(mostplayers);
+                sorted_map.putAll(mostPlayers);
                 int i = 0;
                 for (Map.Entry<String, Double> e : sorted_map.entrySet()) {
                     if (e == null) continue;
@@ -396,7 +402,7 @@ public class EcoCMDs extends CommandBase {
             if (args.length == 1) {
                 ArrayList<String> list = new ArrayList<>();
                 if (sender instanceof Player) {
-                    if (sender.hasPermission(plugin.getPermissionName() + "pay")) {
+                    if (sender.hasPermission(plugin.getPermissionBase() + "pay")) {
                         list.add(String.valueOf(plugin.getVaultManager().getEco().format(plugin.getVaultManager().getEco().getBalance((Player) sender))));
                     }
                     return list;

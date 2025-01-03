@@ -10,22 +10,24 @@ import java.io.IOException;
 /**
  * Not in use!
  * / This Plugin was Created by FrameDev
- * / Package : de.framedev.essentialsmini.api
+ * / Package: de.framedev.essentialsmini.api
  * / ClassName BankAPI
  * / Date: 27.06.21
  * / Project: EssentialsMini
  * / Copyrighted by FrameDev
  */
-
+@SuppressWarnings("unused")
 public class BankAPI {
 
     File file = new File(Main.getInstance().getDataFolder() + "/money", "bankaccounts.yml");
     FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
 
     private static BankAPI instance;
+    private static Main mainInstance;
 
     public BankAPI() {
         instance = this;
+        mainInstance = Main.getInstance();
     }
 
     public static BankAPI getInstance() {
@@ -36,7 +38,7 @@ public class BankAPI {
         try {
             cfg.save(file);
         } catch (IOException e) {
-            e.printStackTrace();
+            mainInstance.getLogger4J().error(e.getMessage(), e);
         }
     }
 

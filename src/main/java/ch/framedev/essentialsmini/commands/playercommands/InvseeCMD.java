@@ -37,7 +37,7 @@ public class InvseeCMD extends CommandBase {
                         Player target = Bukkit.getPlayer(args[0]);
                         if (target != null) {
                             if (!seeOwner) {
-                                if (!target.hasPermission(plugin.getPermissionName() + "invsee.owner")) {
+                                if (!target.hasPermission(plugin.getPermissionBase() + "invsee.owner")) {
                                     player.openInventory(target.getInventory());
                                 } else {
                                     player.sendMessage(plugin.getPrefix() + "§cYou can't see this Inventory!");
@@ -78,7 +78,7 @@ public class InvseeCMD extends CommandBase {
                         Player player = (Player) sender;
                         Player target = Bukkit.getPlayer(args[0]);
                         if (target != null) {
-                            if (!target.hasPermission(plugin.getPermissionName() + "enderchest.owner")) {
+                            if (!target.hasPermission(plugin.getPermissionBase() + "enderchest.owner")) {
                                 player.openInventory(target.getEnderChest());
                             }
                         } else {

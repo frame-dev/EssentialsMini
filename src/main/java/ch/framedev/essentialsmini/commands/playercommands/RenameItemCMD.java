@@ -32,7 +32,7 @@ public class RenameItemCMD extends CommandBase {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player) {
-            if(sender.hasPermission(plugin.getPermissionName() + "renameitem")) {
+            if(sender.hasPermission(plugin.getPermissionBase() + "renameitem")) {
                 if(((Player) sender).getInventory().getItemInMainHand().getType() != AIR) {
                     if (((Player) sender).getInventory().getItemInMainHand().getItemMeta().hasDisplayName()) {
                         String oldDisplayName = ((Player) sender).getInventory().getItemInMainHand().getItemMeta().getDisplayName();

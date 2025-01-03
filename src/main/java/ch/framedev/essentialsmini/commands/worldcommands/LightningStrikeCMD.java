@@ -19,6 +19,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
+import org.jetbrains.annotations.NotNull;
 
 public class LightningStrikeCMD extends CommandBase implements CommandExecutor {
 
@@ -31,11 +32,11 @@ public class LightningStrikeCMD extends CommandBase implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if(args.length == 1) {
             Player target = Bukkit.getPlayer(args[0]);
             if(target != null) {
-                if (sender.hasPermission(new Permission(plugin.getPermissionName() + "lightningstrike", PermissionDefault.OP))) {
+                if (sender.hasPermission(new Permission(plugin.getPermissionBase() + "lightningstrike", PermissionDefault.OP))) {
                     target.getWorld().strikeLightning(target.getLocation());
                     sender.sendMessage(plugin.getPrefix() + "§6Blitz! §a" + target.getName() + "§c!");
                 } else {

@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class SkinChanger implements Listener {
 
-    private static Map<Player, String> changedSkins = new HashMap<>();
+    // private static Map<Player, String> changedSkins = new HashMap<>();
 
     public static boolean changeSkin(Player player, String name) {
         /*try {
