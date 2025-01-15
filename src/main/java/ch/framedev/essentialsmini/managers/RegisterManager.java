@@ -80,7 +80,8 @@ public class RegisterManager {
         new TeleportCMD(plugin);
         new FlyCMD(plugin);
         new InvseeCMD(plugin);
-        new BackCMD(plugin);
+        if (plugin.getConfig().getBoolean("Back"))
+            new BackCMD(plugin);
         new GameModeCMD(plugin);
         new VanishCMD(plugin);
         new WarpCMD(plugin);
@@ -139,7 +140,7 @@ public class RegisterManager {
         new GlobalMuteCMD(plugin);
         new ExperienceCMD(plugin);
         new NickCMD(plugin);
-        if(!plugin.getConfig().getBoolean("OnlineMode"))
+        if (!plugin.getConfig().getBoolean("OnlineMode"))
             new RegisterCMD(plugin);
         new PlWeatherCMD(plugin);
         new TimePlayedCMD(plugin);

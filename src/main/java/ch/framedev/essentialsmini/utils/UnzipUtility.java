@@ -1,5 +1,7 @@
 package ch.framedev.essentialsmini.utils;
 
+import ch.framedev.essentialsmini.main.Main;
+
 import java.io.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -15,33 +17,41 @@ public class UnzipUtility {
      */
     public void unzip(String zipFilePath, String destDirectory) throws IOException {
         File destDir = new File(destDirectory);
-        if (!destDir.exists()) {
-            destDir.mkdir();
+        if (!destDir.exists() && !destDir.mkdirs()) {
+            throw new IOException("Could not create destination directory: " + destDirectory);
         }
-        ZipInputStream zipIn = new ZipInputStream(new FileInputStream(zipFilePath));
-        ZipEntry entry = zipIn.getNextEntry();
-        // iterates over entries in the zip file
-        while (entry != null) {
-            String filePath = destDirectory + File.separator + entry.getName();
-            if (!entry.isDirectory()) {
-                // if the entry is a file, extracts it
-                extractFile(zipIn, filePath);
-            } else {
-                // if the entry is a directory, make the directory
-                File dir = new File(filePath);
-                dir.mkdirs();
+
+        try (ZipInputStream zipIn = new ZipInputStream(new FileInputStream(zipFilePath))) {
+            ZipEntry entry = zipIn.getNextEntry();
+
+            while (entry != null) {
+                String filePath = destDirectory + File.separator + entry.getName();
+
+                // Skip macOS-specific files and hidden metadata files
+                if (entry.getName().startsWith("__MACOSX") || entry.getName().contains("._")) {
+                    Main.getInstance().getLogger4J().info("Skipping file: " + entry.getName());
+                    zipIn.closeEntry();
+                    entry = zipIn.getNextEntry();
+                    continue;
+                }
+
+                if (entry.isDirectory()) {
+                    // Create the directory
+                    File dir = new File(filePath);
+                    if (!dir.exists() && !dir.mkdirs()) {
+                        throw new IOException("Could not create directory: " + filePath);
+                    }
+                } else {
+                    // Extract the file
+                    extractFile(zipIn, filePath);
+                }
+
+                zipIn.closeEntry();
+                entry = zipIn.getNextEntry();
             }
-            zipIn.closeEntry();
-            entry = zipIn.getNextEntry();
         }
-        zipIn.close();
     }
-    /**
-     * Extracts a zip entry (file entry)
-     * @param zipIn
-     * @param filePath
-     * @throws IOException
-     */
+
     private void extractFile(ZipInputStream zipIn, String filePath) throws IOException {
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath));
         byte[] bytesIn = new byte[BUFFER_SIZE];

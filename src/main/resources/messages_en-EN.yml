@@ -65,7 +65,7 @@ TpaMessages:
   TpaDeny: '&aYou declined the teleportation request!'
   TpaDenyTarget: "&6%Player% &chas declined your teleportation request!"
   Delay: "&aYou'll be teleported in &6%Time%! &aIf you move the teleportation will be cancelled."
-  Denied: '&cYou moved. &6Teleportation has been cancelled!'                  
+  Denied: '&cYou moved. &6Teleportation has been cancelled!'
   TpaHereDeny: '&cYou declined the tpahere request.'
   TpaHereDenyTarget: '&6%Player% &chas declined the tpahere request!'
   TpaHere: '&aDo you want to teleport &6%Player% to you?'

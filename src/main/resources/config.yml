@@ -128,3 +128,7 @@ Bank: true
 msg:
   notificationTo: "&cme &r-> &a %TARGET% &f» %MESSAGE%"
   notificationFrom: "&a%TARGET% &r-> &cme  &f» %MESSAGE%"
+
+spawnTpIgnoreWorlds:
+  - world_nether
+  - world_the_end

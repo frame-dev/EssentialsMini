@@ -114,7 +114,7 @@ public class LagCMD extends CommandBase {
         }
         // Preserve correctness in the original date object by removing the extra buffer time
         toDate.add(Calendar.MILLISECOND, future ? -50 : 50);
-        if (sb.length() == 0) {
+        if (sb.isEmpty()) {
             return "now";
         }
         return sb.toString().trim();

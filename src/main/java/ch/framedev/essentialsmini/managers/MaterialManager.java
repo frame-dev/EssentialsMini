@@ -40,7 +40,7 @@ public class MaterialManager {
         try {
             cfg.save(file);
         } catch (IOException e) {
-            e.printStackTrace();
+            Main.getInstance().getLogger4J().error(e);
         }
     }
 
@@ -79,7 +79,7 @@ public class MaterialManager {
     public Material getMaterial(String name) {
         for (Material material : getMaterials()) {
             if (material != null) {
-                if (material.name().toUpperCase().equalsIgnoreCase(name.toUpperCase())) {
+                if (material.name().equalsIgnoreCase(name)) {
                     return material;
                 }
             }
@@ -115,19 +115,20 @@ public class MaterialManager {
     public void saveMaterialToJson() {
         File file = new File(Main.getInstance().getDataFolder() + "/JsonData", "Materials.json");
         if (!file.exists()) {
-            file.getParentFile().mkdirs();
+            if (!file.getParentFile().mkdirs())
+                throw new RuntimeException("Could not create parent directories for file: " + file);
             try {
-                file.createNewFile();
+                if (!file.createNewFile())
+                    throw new RuntimeException("Could not create file: " + file);
             } catch (IOException e) {
-                e.printStackTrace();
+                Main.getInstance().getLogger4J().error(e);
             }
         }
-        try {
-            FileWriter fileWriter = new FileWriter(file);
+        try (FileWriter fileWriter = new FileWriter(file)) {
             fileWriter.write(toJSON());
             fileWriter.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            Main.getInstance().getLogger4J().error(e);
         }
     }
 
@@ -140,7 +141,7 @@ public class MaterialManager {
                 }.getType();
                 return new Gson().fromJson(fileReader, type);
             } catch (IOException e) {
-                e.printStackTrace();
+                Main.getInstance().getLogger4J().error(e);
             }
         }
         return null;

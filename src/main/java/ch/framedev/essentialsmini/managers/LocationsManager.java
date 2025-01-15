@@ -51,7 +51,7 @@ public class LocationsManager {
                     writer.flush();
                     writer.close();
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    Main.getInstance().getLogger4J().error(ex);
                 }
             }
         } else {
@@ -63,7 +63,7 @@ public class LocationsManager {
                 writer.flush();
                 writer.close();
             } catch (Exception ex) {
-                ex.printStackTrace();
+                Main.getInstance().getLogger4J().error(ex);
             }
         }
     }
@@ -85,7 +85,7 @@ public class LocationsManager {
                 writer.flush();
                 writer.close();
             } catch (Exception ex) {
-                ex.printStackTrace();
+                Main.getInstance().getLogger4J().error(ex);
             }
         }
     }
@@ -106,7 +106,7 @@ public class LocationsManager {
         try {
             cfg.save(file);
         } catch (IOException e) {
-            e.printStackTrace();
+            Main.getInstance().getLogger4J().error(e);
         }
     }
 
@@ -125,7 +125,9 @@ public class LocationsManager {
         if (jsonFormat) {
             setJsonLocation(name, location);
         } else {
-            cfg.set(name + ".world", location.getWorld().getName());
+            World world = location.getWorld();
+            if (world == null) return;
+            cfg.set(name + ".world", world.getName());
             cfg.set(name + ".x", location.getX());
             cfg.set(name + ".y", location.getY());
             cfg.set(name + ".z", location.getZ());
@@ -145,7 +147,9 @@ public class LocationsManager {
         if (jsonFormat) {
             setJsonLocation(name, location);
         } else {
-            cfg.set(name + ".world", location.getWorld().getName());
+            World world = location.getWorld();
+            if (world == null) return;
+            cfg.set(name + ".world", world.getName());
             cfg.set(name + ".x", location.getX());
             cfg.set(name + ".y", location.getY());
             cfg.set(name + ".z", location.getZ());
@@ -197,15 +201,17 @@ public class LocationsManager {
         File file = new File(Main.getInstance().getDataFolder(), "locations.json");
         try {
             if (!file.exists()) {
-                file.getParentFile().mkdirs();
-                file.createNewFile();
+                if (!file.getParentFile().mkdirs())
+                    return;
+                if (!file.createNewFile())
+                    return;
             }
             FileWriter writer = new FileWriter(file);
             writer.write(new GsonBuilder().setPrettyPrinting().create().toJson(locs));
             writer.flush();
             writer.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Main.getInstance().getLogger4J().error(e);
         }
     }
 
@@ -286,7 +292,7 @@ public class LocationsManager {
     }
 
     public double getWarpCost(String warpName) {
-        if(cfg.contains("warps." + warpName + ".cost"))
+        if (cfg.contains("warps." + warpName + ".cost"))
             return cfg.getDouble("warps." + warpName + ".cost");
         return 0;
     }
@@ -395,7 +401,7 @@ public class LocationsManager {
         try {
             cfgBackup.save(fileBackup);
         } catch (IOException e) {
-            e.printStackTrace();
+            Main.getInstance().getLogger4J().error(e);
         }
     }
 
@@ -432,7 +438,7 @@ public class LocationsManager {
                     try {
                         getCfg().save(getFile());
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Main.getInstance().getLogger4J().error(e);
                     }
                 }
             }
@@ -446,7 +452,7 @@ public class LocationsManager {
             fileWriter.flush();
             fileWriter.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Main.getInstance().getLogger4J().error(e);
         }
     }
 
@@ -463,6 +469,9 @@ public class LocationsManager {
 
         public LocationJson(String name, Location location) {
             this.locationName = name;
+            World world = location.getWorld();
+            if(world == null)
+                throw new NullPointerException("World is null");
             this.worldName = location.getWorld().getName();
             this.x = location.getX();
             this.y = location.getY();

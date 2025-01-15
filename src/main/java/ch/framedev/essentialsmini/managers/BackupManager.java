@@ -22,7 +22,7 @@ public class BackupManager {
             try {
                 copyDirectory(world.getWorldFolder(),new File("Backups/Backups_"+ new SimpleDateFormat("yyyy.MM.dd|HH:mm:ss").format(new Date(System.currentTimeMillis())) + "/"+world.getName()));
             } catch (IOException e) {
-                e.printStackTrace();
+                Main.getInstance().getLogger4J().error(e);
             }
         }
     }
@@ -34,7 +34,8 @@ public class BackupManager {
 
     private static void copyDirectory(File sourceDirectory, File destinationDirectory) throws IOException {
         if (!destinationDirectory.exists()) {
-            destinationDirectory.mkdir();
+            if(!destinationDirectory.mkdir())
+                throw new IOException("Could not create directory " + destinationDirectory);
         }
         for (String f : Objects.requireNonNull(sourceDirectory.list())) {
             copyDirectoryCompatibilityMode(new File(sourceDirectory, f), new File(destinationDirectory, f));

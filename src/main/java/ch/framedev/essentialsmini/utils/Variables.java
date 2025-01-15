@@ -38,8 +38,8 @@ public class Variables {
     public static final String ADMIN_BROADCAST = "AdminCommandBroadCast";
     public static final String BANK = "Bank";
 
-    private final ArrayList<OfflinePlayer> players = new ArrayList<>();
-    private final ArrayList<String> offlinePlayers;
+    private final List<OfflinePlayer> players = new ArrayList<>();
+    private final List<String> offlinePlayers;
 
     public Variables() {
         this.instance = Main.getInstance();
@@ -110,11 +110,11 @@ public class Variables {
         return noPermission;
     }
 
-    public ArrayList<OfflinePlayer> getPlayers() {
+    public List<OfflinePlayer> getPlayers() {
         return players;
     }
 
-    public ArrayList<String> getOfflinePlayers() {
+    public List<String> getOfflinePlayers() {
         return offlinePlayers;
     }
 }

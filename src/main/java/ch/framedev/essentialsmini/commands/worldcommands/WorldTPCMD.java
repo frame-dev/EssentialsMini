@@ -3,6 +3,7 @@ package ch.framedev.essentialsmini.commands.worldcommands;
 import ch.framedev.essentialsmini.main.EssentialsMiniAPI;
 import ch.framedev.essentialsmini.main.Main;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -41,28 +42,29 @@ public class WorldTPCMD implements CommandExecutor, Listener, TabCompleter {
     public static ArrayList<String> worldWithKeys;
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (sender instanceof Player) {
             if (sender.hasPermission(new Permission(plugin.getVariables().getPermissionBase() + "worldutils", PermissionDefault.OP))) {
                 if (command.getName().equalsIgnoreCase("worldtp")) {
                     if (args.length == 1) {
                         Player player = (Player) sender;
                         String worldName = args[0];
-                        if (Bukkit.getWorld(worldName) != null) {
-                            if (worldWithKeys.contains(worldName)) {
-                                if (EssentialsMiniAPI.getInstance().hasPlayerKey(player)) {
-                                    player.teleport(Bukkit.getWorld(worldName).getSpawnLocation());
-                                    player.sendMessage(plugin.getPrefix() + "§aDu wurdest in die Welt §6" + worldName + " §aTeleportiert!");
-
-                                } else {
-                                    player.sendMessage(plugin.getPrefix() + "§cDu hast keinen Key damit du diese Welt betreten kannst!");
+                        if (worldWithKeys.contains(worldName)) {
+                            if (EssentialsMiniAPI.getInstance().hasPlayerKey(player)) {
+                                World world = Bukkit.getWorld(worldName);
+                                if (world == null) {
+                                    player.sendMessage(plugin.getPrefix() + "§cDiese Welt existiert nicht! §6" + worldName);
+                                    return true;
                                 }
-                            } else {
-                                player.teleport(Bukkit.getWorld(worldName).getSpawnLocation());
+                                player.teleport(world.getSpawnLocation());
                                 player.sendMessage(plugin.getPrefix() + "§aDu wurdest in die Welt §6" + worldName + " §aTeleportiert!");
+
+                            } else {
+                                player.sendMessage(plugin.getPrefix() + "§cDu hast keinen Key damit du diese Welt betreten kannst!");
                             }
                         } else {
-                            player.sendMessage(plugin.getPrefix() + "§cDiese Welt existiert nicht! §6" + worldName);
+                            player.teleport(Bukkit.getWorld(worldName).getSpawnLocation());
+                            player.sendMessage(plugin.getPrefix() + "§aDu wurdest in die Welt §6" + worldName + " §aTeleportiert!");
                         }
                     } else if (args.length == 2) {
                         Player player = (Player) sender;
@@ -180,8 +182,8 @@ public class WorldTPCMD implements CommandExecutor, Listener, TabCompleter {
                 List<String> worlds = new ArrayList<>();
                 Bukkit.getWorlds().forEach(world -> worlds.add(world.getName()));
                 List<String> empty = new ArrayList<>();
-                for(String s : worlds) {
-                    if(s.toLowerCase().startsWith(args[0].toLowerCase()))
+                for (String s : worlds) {
+                    if (s.toLowerCase().startsWith(args[0].toLowerCase()))
                         empty.add(s);
                 }
                 Collections.sort(empty);

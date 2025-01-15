@@ -32,7 +32,7 @@ public class FileManager {
         try {
             cfg.save(file);
         } catch (IOException e) {
-            e.printStackTrace();
+            Main.getInstance().getLogger4J().error(e);
         }
     }
 

@@ -19,7 +19,7 @@ import java.io.IOException;
 @SuppressWarnings("unused")
 public class BankAPI {
 
-    File file = new File(Main.getInstance().getDataFolder() + "/money", "bankaccounts.yml");
+    File file = new File(Main.getInstance().getDataFolder() + "/money", "bankAccounts.yml");
     FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
 
     private static BankAPI instance;

@@ -8,7 +8,7 @@ import java.util.logging.Level;
 
 /**
  * This Plugin was Created by FrameDev
- * Package : de.framedev.essentialsmin.utils
+ * Package : de.framedev.essentialsmini.utils
  * ClassName MongoDbUtils
  * Date: 06.04.21
  * Project: Unknown
@@ -17,26 +17,8 @@ import java.util.logging.Level;
 
 public class MongoDBUtils {
 
-    /**
-     * -- GETTER --
-     * This Method returns if MongoDB is enabled or not
-     *
-     * @return return if MongoDB is Enabled or not
-     */
     private boolean mongoDb = false;
-    /**
-     * -- GETTER --
-     * This Method returns the MongoManager class
-     *
-     * @return return MongoManager class
-     */
     private MongoManager mongoManager;
-    /**
-     * -- GETTER --
-     * This Method returns the BackendManager class
-     *
-     * @return return BackendManager class
-     */
     private BackendManager backendManager;
 
     public MongoDBUtils() {
@@ -76,17 +58,5 @@ public class MongoDBUtils {
 
     public boolean isMongoDb() {
         return mongoDb;
-    }
-
-    public void setMongoDb(boolean mongoDb) {
-        this.mongoDb = mongoDb;
-    }
-
-    public void setMongoManager(MongoManager mongoManager) {
-        this.mongoManager = mongoManager;
-    }
-
-    public void setBackendManager(BackendManager backendManager) {
-        this.backendManager = backendManager;
     }
 }

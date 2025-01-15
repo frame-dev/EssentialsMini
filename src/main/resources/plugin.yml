@@ -1,6 +1,6 @@
 name: EssentialsMini
 author: FrameDev
-api-version: 1.13
+api-version: 1.20
 version: ${project.version}
 main: ch.framedev.essentialsmini.main.Main
 softdepend:
@@ -18,13 +18,16 @@ commands:
     aliases:
       - bal
   eco:
+    description: Main Command for all Economy Commands
   srestart:
     permission: essentialsmini.restart
     description: Custom restart feature
   tpaheredeny:
+    description: Disallow the Teleport Request
   home:
     description: teleport you to our home Location
   homegui:
+    description: open an GUI with all Homes
   sethome:
     description: set your home location
   setspawn:
@@ -82,8 +85,11 @@ commands:
   night:
     description: set Night in our World
   tpahere:
+    description: Send a Teleport Request to another Player
   tpahereaccept:
+    description: accept the Teleport Request
   tphereall:
+    description: Teleport all Players to your Location
   backpack:
     description: Opens an Backpack
     aliases:
@@ -94,7 +100,7 @@ commands:
       - essmini
     description: Command for all Children Commands
   sleep:
-    description: Use this command as Sleepback the Bed despawn at 7 seconds
+    description: Use this command as Sleep bag the Bed despawn at 7 seconds
   item:
     aliases:
       - i
@@ -195,7 +201,9 @@ commands:
   resetpltime:
     description: Reset the Playertime
   fuck:
+    description: Spawn Firework
   lag:
+    description: Show statistics about the Server
   delwarp:
     description: Delete a Warp Location
   msgtoggle:
@@ -256,7 +264,9 @@ commands:
       - experience
     description: Base Command to change your XP or Level
   register:
+    description: Register to the Server
   login:
+    description: Login to the Server
   plweather:
     aliases:
       - playerweather

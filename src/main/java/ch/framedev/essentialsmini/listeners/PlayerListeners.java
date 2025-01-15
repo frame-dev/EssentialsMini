@@ -30,6 +30,8 @@ import org.bukkit.event.player.*;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.List;
+
 import static org.bukkit.Bukkit.getServer;
 
 public class PlayerListeners implements Listener {
@@ -110,13 +112,17 @@ public class PlayerListeners implements Listener {
             @Override
             public void run() {
                 if (plugin.getConfig().getBoolean("SpawnTP")) {
-                    if (!event.getPlayer().getWorld().getName().equalsIgnoreCase("plotme1")) {
-                        LocationsManager spawnLocation = new LocationsManager("spawn");
-                        try {
-                            event.getPlayer().teleport(spawnLocation.getLocation());
-                        } catch (IllegalArgumentException ex) {
-                            event.getPlayer().teleport(event.getPlayer().getWorld().getSpawnLocation());
+                    List<String> ignoredWorlds = plugin.getConfig().getStringList("spawnTpIgnoreWorlds");
+                    for(String world : ignoredWorlds) {
+                        if (event.getPlayer().getWorld().getName().equalsIgnoreCase(world)) {
+                            return;
                         }
+                    }
+                    LocationsManager spawnLocation = new LocationsManager("spawn");
+                    try {
+                        event.getPlayer().teleport(spawnLocation.getLocation());
+                    } catch (IllegalArgumentException ex) {
+                        event.getPlayer().teleport(event.getPlayer().getWorld().getSpawnLocation());
                     }
                 }
                 cancel();

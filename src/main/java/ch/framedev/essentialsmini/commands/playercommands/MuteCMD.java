@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * This Plugin was Created by FrameDev
@@ -37,7 +38,7 @@ public class MuteCMD extends CommandBase implements Listener {
 
     private final Main plugin;
 
-    private final ArrayList<OfflinePlayer> muted;
+    private final List<OfflinePlayer> muted;
 
     public static File file;
     public static FileConfiguration cfg;
@@ -52,11 +53,10 @@ public class MuteCMD extends CommandBase implements Listener {
         this.plugin = plugin;
         plugin.getListeners().add(this);
         this.muted = plugin.getVariables().getPlayers();
-        file = new File(plugin.getDataFolder(), "tempmutes.yml");
+        file = new File(plugin.getDataFolder(), "tempMutes.yml");
         cfg = YamlConfiguration.loadConfiguration(file);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("mute")) {
@@ -124,7 +124,7 @@ public class MuteCMD extends CommandBase implements Listener {
                         try {
                             cfg.save(file);
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            plugin.getLogger4J().error(e);
                         }
                         String selfMute = plugin.getCustomMessagesConfig().getString("Mute.Self.Activate");
                         selfMute = ReplaceCharConfig.replaceParagraph(selfMute);
@@ -162,7 +162,7 @@ public class MuteCMD extends CommandBase implements Listener {
                         try {
                             cfg.save(file);
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            plugin.getLogger4J().error(e);
                         }
                         String selfMute = plugin.getCustomMessagesConfig().getString("Mute.Self.Activate");
                         selfMute = ReplaceCharConfig.replaceParagraph(selfMute);
@@ -207,7 +207,7 @@ public class MuteCMD extends CommandBase implements Listener {
                         try {
                             cfg.save(file);
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            plugin.getLogger4J().error(e);
                         }
                         String selfUnMute = plugin.getCustomMessagesConfig().getString("Mute.Self.Deactivate");
                         selfUnMute = ReplaceCharConfig.replaceParagraph(selfUnMute);
@@ -251,12 +251,14 @@ public class MuteCMD extends CommandBase implements Listener {
                         players.add(player);
                 }
                 players.forEach(player -> {
-                    new BanMuteManager().getTempMute(player).forEach((s, s2) -> {
-                        sender.sendMessage("§6" + player.getName() + " §ais Muted while : §6" + s2);
-                        try {
-                            sender.sendMessage("§aExpired at §6: " + new SimpleDateFormat("dd.MM.yyyy | HH:mm:ss").parse(s));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                    new BanMuteManager().getTempMute(player).thenAccept(stringStringMap -> {
+                        if(stringStringMap != null) {
+                            sender.sendMessage("§6" + player.getName() + " §ais Muted while : §6" + stringStringMap.get(stringStringMap.keySet().iterator().next()));
+                            try {
+                                sender.sendMessage("§aExpired at §6: " + new SimpleDateFormat("dd.MM.yyyy | HH:mm:ss").parse(stringStringMap.values().iterator().next()));
+                            } catch (ParseException e) {
+                                plugin.getLogger4J().error(e);
+                            }
                         }
                     });
                 });
@@ -265,31 +267,52 @@ public class MuteCMD extends CommandBase implements Listener {
         return super.onCommand(sender, command, label, args);
     }
 
-    public boolean isExpired(Player player) {
+    public CompletableFuture<Boolean> isExpiredAsync(OfflinePlayer player) {
         if (plugin.isMysql() || plugin.isSQL()) {
-            if (new BanMuteManager().isTempMute(player)) {
-                final Date[] date = {new Date()};
-                new BanMuteManager().getTempMute(player).forEach((s, s2) -> {
-                    try {
-                        date[0] = new SimpleDateFormat("dd.MM.yyyy | HH:mm:ss").parse(s);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+            BanMuteManager banMuteManager = new BanMuteManager();
+
+            // Check if the player is temp-muted
+            if (banMuteManager.isTempMute(player)) {
+                return banMuteManager.getTempMute(player).thenApply(stringStringMap -> {
+                    if (stringStringMap != null) {
+                        String tempMute = stringStringMap.get("TempMute");
+                        try {
+                            Date muteDate = new SimpleDateFormat("dd.MM.yyyy | HH:mm:ss").parse(tempMute);
+                            return muteDate.getTime() < System.currentTimeMillis();
+                        } catch (ParseException e) {
+                            plugin.getLogger4J().error("Error parsing TempMute date for player: " + player.getName(), e);
+                            return true; // Treat as expired if date parsing fails
+                        }
                     }
+                    return true; // Treat as expired if no TempMute data is found
+                }).exceptionally(t -> {
+                    plugin.getLogger4J().error("Error while checking TempMute expiration for player: " + player.getName(), t);
+                    return true; // Treat as expired in case of an error
                 });
-                if (date[0] != null)
-                    return date[0].getTime() < System.currentTimeMillis();
             } else {
-                return true;
+                return CompletableFuture.completedFuture(true); // Not temp-muted, treat as expired
             }
         } else {
+            // Handle file-based configuration synchronously
             if (cfg.contains(player.getName() + ".reason")) {
-                Date date = (Date) cfg.get(player.getName() + ".expire");
-                if (date != null)
-                    return date.getTime() < System.currentTimeMillis();
+                Date expireDate = (Date) cfg.get(player.getName() + ".expire");
+                if (expireDate != null) {
+                    return CompletableFuture.completedFuture(expireDate.getTime() < System.currentTimeMillis());
+                }
             }
+            return CompletableFuture.completedFuture(true); // Treat as expired if no data is found
         }
-        return true;
     }
+
+    public boolean isExpired(OfflinePlayer player) {
+        try {
+            return isExpiredAsync(player).join();
+        } catch (Exception e) {
+            plugin.getLogger4J().error("Error while checking TempMute expiration for player: " + player.getName(), e);
+            return true; // Treat as expired in case of an error
+        }
+    }
+
 
     @EventHandler
     public void onChatWrite(AsyncPlayerChatEvent event) {
@@ -298,15 +321,17 @@ public class MuteCMD extends CommandBase implements Listener {
                 if (new BanMuteManager().isTempMute(event.getPlayer())) {
                     final Date[] date = {new Date()};
                     final String[] reason = {""};
-                    new BanMuteManager().getTempMute(event.getPlayer()).forEach((s, s2) -> {
-                        reason[0] = s2;
-                        try {
-                            date[0] = new SimpleDateFormat("dd.MM.yyyy | HH:mm:ss").parse(s);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                    new BanMuteManager().getTempMute(event.getPlayer()).thenAccept(stringStringMap -> {
+                        if(stringStringMap != null) {
+                            reason[0] = stringStringMap.get(stringStringMap.keySet().iterator().next());
+                            try {
+                                date[0] = new SimpleDateFormat("dd.MM.yyyy | HH:mm:ss").parse(stringStringMap.values().iterator().next());
+                            } catch (ParseException e) {
+                                plugin.getLogger4J().error(e);
+                            }
+                            event.getPlayer().sendMessage(plugin.getPrefix() + "§cYou are Muted! While §6" + reason[0] + " | §aExpired at : §6" + date[0].toString());
                         }
                     });
-                    event.getPlayer().sendMessage(plugin.getPrefix() + "§cYou are Muted! While §6" + reason[0] + " | §aExpired at : §6" + date[0].toString());
                 }
             } else {
                 Date date = (Date) cfg.get(event.getPlayer().getName() + ".expire");
@@ -323,7 +348,7 @@ public class MuteCMD extends CommandBase implements Listener {
                     try {
                         cfg.save(file);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        plugin.getLogger4J().error(e);
                     }
                 }
             }

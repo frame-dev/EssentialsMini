@@ -16,6 +16,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,9 +35,8 @@ public class ReflectionUtil {
      */
     private static boolean forge = false;
 
-    /** check server version and class names */
+    /* check server version and class names */
     static {
-        if (Bukkit.getServer() != null) {
             if (Bukkit.getVersion().contains("MC") || Bukkit.getVersion().contains("Forge")) forge = true;
             Server server = Bukkit.getServer();
             Class<?> bukkitServerClass = server.getClass();
@@ -50,7 +50,6 @@ public class ReflectionUtil {
                 preClassM += "." + verB;
             } catch (Exception ignored) {
             }
-        }
     }
 
     /**
@@ -90,7 +89,7 @@ public class ReflectionUtil {
      * @param clazz class
      * @return RefClass based on passed class
      */
-    public static RefClass getRefClass(Class clazz) {
+    public static RefClass getRefClass(Class<?> clazz) {
         return new RefClass(clazz);
     }
 
@@ -133,10 +132,10 @@ public class ReflectionUtil {
          */
         public RefMethod getMethod(String name, Object... types) {
             try {
-                Class[] classes = new Class[types.length];
+                Class<?>[] classes = new Class[types.length];
                 int i = 0;
                 for (Object e : types) {
-                    if (e instanceof Class) classes[i++] = (Class) e;
+                    if (e instanceof Class) classes[i++] = (Class<?>) e;
                     else if (e instanceof RefClass) classes[i++] = ((RefClass) e).getRealClass();
                     else classes[i++] = e.getClass();
                 }
@@ -159,10 +158,10 @@ public class ReflectionUtil {
          */
         public RefConstructor getConstructor(Object... types) {
             try {
-                Class[] classes = new Class[types.length];
+                Class<?>[] classes = new Class[types.length];
                 int i = 0;
                 for (Object e : types) {
-                    if (e instanceof Class) classes[i++] = (Class) e;
+                    if (e instanceof Class) classes[i++] = (Class<?>) e;
                     else if (e instanceof RefClass) classes[i++] = ((RefClass) e).getRealClass();
                     else classes[i++] = e.getClass();
                 }
@@ -184,10 +183,10 @@ public class ReflectionUtil {
          * @throws RuntimeException if method not found
          */
         public RefMethod findMethod(Object... types) {
-            Class[] classes = new Class[types.length];
+            Class<?>[] classes = new Class[types.length];
             int t = 0;
             for (Object e : types) {
-                if (e instanceof Class) classes[t++] = (Class) e;
+                if (e instanceof Class) classes[t++] = (Class<?>) e;
                 else if (e instanceof RefClass) classes[t++] = ((RefClass) e).getRealClass();
                 else classes[t++] = e.getClass();
             }
@@ -199,7 +198,7 @@ public class ReflectionUtil {
                 Class<?>[] methodTypes = m.getParameterTypes();
                 if (methodTypes.length != classes.length) continue;
                 for (int i = 0; i < classes.length; i++) {
-                    if (!classes.equals(methodTypes)) continue findMethod;
+                    if (!Arrays.equals(classes, methodTypes)) continue findMethod;
                     return new RefMethod(m);
                 }
             }
@@ -245,7 +244,7 @@ public class ReflectionUtil {
          * @return RefMethod
          * @throws RuntimeException if method not found
          */
-        public RefMethod findMethodByReturnType(Class type) {
+        public RefMethod findMethodByReturnType(Class<?> type) {
             if (type == null) type = void.class;
             List<Method> methods = new ArrayList<>();
             Collections.addAll(methods, clazz.getMethods());
@@ -266,10 +265,10 @@ public class ReflectionUtil {
          * @throws RuntimeException if constructor not found
          */
         public RefConstructor findConstructor(int number) {
-            List<Constructor> constructors = new ArrayList<>();
+            List<Constructor<?>> constructors = new ArrayList<>();
             Collections.addAll(constructors, clazz.getConstructors());
             Collections.addAll(constructors, clazz.getDeclaredConstructors());
-            for (Constructor m : constructors) {
+            for (Constructor<?> m : constructors) {
                 if (m.getParameterTypes().length == number) return new RefConstructor(m);
             }
             throw new RuntimeException("no such constructor");
@@ -312,7 +311,7 @@ public class ReflectionUtil {
          * @return RefField
          * @throws RuntimeException if field not found
          */
-        public RefField findField(Class type) {
+        public RefField findField(Class<?> type) {
             if (type == null) type = void.class;
             List<Field> fields = new ArrayList<>();
             Collections.addAll(fields, clazz.getFields());
@@ -410,12 +409,12 @@ public class ReflectionUtil {
      * Constructor wrapper
      */
     public static class RefConstructor {
-        private final Constructor constructor;
+        private final Constructor<?> constructor;
 
         /**
          * @return passed constructor
          */
-        public Constructor getRealConstructor() {
+        public Constructor<?> getRealConstructor() {
             return constructor;
         }
 
@@ -426,7 +425,7 @@ public class ReflectionUtil {
             return new RefClass(constructor.getDeclaringClass());
         }
 
-        private RefConstructor(Constructor constructor) {
+        private RefConstructor(Constructor<?> constructor) {
             this.constructor = constructor;
             constructor.setAccessible(true);
         }
@@ -448,7 +447,7 @@ public class ReflectionUtil {
     }
 
     public static class RefField {
-        private Field field;
+        private final Field field;
 
         /**
          * @return passed field
@@ -494,7 +493,7 @@ public class ReflectionUtil {
             }
 
             /**
-             * set field value for applied object
+             * set field value for an applied object
              *
              * @param param value
              */
@@ -507,7 +506,7 @@ public class ReflectionUtil {
             }
 
             /**
-             * get field value for applied object
+             * get field value for an applied object
              *
              * @return value of field
              */

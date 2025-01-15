@@ -6,11 +6,11 @@
 
     <groupId>ch.framedev</groupId>
     <artifactId>EssentialsMini</artifactId>
-    <version>1.4.6-1.20.6-PRE-RELEASE</version>
+    <version>1.4.7-1.20.6-PRE-RELEASE</version>
     <url>https://framedev.ch</url>
 
     <properties>
-        <repo_version>release</repo_version>
+        <repo_version>pre-release</repo_version>
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -40,6 +40,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>6.2.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.20.6-R0.1-SNAPSHOT</version>
@@ -60,19 +66,13 @@
         <dependency>
             <groupId>ch.framedev</groupId>
             <artifactId>SimpleJavaUtils</artifactId>
-            <version>1.0.8-RELEASE</version>
+            <version>1.1.4.1-RELEASE</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.11.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>23.0.0</version>
+            <version>2.14.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -87,12 +87,11 @@
             <version>1.2.17</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>24.1.0</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

@@ -4,5 +4,10 @@ public enum Language {
 
     EN,
     DE,
-    FR;
+    FR,
+    IT,
+    ES,
+    PT,
+    PL,
+    RU;
 }

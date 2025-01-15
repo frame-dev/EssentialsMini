@@ -40,9 +40,6 @@ public class BankCMD extends CommandBase {
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("list")) {
                 if (sender.hasPermission("essentialsmini.bank.list")) {
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
                             List<String> banks = plugin.getVaultManager().getBanks();
                             StringBuilder stringBuilder = new StringBuilder();
                             for (
@@ -55,9 +52,6 @@ public class BankCMD extends CommandBase {
                             sender.sendMessage(plugin.getPrefix() + "§6<<<===>>>");
                             sender.sendMessage(plugin.getPrefix() + "§a" + stringBuilder.toString());
                             sender.sendMessage(plugin.getPrefix() + "§6<<<===>>>");
-                            cancel();
-                        }
-                    }.runTaskAsynchronously(plugin);
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                     new AdminBroadCast(this, "§cNo Permissions!", sender);
@@ -71,9 +65,6 @@ public class BankCMD extends CommandBase {
                     return true;
                 }
                 String name = args[1];
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
                         if (plugin.getVaultManager().getEconomy().getBanks().contains(name)) {
                             OfflinePlayer owner = null;
                             for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
@@ -92,17 +83,11 @@ public class BankCMD extends CommandBase {
                             bankNotFound = new TextUtils().replaceAndWithParagraph(bankNotFound);
                             sender.sendMessage(plugin.getPrefix() + bankNotFound);
                         }
-                        cancel();
-                    }
-                }.runTaskAsynchronously(plugin);
             }
             if (args[0].equalsIgnoreCase("create")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
                     if (player.hasPermission("essentialsmini.bank.create")) {
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
                                 EconomyResponse economyResponse = plugin.getVaultManager().getEconomy().createBank(args[1], player);
                                 if (economyResponse.transactionSuccess()) {
                                     String created = plugin.getLanguageConfig(player).getString(Variables.BANK + ".Created");
@@ -115,9 +100,6 @@ public class BankCMD extends CommandBase {
                                     error = new TextUtils().replaceObject(error, "%Error%", economyResponse.errorMessage);
                                     player.sendMessage(plugin.getPrefix() + error);
                                 }
-                                cancel();
-                            }
-                        }.runTaskAsynchronously(plugin);
                     } else {
                         player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                         new AdminBroadCast(this, "§cNo Permissions!", sender);
@@ -129,9 +111,6 @@ public class BankCMD extends CommandBase {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
                     if (player.hasPermission("essentialsmini.bank.balance")) {
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
                                 if (plugin.getVaultManager().getEconomy().getBanks().contains(bankName)) {
                                     if (plugin.getVaultManager().getEconomy().isBankOwner(bankName, player).transactionSuccess() || plugin.getVaultManager().getEconomy().isBankMember(bankName, player).transactionSuccess()) {
                                         String balance = plugin.getLanguageConfig(player).getString(Variables.BANK + ".Balance");
@@ -148,9 +127,6 @@ public class BankCMD extends CommandBase {
                                     bankNotFound = new TextUtils().replaceAndWithParagraph(bankNotFound);
                                     player.sendMessage(plugin.getPrefix() + bankNotFound);
                                 }
-                                cancel();
-                            }
-                        }.runTaskAsynchronously(plugin);
                     } else {
                         player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                         new AdminBroadCast(this, "§cNo Permissions!", sender);
@@ -224,9 +200,6 @@ public class BankCMD extends CommandBase {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
                     if (player.hasPermission("essentialsmini.bank.deposit")) {
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
                                 if (plugin.getVaultManager().getEconomy().getBanks().contains(bankName)) {
                                     if (plugin.getVaultManager().getEconomy().has(player, amount)) {
                                         plugin.getVaultManager().getEconomy().withdrawPlayer(player, amount);
@@ -250,9 +223,6 @@ public class BankCMD extends CommandBase {
                                     bankNotFound = new TextUtils().replaceAndWithParagraph(bankNotFound);
                                     player.sendMessage(plugin.getPrefix() + bankNotFound);
                                 }
-                                cancel();
-                            }
-                        }.runTaskAsynchronously(plugin);
                     } else {
                         player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                         new AdminBroadCast(this, "§cNo Permissions!", sender);
@@ -264,9 +234,6 @@ public class BankCMD extends CommandBase {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
                     if (player.hasPermission("essentialsmini.bank.withdraw")) {
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
                                 if (plugin.getVaultManager().getEconomy().getBanks().contains(bankName)) {
                                     if (plugin.getVaultManager().getEconomy().isBankOwner(bankName, player).transactionSuccess() || plugin.getVaultManager().getEconomy().isBankMember(bankName, player).transactionSuccess()) {
                                         if (plugin.getVaultManager().getEconomy().bankHas(bankName, amount).transactionSuccess()) {
@@ -289,9 +256,6 @@ public class BankCMD extends CommandBase {
                                     bankNotFound = new TextUtils().replaceAndWithParagraph(bankNotFound);
                                     player.sendMessage(plugin.getPrefix() + bankNotFound);
                                 }
-                                cancel();
-                            }
-                        }.runTaskAsynchronously(plugin);
                     } else {
                         player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
                         new AdminBroadCast(this, "§cNo Permissions!", sender);

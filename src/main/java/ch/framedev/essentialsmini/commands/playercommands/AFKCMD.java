@@ -231,7 +231,7 @@ public class AFKCMD implements CommandExecutor {
     class IdleTimer implements Runnable {
 
         private final Main plugin;
-        int afktime = Main.getInstance().getConfig().getInt("AFK.Time");
+        int afkTime = Main.getInstance().getConfig().getInt("AFK.Time");
 
         IdleTimer(Main plugin) {
             this.plugin = plugin;
@@ -240,7 +240,7 @@ public class AFKCMD implements CommandExecutor {
         public void run() {
             for (Player player : this.plugin.getServer().getOnlinePlayers()) {
                 if (AFKCMD.this.getLocationMap().containsKey(player.getName()) && AFKCMD.this.getLocationMap().get(player.getName()).equals(player.getLocation()) && !AFKCMD.isPlayerAfk(player.getName())) {
-                    long idleTime = (this.afktime * 20L);
+                    long idleTime = (this.afkTime * 20L);
                     player.setPlayerTime(-idleTime, true);
                     AFKCMD.this.afk(player, false, "");
                 }

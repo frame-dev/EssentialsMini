@@ -25,7 +25,7 @@ public class AdminBroadCast implements Serializable {
     private final String message;
     private final String commandSender;
     private boolean send;
-    private static transient File file = new File(Main.getInstance().getDataFolder(),"admin-broadcasts.json");
+    private static final File file = new File(Main.getInstance().getDataFolder(),"admin-broadcasts.json");
     private static final Main instance = Main.getInstance();
 
     public AdminBroadCast(String command, String message, CommandSender commandSender) {

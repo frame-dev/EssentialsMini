@@ -113,7 +113,7 @@ public class BackpackCMD extends CommandListenerBase {
                                 try {
                                     inventory.setContents(InventoryStringDeSerializer.itemStackArrayFromBase64(itemsStringHashMap.get(targetPlayer.getUniqueId().toString())));
                                 } catch (IOException e) {
-                                    e.printStackTrace();
+                                    plugin.getLogger4J().error(e);
                                 }
                                 player.openInventory(inventory);
                             } else {

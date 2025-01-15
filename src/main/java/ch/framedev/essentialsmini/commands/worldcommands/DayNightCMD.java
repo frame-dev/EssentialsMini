@@ -42,15 +42,13 @@ public class DayNightCMD extends CommandBase {
                             message = new TextUtils().replaceAndWithParagraph(message);
                         }
                         player.sendMessage(plugin.getPrefix() + message);
-                        return true;
                     } else {
                         player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                        return true;
                     }
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("/day"));
-                    return true;
                 }
+                return true;
             }
             if (command.getName().equalsIgnoreCase("night")) {
                 if (args.length == 0) {
@@ -62,15 +60,13 @@ public class DayNightCMD extends CommandBase {
                         }
                         player.sendMessage(plugin.getPrefix() + message);
                         player.getWorld().setTime(13000);
-                        return true;
                     } else {
                         player.sendMessage(plugin.getPrefix() + plugin.getNoPerms());
-                        return true;
                     }
                 } else {
                     sender.sendMessage(plugin.getPrefix() + plugin.getWrongArgs("/night"));
-                    return true;
                 }
+                return true;
             }
             if (command.getName().equalsIgnoreCase("pltime")) {
                 Player player = (Player) sender;

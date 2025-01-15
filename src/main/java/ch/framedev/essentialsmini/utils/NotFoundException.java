@@ -2,7 +2,7 @@ package ch.framedev.essentialsmini.utils;
 
 
 /*
- * de.framedev.essentialsmin.utils
+ * de.framedev.essentialsmini.utils
  * ===================================================
  * This File was Created by FrameDev
  * Please do not change anything without my consent!

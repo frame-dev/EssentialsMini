@@ -104,7 +104,7 @@ public class UUIDFetcher {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
                 JsonArray nameHistory = gson.fromJson(reader, JsonArray.class);
 
-                if (nameHistory == null || nameHistory.size() == 0) {
+                if (nameHistory == null || nameHistory.isEmpty()) {
                     throw new IllegalArgumentException("Invalid response from Mojang API");
                 }
 

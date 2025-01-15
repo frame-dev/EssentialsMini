@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -73,17 +74,28 @@ public class SaveInventoryCMD implements CommandExecutor, Listener {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public static void restore() {
         if(cfg.contains("Inventory")) {
-            cfg.getConfigurationSection("Inventory").getKeys(false).forEach(key -> {
-                ItemStack[] content = ((List<ItemStack>) cfg.get("Inventory." + key)).toArray(new ItemStack[0]);
+            ConfigurationSection configurationSection = cfg.getConfigurationSection("Inventory");
+            if(configurationSection == null) {
+                Main.getInstance().getLogger4J().error("Error while restoring inventories from file! ConfigurationSection is null!");
+                return;
+            }
+            configurationSection.getKeys(false).forEach(key -> {
+                List<ItemStack> itemStacks = (List<ItemStack>) cfg.get("Inventory." + key);
+                if(itemStacks == null) {
+                    Main.getInstance().getLogger4J().error("Error while restoring inventories from file! ItemStacks are null!");
+                    return;
+                }
+                ItemStack[] content = itemStacks.toArray(new ItemStack[0]);
                 itemsStringHashMap.put(key, content);
             });
             cfg.set("Inventory",null);
             try {
                 cfg.save(file);
             } catch (IOException e) {
-                e.printStackTrace();
+                Main.getInstance().getLogger4J().error(e);
             }
         }
     }
@@ -96,7 +108,7 @@ public class SaveInventoryCMD implements CommandExecutor, Listener {
             try {
                 cfg.save(file);
             } catch (IOException e) {
-                e.printStackTrace();
+                Main.getInstance().getLogger4J().error(e);
             }
         }
     }

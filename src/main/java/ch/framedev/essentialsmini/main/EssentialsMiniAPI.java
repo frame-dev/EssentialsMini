@@ -369,7 +369,7 @@ public class EssentialsMiniAPI {
      */
     public HashMap<String, String> getTempMuteReasonAndExpireDateFromPlayer(OfflinePlayer player) {
         if (plugin.isMysql() || plugin.isSQL()) {
-            return (HashMap<String, String>) new BanMuteManager().getTempMute(player);
+            return new BanMuteManager().getTempMuteAsHash(player).join();
         }
         HashMap<String, String> hash = new HashMap<>();
         hash.put(MuteCMD.cfg.getString(player.getName() + ".expire"), MuteCMD.cfg.getString(player.getName() + ".reason"));

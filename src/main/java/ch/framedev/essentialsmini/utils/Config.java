@@ -41,7 +41,7 @@ public class Config {
                 }
             }
         } catch (IOException | org.bukkit.configuration.InvalidConfigurationException e) {
-            e.printStackTrace();
+            Main.getInstance().getLogger4J().error(e);
         }
     }
 
@@ -51,20 +51,18 @@ public class Config {
         //Defaults in jar
         Reader defConfigStream;
         defConfigStream = new InputStreamReader(Objects.requireNonNull(Main.getInstance().getResource(fileName + ".yml")), StandardCharsets.UTF_8);
-        if (defConfigStream != null) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-            cfg.setDefaults(defConfig);
-            //Copy default values
-            cfg.options().copyDefaults(true);
-            try {
-                cfg.save(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Main.getInstance().saveConfig();
-            //OR use this to copy default values
-            //this.saveDefaultConfig();
+        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+        cfg.setDefaults(defConfig);
+        //Copy default values
+        cfg.options().copyDefaults(true);
+        try {
+            cfg.save(file);
+        } catch (IOException e) {
+            Main.getInstance().getLogger4J().error(e);
         }
+        Main.getInstance().saveConfig();
+        //OR use this to copy default values
+        //this.saveDefaultConfig();
     }
 
     public static void saveDefaultConfigValues() {
@@ -73,12 +71,10 @@ public class Config {
         //Defaults in jar
         Reader defConfigStream;
         defConfigStream = new InputStreamReader(Objects.requireNonNull(Main.getInstance().getResource("config.yml")), StandardCharsets.UTF_8);
-        if (defConfigStream != null) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-            cfg.setDefaults(defConfig);
-            cfg.options().copyDefaults(true);
-            Main.getInstance().saveDefaultConfig();
-        }
+        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+        cfg.setDefaults(defConfig);
+        cfg.options().copyDefaults(true);
+        Main.getInstance().saveDefaultConfig();
     }
 }
 

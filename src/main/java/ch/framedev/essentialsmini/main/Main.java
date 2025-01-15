@@ -1,7 +1,6 @@
 package ch.framedev.essentialsmini.main;
 
 import ch.framedev.essentialsmini.commands.playercommands.BackpackCMD;
-import ch.framedev.essentialsmini.commands.playercommands.EnchantCMD;
 import ch.framedev.essentialsmini.commands.playercommands.SaveInventoryCMD;
 import ch.framedev.essentialsmini.commands.playercommands.VanishCMD;
 import ch.framedev.essentialsmini.commands.servercommands.LagCMD;
@@ -54,19 +53,19 @@ public class Main extends JavaPlugin {
 
     private ThreadLocal<Utilities> utilities = new ThreadLocal<>();
 
-    private static ArrayList<String> silent;
+    private static List<String> silent;
 
     private Thread thread;
 
     /* Commands, TabCompleters and Listeners List */
     // Register Commands HashMap
-    private HashMap<String, CommandExecutor> commands;
+    private Map<String, CommandExecutor> commands;
 
     // Register TabCompleter HashMap
-    private HashMap<String, TabCompleter> tabCompleters;
+    private Map<String, TabCompleter> tabCompleters;
 
     // Register Listener List
-    private ArrayList<Listener> listeners;
+    private List<Listener> listeners;
 
     private Map<String, Object> limitedHomesPermission;
 
@@ -93,7 +92,7 @@ public class Main extends JavaPlugin {
 
     private LagCMD.SpigotTimer spigotTimer;
 
-    public ArrayList<String> players;
+    public List<String> players;
 
     private static Main instance;
 
@@ -108,7 +107,7 @@ public class Main extends JavaPlugin {
 
     private String currencySymbol;
 
-    private ArrayList<String> offlinePlayers;
+    private List<String> offlinePlayers;
     private File infoFile;
 
     private FileConfiguration infoCfg;
@@ -122,6 +121,7 @@ public class Main extends JavaPlugin {
     private BukkitTask bukkitTaskConfig;
     private BukkitTask limitedHomesTask;
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onEnable() {
         this.limitedHomes = new HashMap<>();
@@ -165,32 +165,12 @@ public class Main extends JavaPlugin {
         this.settingsFile = new File(getDataFolder(), "settings.yml");
         this.settingsCfg = YamlConfiguration.loadConfiguration(settingsFile);
 
-        if (!new File("plugins/EssentialsMini/messages_de-DE.yml").exists() && !new File("plugins/EssentialsMini/messages_en-EN.yml").exists()) {
-            new UpdateChecker().download("https://framedev.ch/sites/downloads/essentialsminidata/Config_Examples.zip", "plugins/EssentialsMini", "Config_Examples.zip");
-            try {
-                new UnzipUtility().unzip("plugins/EssentialsMini/Config_Examples.zip", "plugins/EssentialsMini");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            if (!new File("plugins/EssentialsMini/Config_Examples.zip").delete()) {
-                getLogger4J().error("Could not delete Config_Examples.zip");
-            }
-        }
+        checkAndDownloadConfigs();
         if (!new File(getDataFolder() + "/messages-examples").exists())
             if (!new File(getDataFolder() + "/messages-examples").mkdir()) {
                 getLogger4J().error("Could not create directory " + getDataFolder() + "/messages-examples");
             }
-        try {
-            SimpleJavaUtils utils = new SimpleJavaUtils();
-            Files.copy(utils.getFromResourceFile("messages_de-DE-examples.yml", Main.class).toPath(),
-                    new File(getDataFolder() + "/messages-examples/messages-de-DE-examples.yml").toPath(), StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(utils.getFromResourceFile("messages_en-EN-examples.yml", Main.class).toPath(),
-                    new File(getDataFolder() + "/messages-examples/messages_en-EN-examples.yml").toPath(), StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(utils.getFromResourceFile("messages_fr-FR-examples.yml", Main.class).toPath(),
-                    new File(getDataFolder() + "/messages-examples/messages_fr-FR-examples.yml").toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } catch (Exception ex) {
-            Main.getInstance().getLogger4J().log(Level.ERROR, "Error", ex);
-        }
+        moveExampleMessages();
         try {
             this.settingsCfg.save(settingsFile);
         } catch (IOException ex) {
@@ -205,12 +185,12 @@ public class Main extends JavaPlugin {
             homeTP = true;
         }
 
-        /* HashMaps / Lists Initialling */
+        /* HashMaps / Lists Initialing */
         this.commands = new HashMap<>();
         this.listeners = new ArrayList<>();
         this.tabCompleters = new HashMap<>();
 
-        /* MaterialManager initialling */
+        /* MaterialManager initialing */
         this.materialManager = new MaterialManager();
         this.materialManager.saveMaterials();
 
@@ -257,7 +237,7 @@ public class Main extends JavaPlugin {
             this.mongoDbUtils = new MongoDBUtils();
             if (isMongoDB()) {
                 for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
-                    getBackendManager().createUser(player, "essentialsmini_data", new BackendManager.Callback<Void>() {
+                    getBackendManager().createUser(player, "essentialsmini_data", new BackendManager.Callback<>() {
                         @Override
                         public void onResult(Void result) {
                         }
@@ -277,7 +257,7 @@ public class Main extends JavaPlugin {
             Bukkit.getConsoleSender().sendMessage(getPrefix() + "§aLocation Backups enabled!");
         }
         UpdateScheduler updateScheduler = new UpdateScheduler();
-        /* Thread for the Schedulers for save restart and .... */
+        /* Thread for the Schedulers for save restart and … */
         thread = new Thread(updateScheduler);
         if (!thread.isAlive()) {
             thread.start();
@@ -352,6 +332,7 @@ public class Main extends JavaPlugin {
             //noinspection InstantiationOfUtilityClass
             new MySQL();
 
+
         if (getConfig().getBoolean("Economy.Activate")) {
             if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
                 this.vaultManager = new VaultManager(this);
@@ -362,12 +343,17 @@ public class Main extends JavaPlugin {
         registerManager.getBackupCMD().makeBackups();
         // BackPack restore
         if (getConfig().getBoolean("Backpack")) {
-            for (OfflinePlayer offlinePlayer : Bukkit.getOfflinePlayers()) {
-                BackpackCMD.restore(offlinePlayer);
-            }
-            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                BackpackCMD.restore(onlinePlayer);
-            }
+
+            // Add all offline players
+            List<OfflinePlayer> players = new ArrayList<>(Arrays.asList(Bukkit.getOfflinePlayers()));
+
+            // Add online players without duplicates
+            Bukkit.getOnlinePlayers().stream()
+                    .filter(player -> !players.contains(player))
+                    .forEach(players::add);
+
+            // Restore backpacks
+            players.forEach(BackpackCMD::restore);
         }
 
         //saveCfg();
@@ -503,6 +489,88 @@ public class Main extends JavaPlugin {
         }.runTaskLater(this, 320);
     }
 
+    public void moveExampleMessages() {
+        SimpleJavaUtils utils = new SimpleJavaUtils();
+        String[] locales = {"de-DE", "en-EN", "fr-FR", "it-IT", "pt-PT", "pl-PL", "es-ES", "ru-RU"};
+
+        File destinationDir = new File(getDataFolder(), "messages-examples");
+        if (!destinationDir.exists() && !destinationDir.mkdirs()) {
+            getLogger4J().error("Failed to create destination directory: " + destinationDir.getPath());
+            return;
+        }
+
+        for (String locale : locales) {
+            File sourceFile = utils.getFromResourceFile("messages_" + locale + "-examples.yml", Main.class);
+
+            File destinationFile = new File(destinationDir, "messages_" + locale + "-examples.yml");
+            if (destinationFile.exists()) continue;
+
+            try (InputStream in = new FileInputStream(sourceFile);
+                 OutputStream out = new FileOutputStream(destinationFile)) {
+
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = in.read(buffer)) > 0) {
+                    out.write(buffer, 0, length);
+                }
+
+                getLogger4J().info("Successfully copied: " + sourceFile.getName());
+            } catch (IOException e) {
+                getLogger4J().error("Failed to copy example messages file: " + sourceFile.getName(), e);
+            }
+        }
+    }
+
+    public void checkAndDownloadConfigs() {
+        List<String> configFiles = Arrays.asList(
+                "plugins/EssentialsMini/messages_de-DE.yml",
+                "plugins/EssentialsMini/messages_en-EN.yml",
+                "plugins/EssentialsMini/messages_fr-FR.yml",
+                "plugins/EssentialsMini/messages_it-IT.yml",
+                "plugins/EssentialsMini/messages_pt-PT.yml",
+                "plugins/EssentialsMini/messages_es-ES.yml",
+                "plugins/EssentialsMini/messages_ru-RU.yml"
+        );
+
+        boolean configsExist = configFiles.stream().allMatch(path -> new File(path).exists());
+
+        if (!configsExist) {
+            getLogger4J().info("No configuration files found. Downloading default configuration...");
+
+            try {
+                // Download the configuration archive
+                new UpdateChecker().download(
+                        "https://framedev.ch/sites/downloads/essentialsminidata/Config_Examples.zip",
+                        "plugins/EssentialsMini",
+                        "Config_Examples.zip"
+                );
+                getLogger4J().info("Config_Examples.zip downloaded successfully.");
+
+                // Unzip the configuration files
+                new UnzipUtility().unzip(
+                        "plugins/EssentialsMini/Config_Examples.zip",
+                        "plugins/EssentialsMini"
+                );
+                getLogger4J().info("Config_Examples.zip unzipped successfully.");
+
+            } catch (IOException e) {
+                getLogger4J().error("An error occurred while downloading or unzipping configuration files.", e);
+                throw new RuntimeException("Failed to initialize configuration files", e);
+            }
+
+            // Delete the ZIP file after extraction
+            File zipFile = new File("plugins/EssentialsMini/Config_Examples.zip");
+            if (zipFile.exists() && !zipFile.delete()) {
+                getLogger4J().error("Failed to delete Config_Examples.zip after extraction.");
+            } else {
+                getLogger4J().info("Config_Examples.zip deleted successfully.");
+            }
+        } else {
+            getLogger4J().info("Configuration files already exist. Skipping download.");
+        }
+    }
+
+
     public static Main getInstance() {
         return instance;
     }
@@ -512,7 +580,7 @@ public class Main extends JavaPlugin {
         comments.add("Position activates /position <LocationName> or /pos <LocationName> Command");
         comments.add("SkipNight activates skipnight. This means that only one Player need to lay in bed!");
         comments.add("LocationsBackup Activates creating Backup from all Homes");
-        comments.add("OnlyEssentialsFeatures if its deactivated only Commands and Economy can be used when is activated the PlayerData will be saved");
+        comments.add("OnlyEssentialsFeatures if its deactivated only Commands and Economy can be used when is activated the PlayerData will be saved. This is removed.");
         comments.add("Economy.Activate activates the integration of the Vault API use for Economy");
         comments.add("PlayerShop is that Players can create their own Shop");
         comments.add("PlayerEvents also named as PlayerData events");
@@ -559,16 +627,17 @@ public class Main extends JavaPlugin {
         if (this.getConfig().getBoolean("SaveInventory")) {
             SaveInventoryCMD.save();
         }
-        if (!BackpackCMD.itemsStringHashMap.isEmpty()) {
-            if (getConfig().getBoolean("Backpack")) {
-                for (OfflinePlayer offlinePlayer : Bukkit.getOfflinePlayers()) {
-                    BackpackCMD.save(offlinePlayer);
-                }
-                for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                    BackpackCMD.save(onlinePlayer);
-                }
-            }
+        if (!BackpackCMD.itemsStringHashMap.isEmpty() && getConfig().getBoolean("Backpack")) {
+            // Create a set to prevent duplicates automatically
+            Set<OfflinePlayer> players = new HashSet<>(Arrays.asList(Bukkit.getOfflinePlayers()));
+
+            // Add online players (will not add duplicates due to the Set structure)
+            players.addAll(Bukkit.getOnlinePlayers());
+
+            // Save backpacks for all players
+            players.forEach(BackpackCMD::save);
         }
+
         if (getConfig().getBoolean("LocationsBackup")) {
             new LocationsManager().saveBackup();
         }
@@ -628,29 +697,58 @@ public class Main extends JavaPlugin {
      * @return return the Message File from the selected Language
      */
     public FileConfiguration getLanguageConfig(CommandSender player) {
+        String locale = "en"; // Default locale
+        File configFile;
+
         if (player instanceof Player) {
-            String playerLocale = ((Player) player).getLocale();
-            if (playerLocale.contains("en")) {
-                File file = new File(getDataFolder(), "messages_en-EN.yml");
-                return YamlConfiguration.loadConfiguration(file);
-            } else if (playerLocale.contains("de")) {
-                return YamlConfiguration.loadConfiguration(new File(getDataFolder(), "messages_de-DE.yml"));
-            } else if (playerLocale.contains("fr")) {
-                return YamlConfiguration.loadConfiguration(new File(getDataFolder(), "messages_fr-FR.yml"));
+            Language language = getLanguage(player);
+            switch (language) {
+                case DE -> locale = "de-DE";
+                case FR -> locale = "fr-FR";
+                case IT -> locale = "it-IT";
+                case ES -> locale = "es-ES";
+                case PT -> locale = "pt-PT";
+                case PL -> locale = "pl-PL";
+                case RU -> locale = "ru-RU";
+                default -> locale = "en-EN";
             }
-            File file = new File(getDataFolder(), "messages_en-EN.yml");
-            return YamlConfiguration.loadConfiguration(file);
         } else {
-            File file = new File(getDataFolder(), "messages_en-EN.yml");
-            return YamlConfiguration.loadConfiguration(file);
+            getLogger4J().info("CommandSender is not a Player. Using default locale (en-EN).");
         }
+
+        // Load the appropriate file
+        configFile = new File(getDataFolder(), "messages_" + locale + ".yml");
+        if (!configFile.exists()) {
+            getLogger4J().warn("Language file for locale '" + locale + "' not found. Falling back to default (en-EN).");
+            configFile = new File(getDataFolder(), "messages_en-EN.yml");
+        }
+
+        return YamlConfiguration.loadConfiguration(configFile);
     }
 
-    public Language getLanguage(Player player) {
-        String playerLocale = player.getLocale();
-        if (playerLocale.contains("en")) return Language.EN;
-        if (playerLocale.contains("de")) return Language.DE;
-        if (playerLocale.contains("fr")) return Language.FR;
+    public Language getLanguage(CommandSender player) {
+        if (player instanceof Player) {
+            String playerLocale = ((Player) player).getLocale().toLowerCase();
+
+            Map<String, Language> languageMap = new HashMap<>() {{
+                put("en", Language.EN);
+                put("de", Language.DE);
+                put("fr", Language.FR);
+                put("it", Language.IT);
+                put("es", Language.ES);
+                put("pt", Language.PT);
+                put("pl", Language.PL);
+                put("ru", Language.RU);
+            }};
+
+            for (Map.Entry<String, Language> entry : languageMap.entrySet()) {
+                if (playerLocale.startsWith(entry.getKey())) {
+                    return entry.getValue();
+                }
+            }
+        }
+
+        // Default fallback
         return Language.EN;
     }
 
@@ -771,7 +869,7 @@ public class Main extends JavaPlugin {
     public void createCustomMessagesConfig() {
         customConfigFile = new File(Main.getInstance().getDataFolder(), "messages_en-EN.yml");
         if (!customConfigFile.exists()) {
-            if(!customConfigFile.getParentFile().mkdirs()) {
+            if (!customConfigFile.getParentFile().mkdirs()) {
                 Main.getInstance().getLogger4J().log(Level.ERROR, "Failed to create directory for custom messages config");
             }
             Main.getInstance().saveResource("messages_en-EN.yml", false);
@@ -831,10 +929,10 @@ public class Main extends JavaPlugin {
     }
 
     /**
-     * Check if the Plugin needs an update or not if Download is true it will download the Latest Version for you,
+     * Check if the Plugin needs an update or not if Download is true, it will download the Latest Version for you,
      * and after a Reload the new Version is active
      *
-     * @param download if is True it will automatically download the Latest for you and after a Reload it will be active
+     * @param download if is True it will automatically download the Latest for you, and after a Reload it will be active
      * @return if check for update was successfully or not
      *  TODO requires updating the url and reading the latest version
      *      - Require Debugging and Testing
@@ -859,7 +957,7 @@ public class Main extends JavaPlugin {
                     }
                     return true;
                 } else {
-                    if(new UpdateChecker().hasPreReleaseUpdate()) {
+                    if (new UpdateChecker().hasPreReleaseUpdate()) {
                         Bukkit.getConsoleSender().sendMessage(getPrefix() + "A new pre-release update is available: version " + new UpdateChecker().getLatestPreRelease());
                         return true;
                     }
@@ -890,7 +988,7 @@ public class Main extends JavaPlugin {
         final File pluginFile = getDataFolder().getParentFile();
         final File updaterFile = new File(pluginFile, "update");
         if (!updaterFile.exists())
-            if(!updaterFile.mkdir())
+            if (!updaterFile.mkdir())
                 getLogger4J().error("Could not create Update Directory : " + updaterFile.getAbsolutePath());
         try {
             URL url = new URL("https://framedev.ch/others/versions/essentialsmini-versions.json");
@@ -913,6 +1011,7 @@ public class Main extends JavaPlugin {
      * << will be replaced with «
      * -> will be replaced with →
      * <- will be replaced with ←
+     *
      * @return the Prefix
      */
     public String getPrefix() {
@@ -1045,7 +1144,7 @@ public class Main extends JavaPlugin {
         return utilities;
     }
 
-    public static ArrayList<String> getSilent() {
+    public static List<String> getSilent() {
         return silent;
     }
 
@@ -1054,15 +1153,15 @@ public class Main extends JavaPlugin {
         return thread;
     }
 
-    public HashMap<String, CommandExecutor> getCommands() {
+    public Map<String, CommandExecutor> getCommands() {
         return commands;
     }
 
-    public HashMap<String, TabCompleter> getTabCompleters() {
+    public Map<String, TabCompleter> getTabCompleters() {
         return tabCompleters;
     }
 
-    public ArrayList<Listener> getListeners() {
+    public List<Listener> getListeners() {
         return listeners;
     }
 
@@ -1101,7 +1200,7 @@ public class Main extends JavaPlugin {
         return spigotTimer;
     }
 
-    public ArrayList<String> getPlayers() {
+    public List<String> getPlayers() {
         return players;
     }
 
@@ -1121,7 +1220,7 @@ public class Main extends JavaPlugin {
         return currencySymbol;
     }
 
-    public ArrayList<String> getOfflinePlayers() {
+    public List<String> getOfflinePlayers() {
         return offlinePlayers;
     }
 

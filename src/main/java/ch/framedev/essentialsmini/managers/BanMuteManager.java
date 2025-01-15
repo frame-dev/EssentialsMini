@@ -17,6 +17,7 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * This Plugin was Created by FrameDev
@@ -33,33 +34,110 @@ public class BanMuteManager {
     private final String table = "essentialsmini_banmute";
 
     private void ensureTableExists() {
-        if (!SQL.isTableExists(table)) {
-            SQL.createTable(table,
-                    "Player VARCHAR(255)",
-                    "TempMute TEXT",
-                    "TempMuteReason TEXT",
-                    "TempBan TEXT",
-                    "TempBanReason TEXT",
-                    "Ban TEXT",
-                    "BanReason TEXT"
-            );
-        }
+        SQL.isTableExistsAsync(table, new SQL.Callback<>() {
+            @Override
+            public void accept(Boolean exists) {
+                if (!exists) {
+                    Main.getInstance().getLogger4J().log(Level.INFO, "Table " + table + " does not exist. Creating...");
+                    SQL.createTableAsync(
+                            table,
+                            new SQL.Callback<>() {
+                                @Override
+                                public void accept(Boolean created) {
+                                    if (created) {
+                                        Main.getInstance().getLogger4J().log(Level.INFO, "Successfully created table " + table);
+                                    } else {
+                                        Main.getInstance().getLogger4J().log(Level.WARN, "Table " + table + " creation failed.");
+                                    }
+                                }
+
+                                @Override
+                                public void onError(Throwable t) {
+                                    Main.getInstance().getLogger4J().log(Level.ERROR, "Error while creating table: " + table, t);
+                                }
+                            },
+                            "Player VARCHAR(255)",
+                            "TempMute TEXT",
+                            "TempMuteReason TEXT",
+                            "TempBan TEXT",
+                            "TempBanReason TEXT",
+                            "Ban TEXT",
+                            "BanReason TEXT"
+                    );
+                }
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                Main.getInstance().getLogger4J().log(Level.ERROR, "Error while checking table existence: " + table, t);
+            }
+        });
+
     }
 
     public void setTempMute(OfflinePlayer player, MuteCMD.MuteReason reason, String date) {
-        setTempMute(player, reason.getReason(), date);
+        setTempMute(player, reason.getReason(), date).thenRun(() -> {
+            Main.getInstance().getLogger4J().log(Level.INFO, "TempMute for " + player.getName() + " set successfully.");
+        });
     }
 
-    public void setTempMute(OfflinePlayer player, String reason, String date) {
+    public CompletableFuture<Void> setTempMute(OfflinePlayer player, String reason, String date) {
         ensureTableExists();
         String playerName = player.getName();
+        CompletableFuture<Void> future = new CompletableFuture<>();
 
-        if (SQL.exists(table, "Player", playerName)) {
-            SQL.updateData(table, "TempMute", date, "Player = ?", playerName);
-            SQL.updateData(table, "TempMuteReason", reason, "Player = ?", playerName);
-        } else {
-            SQL.insertData(table, new String[]{playerName, date, reason}, "Player", "TempMute", "TempMuteReason");
-        }
+        SQL.existsAsync(table, "Player", playerName, new SQL.Callback<>() {
+            @Override
+            public void accept(Boolean exists) {
+                if (exists) {
+                    Map<String, Object> selected = new HashMap<>();
+                    selected.put("TempMute", date);
+                    selected.put("TempMuteReason", reason);
+                    SQL.updateDataAsync(table, new SQL.Callback<>() {
+                        @Override
+                        public void accept(Boolean value) {
+                            if (value) {
+                                Main.getInstance().getLogger4J().log(Level.INFO, "TempMute for " + playerName + " set successfully.");
+                            } else {
+                                Main.getInstance().getLogger4J().log(Level.WARN, "Failed to set tempmute for " + playerName + ".");
+                            }
+                            future.complete(null);
+                        }
+
+                        @Override
+                        public void onError(Throwable t) {
+                            Main.getInstance().getLogger4J().log(Level.ERROR, "Error while updating tempmute for " + playerName, t);
+                            future.complete(null);
+                        }
+                    }, selected, "Player = ?", playerName);
+                } else {
+                    SQL.insertDataAsync(table, new SQL.Callback<Boolean>() {
+                        @Override
+                        public void accept(Boolean value) {
+                            if (value) {
+                                Main.getInstance().getLogger4J().log(Level.INFO, "TempMute for " + playerName + " set successfully.");
+                            } else {
+                                Main.getInstance().getLogger4J().log(Level.WARN, "Failed to set tempmute for " + playerName + ".");
+                            }
+                            future.complete(null);
+                        }
+
+                        @Override
+                        public void onError(Throwable t) {
+                            Main.getInstance().getLogger4J().log(Level.ERROR, "Error while inserting tempmute for " + playerName, t);
+                            future.complete(null);
+                        }
+                    }, new String[]{playerName, date, reason}, "Player", "TempMute", "TempMuteReason");
+                }
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                Main.getInstance().getLogger4J().log(Level.ERROR, "Error while checking existence of " + playerName, t);
+                future.complete(null);
+            }
+        });
+        return future;
     }
 
     public void removeTempMute(OfflinePlayer player) {
@@ -68,26 +146,74 @@ public class BanMuteManager {
 
         ensureTableExists();
 
-        if (SQL.exists(table, "Player", playerName)) {
+        String tempMute = String.valueOf(SQL.get(table, "TempMute","Player", playerName));
+        if (SQL.exists(table, "Player", playerName) && tempMute != null && !tempMute.equalsIgnoreCase(" ")) {
             SQL.updateData(table, "TempMute", " ", "Player = ?", playerName);
             SQL.updateData(table, "TempMuteReason", " ", "Player = ?", playerName);
         }
     }
 
-    public Map<String, String> getTempMute(OfflinePlayer player) {
+    public CompletableFuture<HashMap<String, String>> getTempMuteAsHash(OfflinePlayer player) {
+        HashMap<String, String> hash = new HashMap<>();
+        CompletableFuture<HashMap<String, String>> future = new CompletableFuture<>();
+
+        getTempMute(player).thenAccept(stringStringMap -> {
+            if (stringStringMap != null) {
+                hash.put(stringStringMap.get("TempMute"), stringStringMap.get("TempMuteReason"));
+            }
+            future.complete(hash); // Complete the future with the populated hash map
+        }).exceptionally(throwable -> {
+            future.completeExceptionally(throwable); // Complete exceptionally on error
+            return null;
+        });
+        return future;
+    }
+
+
+    public CompletableFuture<Map<String, String>> getTempMute(OfflinePlayer player) {
         ensureTableExists();
         String playerName = player.getName();
         Map<String, String> tempMute = new HashMap<>();
 
-        if (SQL.exists(table, "Player", playerName)) {
-            String muteDate = (String) SQL.get(table, "TempMute", "Player", playerName);
-            String reason = (String) SQL.get(table, "TempMuteReason", "Player", playerName);
-            if (muteDate != null && reason != null) {
-                tempMute.put(muteDate, reason);
-                return tempMute;
+        CompletableFuture<Map<String, String>> resultFuture = new CompletableFuture<>();
+        SQL.existsAsync(table, "Player", playerName, new SQL.Callback<Boolean>() {
+
+            @Override
+            public void accept(Boolean exists) {
+                if (exists) {
+                    SQL.getAsync(table, new String[]{"TempMute", "TempMuteReason"}, "Player", playerName, new SQL.Callback<>() {
+                        @Override
+                        public void accept(List<Map<String, Object>> value) {
+                            if (!value.isEmpty()) {
+                                Map<String, Object> row = value.get(0);
+                                Map<String, String> tempMute = new HashMap<>();
+                                tempMute.put("TempMute", row.get("TempMute").toString());
+                                tempMute.put("TempMuteReason", row.get("TempMuteReason").toString());
+                                resultFuture.complete(tempMute);
+                            }
+                            else {
+                                resultFuture.complete(null);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable t) {
+                            Main.getInstance().getLogger4J().error(t);
+                            resultFuture.completeExceptionally(t);
+                        }
+                    });
+                } else {
+                    resultFuture.complete(null);
+                }
             }
-        }
-        return null;
+
+            @Override
+            public void onError(Throwable t) {
+                Main.getInstance().getLogger4J().error(t);
+                resultFuture.completeExceptionally(t);
+            }
+        });
+        return resultFuture;
     }
 
     public boolean isTempMute(OfflinePlayer player) {

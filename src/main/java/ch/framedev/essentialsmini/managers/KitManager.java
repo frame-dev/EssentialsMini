@@ -31,7 +31,8 @@ public class KitManager {
     public void createCustomConfig() {
         customConfigFile = new File(Main.getInstance().getDataFolder(), "kits.yml");
         if (!customConfigFile.exists()) {
-            customConfigFile.getParentFile().mkdirs();
+            if (!customConfigFile.getParentFile().mkdirs())
+                Main.getInstance().getLogger4J().error("Could not create directory " + customConfigFile.getParentFile());
             Main.getInstance().saveResource("kits.yml", false);
         }
 
@@ -39,7 +40,7 @@ public class KitManager {
         try {
             customConfig.load(customConfigFile);
         } catch (IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
+            Main.getInstance().getLogger4J().error(e);
         }
     }
 
@@ -53,10 +54,20 @@ public class KitManager {
                 if (s == null) return;
                 if (s.contains(",")) {
                     String[] x = s.split(",");
-                    ItemStack item = new ItemStack(Material.getMaterial(x[0].toUpperCase()), Integer.parseInt(x[1]));
+                    Material material = Material.getMaterial(x[0].toUpperCase());
+                    if (material == null) {
+                        Bukkit.getConsoleSender().sendMessage("§cError while Creating Kit §f" + x[0] + " is not a valid Material!");
+                        return;
+                    }
+                    ItemStack item = new ItemStack(material, Integer.parseInt(x[1]));
                     this.kitName.addItem(item);
                 } else {
-                    this.kitName.addItem(new ItemStack(Material.getMaterial(s.toUpperCase())));
+                    Material material = Material.getMaterial(s.toUpperCase());
+                    if (material == null) {
+                        Bukkit.getConsoleSender().sendMessage("§cError while Creating Kit §f" + s + " is not a valid Material!");
+                        return;
+                    }
+                    this.kitName.addItem(new ItemStack(material));
                 }
             }
             for (ItemStack items : this.kitName.getContents()) {
@@ -118,7 +129,7 @@ public class KitManager {
         try {
             customConfig.save(customConfigFile);
         } catch (IOException e) {
-            e.printStackTrace();
+            Main.getInstance().getLogger4J().error(e);
         }
     }
 
@@ -134,7 +145,7 @@ public class KitManager {
         try {
             customConfig.save(customConfigFile);
         } catch (IOException e) {
-            e.printStackTrace();
+            Main.getInstance().getLogger4J().error(e);
         }
     }
 
@@ -182,11 +193,21 @@ public class KitManager {
             if (s != null) {
                 if (s.contains(",")) {
                     String[] x = s.split(",");
-                    ItemStack item = new ItemStack(Material.getMaterial(x[0].toUpperCase()));
+                    Material material = Material.getMaterial(x[0].toUpperCase());
+                    if (material == null) {
+                        Bukkit.getConsoleSender().sendMessage("§cError while Creating Kit §f" + x[0] + " is not a valid Material!");
+                        return null;
+                    }
+                    ItemStack item = new ItemStack(material);
                     item.setAmount(Integer.parseInt(x[1]));
                     items.add(item);
                 } else {
-                    items.add(new ItemStack(Material.getMaterial(s.toUpperCase())));
+                    Material material = Material.getMaterial(s.toUpperCase());
+                    if(material == null) {
+                        Bukkit.getConsoleSender().sendMessage("§cError while Creating Kit §f" + s + " is not a valid Material!");
+                        return null;
+                    }
+                    items.add(new ItemStack(material));
                 }
             }
         }
@@ -205,7 +226,7 @@ public class KitManager {
             fileWriter.flush();
             fileWriter.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Main.getInstance().getLogger4J().error(e);
         }
     }
 

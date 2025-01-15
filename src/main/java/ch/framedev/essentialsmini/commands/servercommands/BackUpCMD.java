@@ -39,7 +39,7 @@ public class BackUpCMD extends CommandBase {
                 try {
                     backup();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    plugin.getLogger4J().error(e);
                 }
                 sender.sendMessage(plugin.getPrefix() + "Backup Created!");
             } else {
@@ -60,7 +60,7 @@ public class BackUpCMD extends CommandBase {
                 copyDirectory(world.getWorldFolder(), file);
                 files.add(new File(file.getParentFile().getName()));
             } catch (IOException e) {
-                e.printStackTrace();
+                plugin.getLogger4J().error(e);
             }
         }
         File pluginDirectory = new File("plugins");
@@ -88,7 +88,7 @@ public class BackUpCMD extends CommandBase {
                     try {
                         Files.delete(path);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        plugin.getLogger4J().error(e);
                     }
                 });
     }
@@ -118,6 +118,7 @@ public class BackUpCMD extends CommandBase {
                 zipOut.closeEntry();
             }
             File[] children = fileToZip.listFiles();
+            if(children == null) return;
             for (File childFile : children) {
                 zipFile(childFile, fileName + "/" + childFile.getName(), zipOut);
             }
@@ -142,7 +143,7 @@ public class BackUpCMD extends CommandBase {
                     try {
                         backup();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        plugin.getLogger4J().error(e);
                     }
                     Bukkit.getConsoleSender().sendMessage(plugin.getPrefix() + "Backup Created!");
                 }
@@ -152,7 +153,8 @@ public class BackUpCMD extends CommandBase {
 
     private static void copyDirectory(File sourceDirectory, File destinationDirectory) throws IOException {
         if (!destinationDirectory.exists()) {
-            destinationDirectory.mkdir();
+            if(!destinationDirectory.mkdir())
+                throw new IOException("Could not create directory " + destinationDirectory);
         }
         for (String f : Objects.requireNonNull(sourceDirectory.list())) {
             copyDirectoryCompatibilityMode(new File(sourceDirectory, f), new File(destinationDirectory, f));
