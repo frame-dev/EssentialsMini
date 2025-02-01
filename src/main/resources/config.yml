@@ -1,0 +1,138 @@
+Config-Version: '1.0.1'
+
+prefix: '&6[&aEssentials&bMini&6] &c>> &f'
+
+Back: true
+
+JoinBoolean: true
+JoinMessage: '&aWelcome &6%Player% &aon this Server!'
+LeaveBoolean: true
+LeaveMessage: '&6%Player% &ahas left the Server!'
+
+SaveInventory: false
+Backpack: false
+
+SpawnTP: false
+SkipNight: false
+BedColor: 'BLUE'
+
+LocationsBackup: false
+
+BackupTime: 5
+LocationsBackupMessage: false
+
+IgnoreJoinLeave: false
+
+Invsee:
+  Owner: true
+
+Limited: false
+LimitedHomes:
+  Default: 4
+  Medium: 8
+  Admin: 12
+
+LimitedHomesPermission:
+  Default: essentialsmini.sethome.default
+  Medium: essentialsmini.sethome.medium
+  Admin: essentialsmini.sethome.admin
+
+HomeTP: true
+
+ShowItem: false
+ShowCrafting: false
+ShowLocation: false
+
+Position: true
+
+JsonFormat: false
+
+BackupMessages: false
+SendPlayerUpdateMessage: true
+ZeitgesteuerterRestart: 30
+ZeitGesteuerterRestartBoolean: false
+
+StartBalance:
+  Amount: 1000.0
+  Boolean: false
+
+MoneySign:
+  Balance: '&b[§6Balance§b]'
+  Buy: '&a[§6Buy§a]'
+  Sell: '&a[§6Sell§a]'
+  Free: '&a[§6Free§a]'
+
+#MySQL Connection!
+MySQL:
+  Host: ' '
+  User: ' '
+  Password: ' '
+  Database: ' '
+  Port: 3306
+  Use: false
+
+# Default Path plugins/EssentialsMini
+SQLite:
+  Path: 'plugins/EssentialsMini'
+  FileName: 'database'
+  Use: false
+
+MongoDB:
+  Host: ' '
+  Port: 27017
+  Database: ' '
+  User: ' '
+  Password: ' '
+  Boolean: false
+  LocalHost: false
+
+PlayerInfoSave: false
+OnlineMode: true
+
+Currency:
+  Single: '$'
+  Multi: '$'
+Vanish:
+  Message: false
+Economy:
+  Activate: false
+  MaxBalance: 1000000
+
+TeleportInOtherWorld: true
+
+WorldBackup: false
+
+BackupWorldTime: 60
+
+OnlyEssentialsFeatures: true
+
+AFK:
+  Time: 120
+  Boolean: false
+  IsAFK: '&7[Player] is now AFK'
+  IsNotAFK: '&7[Player] is no longer AFK'
+
+NotAllowCommand: '&cNope'
+AutoDownload: false
+
+ColoredChat: true
+ColoredSigns: true
+
+PlayerShop: true
+
+PlayerEvents: false
+
+TeleportDelay: 3
+Bank: true
+
+msg:
+  notificationTo: "&cme &r→ &a %TARGET% &f» %MESSAGE%"
+  notificationFrom: "&a%TARGET% &r→ &cme  &f» %MESSAGE%"
+  consoleName: "Console"
+
+spawnTpIgnoreWorlds:
+  - world_nether
+  - world_the_end
+
+maintenanceMotd: "%PREFIX%&c&l»This server is currently in maintenance mode!\n&r&cPlease try again later!«"
+playerPingServerMessage: true
